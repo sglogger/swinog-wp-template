@@ -29,6 +29,7 @@ const SWINOG_EVENT_FEE_META        = 'swinog_event_fee';
 const SWINOG_EVENT_TALKS_META      = 'swinog_event_talks';
 const SWINOG_EVENT_FORMAT_META     = 'swinog_event_format';
 const SWINOG_EVENT_RECORDING_META  = 'swinog_event_recording_url';
+const SWINOG_EVENT_ICS_META        = 'swinog_event_ics_url';
 
 /* ------------------------------------------------------------------
  * Register meta so block-editor + REST clients can read/write it.
@@ -73,6 +74,7 @@ add_action('init', static function (): void {
         SWINOG_EVENT_TALKS_META     => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
         SWINOG_EVENT_FORMAT_META    => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
         SWINOG_EVENT_RECORDING_META => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
+        SWINOG_EVENT_ICS_META       => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
     ] as $key => $cfg) {
         register_post_meta('page', $key, [
             'type'              => $cfg['type'],
@@ -102,7 +104,7 @@ add_action('add_meta_boxes', static function (): void {
             'swinog_render_page_options_box',
             $pt,
             'side',
-            'default'
+            'high'
         );
     }
 
@@ -115,7 +117,7 @@ add_action('add_meta_boxes', static function (): void {
         'swinog_render_event_details_box',
         'page',
         'side',
-        'default'
+        'high'
     );
 });
 
@@ -178,6 +180,7 @@ function swinog_render_event_details_box(WP_Post $post): void
     $talks     = (string) get_post_meta($post->ID, SWINOG_EVENT_TALKS_META, true);
     $format    = (string) get_post_meta($post->ID, SWINOG_EVENT_FORMAT_META, true);
     $recording = (string) get_post_meta($post->ID, SWINOG_EVENT_RECORDING_META, true);
+    $ics       = (string) get_post_meta($post->ID, SWINOG_EVENT_ICS_META, true);
     wp_nonce_field('swinog_event_details', 'swinog_event_details_nonce');
     ?>
     <p>
@@ -294,7 +297,7 @@ add_action('save_post_page', static function (int $post_id): void {
  * Used by the event-hero block and the events overview shortcode.
  * ------------------------------------------------------------------ */
 
-function swinog_format_event_date(string $iso): string
+function swinog_format_event_date(string $iso, bool $with_day = false): string
 {
     if ($iso === '') {
         return '';
@@ -302,6 +305,10 @@ function swinog_format_event_date(string $iso): string
     $ts = strtotime($iso);
     if ($ts === false) {
         return $iso;
+    }
+    if ($with_day) {
+        // e.g. "Thursday, May 23, 2026" — used in the Quick Facts row.
+        return wp_date('l, F j, Y', $ts);
     }
     return wp_date(get_option('date_format') ?: 'j F Y', $ts);
 }

@@ -36,7 +36,8 @@ $talks     = (string) get_post_meta($post_id, 'swinog_event_talks', true);
 $format    = (string) get_post_meta($post_id, 'swinog_event_format', true);
 $recording = (string) get_post_meta($post_id, 'swinog_event_recording_url', true);
 
-$nice_date = function_exists('swinog_format_event_date') ? swinog_format_event_date($date) : $date;
+$nice_date      = function_exists('swinog_format_event_date') ? swinog_format_event_date($date) : $date;
+$nice_date_long = function_exists('swinog_format_event_date') ? swinog_format_event_date($date, true) : $date;
 
 $primary_label   = trim((string) ($attributes['primaryLabel']   ?? ''));
 $primary_url     = trim((string) ($attributes['primaryUrl']     ?? ''));
@@ -45,7 +46,6 @@ $secondary_url   = trim((string) ($attributes['secondaryUrl']   ?? ''));
 $ics_label       = trim((string) ($attributes['icsLabel']       ?? ''));
 $ics_url         = trim((string) ($attributes['icsUrl']         ?? ''));
 
-$recording_url = $recording !== '' ? $recording : '#program';
 
 $wrapper = function_exists('get_block_wrapper_attributes')
     ? get_block_wrapper_attributes(['class' => 'swinog-event-hero-wrap'])
@@ -113,8 +113,8 @@ ob_start();
 		<aside class="swinog-event-hero__facts swinog-soft-shadow">
 			<div class="swinog-kicker"><?php esc_html_e('Quick facts', 'swinog'); ?></div>
 			<dl class="swinog-facts-dl">
-				<?php if ($nice_date !== '') : ?>
-					<dt><?php esc_html_e('Date', 'swinog'); ?></dt><dd><?php echo esc_html($nice_date); ?></dd>
+				<?php if ($nice_date_long !== '') : ?>
+					<dt><?php esc_html_e('Date', 'swinog'); ?></dt><dd><?php echo esc_html($nice_date_long); ?></dd>
 				<?php endif; ?>
 				<?php if ($location !== '') : ?>
 					<dt><?php esc_html_e('Venue', 'swinog'); ?></dt><dd><?php echo esc_html($location); ?></dd>
@@ -128,10 +128,10 @@ ob_start();
 				<?php if ($format !== '') : ?>
 					<dt><?php esc_html_e('Format', 'swinog'); ?></dt><dd><?php echo esc_html($format); ?></dd>
 				<?php endif; ?>
-				<dt><?php esc_html_e('Code of conduct', 'swinog'); ?></dt>
-				<dd><a href="<?php echo esc_url(home_url('/code-of-conduct/')); ?>"><?php esc_html_e('swinog.ch/coc →', 'swinog'); ?></a></dd>
 			</dl>
-			<a class="swinog-facts-dl__cta" href="<?php echo esc_url($recording_url); ?>"><?php esc_html_e('View the recordings', 'swinog'); ?></a>
+			<?php if ($recording !== '') : ?>
+				<a class="swinog-facts-dl__cta" href="<?php echo esc_url($recording); ?>"><?php esc_html_e('View the recordings', 'swinog'); ?></a>
+			<?php endif; ?>
 		</aside>
 	</div>
 </section>

@@ -190,7 +190,7 @@ function swinog_fetch_venue_map_image(float $lat, float $lng): ?string
     }
 
     // Marker dot at the centre — white halo, accent-red fill, dark
-    // outline. Matches the SwiNOG palette.
+    // outline. Matches the SwiNOG palette. 
     $mx     = (int) round($width  / 2);
     $my     = (int) round($height / 2);
     $halo   = imagecolorallocate($canvas, 255, 255, 255);

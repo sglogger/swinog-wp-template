@@ -302,6 +302,21 @@ add_action('init', static function (): void {
     if (is_dir($venue_map_dir) && file_exists($venue_map_dir . '/block.json')) {
         register_block_type($venue_map_dir);
     }
+
+    // Server-rendered "Event Quick Facts" block — the right-column
+    // card on event-detail pages. Drops into the editable event-hero
+    // pattern next to the left-column copy blocks.
+    $qf_dir = get_theme_file_path('/blocks/event-quickfacts');
+    if (is_dir($qf_dir) && file_exists($qf_dir . '/block.json')) {
+        register_block_type($qf_dir);
+    }
+
+    // Server-rendered "Event status pill" — the small kicker above
+    // the H1 in the hero. Reads from swinog_event_pill meta.
+    $pill_dir = get_theme_file_path('/blocks/event-pill');
+    if (is_dir($pill_dir) && file_exists($pill_dir . '/block.json')) {
+        register_block_type($pill_dir);
+    }
 }, 20);
 
 /**
@@ -314,7 +329,7 @@ add_action('init', static function (): void {
  */
 add_filter('block_type_metadata', static function (array $metadata): array {
     $name = (string) ($metadata['name'] ?? '');
-    if (!in_array($name, ['swinog/agenda', 'swinog/venue', 'swinog/venue-map'], true)) {
+    if (!in_array($name, ['swinog/agenda', 'swinog/venue', 'swinog/venue-map', 'swinog/event-quickfacts', 'swinog/event-pill'], true)) {
         return $metadata;
     }
     $deps = ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-components', 'wp-block-editor', 'wp-server-side-render'];
