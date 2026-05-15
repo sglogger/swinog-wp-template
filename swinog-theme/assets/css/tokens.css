@@ -912,6 +912,12 @@ main section[id] { scroll-margin-top: 100px; }
 
 /* Event sponsor tiers --------------------------------------- */
 .swinog-tiers-wrap { padding: 16px 24px 56px; }
+.swinog-tiers {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 48px 48px 40px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+}
 .swinog-tiers__head { margin-bottom: 24px; }
 .swinog-tiers__lead { margin: 0; font-size: 16px; line-height: 1.55; color: var(--wp--preset--color--ink-2); }
 .swinog-tiers__lead a { color: var(--wp--preset--color--accent); }
