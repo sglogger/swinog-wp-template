@@ -30,6 +30,8 @@ function swinog_defaults(): array
 {
     return [
         'swinog_primary_nav'      => '',
+        'swinog_hide_site_title'  => false,
+        'swinog_hide_tagline'     => true,
         'swinog_cta_1_label'      => 'Sign in',
         'swinog_cta_1_url'        => 'https://lists.swinog.ch/hyperkitty/list/swinog@lists.swinog.ch/',
         'swinog_cta_1_style'      => 'ghost',
@@ -91,6 +93,36 @@ add_action('customize_register', static function (WP_Customize_Manager $wp): voi
         'section' => 'swinog_header_nav',
         'type'    => 'select',
         'choices' => $nav_choices,
+    ]);
+
+    /* -- Branding (logo / title / tagline) ---------------------- */
+    $wp->add_section('swinog_header_branding', [
+        'title'       => __('Branding', 'swinog'),
+        'description' => __('Upload the logo under "Site Identity → Logo". Use the toggles below to hide the site title / tagline if the logo replaces them.', 'swinog'),
+        'panel'       => 'swinog_header',
+        'priority'    => 15,
+    ]);
+
+    $wp->add_setting('swinog_hide_site_title', [
+        'default'           => $defaults['swinog_hide_site_title'],
+        'sanitize_callback' => static fn ($v): bool => (bool) $v,
+        'transport'         => 'refresh',
+    ]);
+    $wp->add_control('swinog_hide_site_title', [
+        'label'   => __('Hide site title in the header', 'swinog'),
+        'section' => 'swinog_header_branding',
+        'type'    => 'checkbox',
+    ]);
+
+    $wp->add_setting('swinog_hide_tagline', [
+        'default'           => $defaults['swinog_hide_tagline'],
+        'sanitize_callback' => static fn ($v): bool => (bool) $v,
+        'transport'         => 'refresh',
+    ]);
+    $wp->add_control('swinog_hide_tagline', [
+        'label'   => __('Hide tagline in the header', 'swinog'),
+        'section' => 'swinog_header_branding',
+        'type'    => 'checkbox',
     ]);
 
     /* -- Two header buttons ------------------------------------- */
@@ -180,4 +212,25 @@ add_action('customize_register', static function (WP_Customize_Manager $wp): voi
         'type'        => 'number',
         'input_attrs' => ['min' => 1, 'max' => SWINOG_FOOTER_COLUMNS_MAX, 'step' => 1],
     ]);
+});
+
+/**
+ * Body classes for the branding toggles. The header part renders all
+ * three nodes (logo, title, tagline); CSS uses these flags to hide
+ * the ones the editor toggled off, and to hide the orange-dot
+ * fallback whenever a real site logo is uploaded.
+ */
+add_filter('body_class', static function (array $classes): array {
+    if (has_custom_logo()) {
+        $classes[] = 'swinog-has-logo';
+    } else {
+        $classes[] = 'swinog-no-logo';
+    }
+    if (swinog_mod('swinog_hide_site_title')) {
+        $classes[] = 'swinog-hide-site-title';
+    }
+    if (swinog_mod('swinog_hide_tagline')) {
+        $classes[] = 'swinog-hide-tagline';
+    }
+    return $classes;
 });
