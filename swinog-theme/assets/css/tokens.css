@@ -1561,18 +1561,30 @@ main section[id] { scroll-margin-top: 100px; }
 	.swinog-program-shortcode.swinog-program--agenda .swinog-program__tail  { grid-area: tail; align-self: start; }
 
 	.swinog-program-shortcode.swinog-program--presentations .swinog-program__row {
-		grid-template-columns: 1fr auto;
+		/* Title + who span full width; SLIDES + VIDEO (inside __tail)
+		   sit on a bottom row, side by side. Chevron rides along with
+		   the video chip on the bottom-right. */
+		grid-template-columns: auto 1fr auto;
 		grid-template-areas:
-			"title  tail"
-			"who    who"
-			"mins   mins"
-			"slides video";
+			"title  title  title"
+			"who    who    who"
+			"slides .      tail";
+		row-gap: 10px;
+		column-gap: 12px;
 	}
 	.swinog-program-shortcode.swinog-program--presentations .swinog-program__title { grid-area: title; }
 	.swinog-program-shortcode.swinog-program--presentations .swinog-program__who   { grid-area: who; }
-	.swinog-program-shortcode.swinog-program--presentations .swinog-program__mins  { grid-area: mins; text-align: left; }
-	.swinog-program-shortcode.swinog-program--presentations .swinog-program__link:nth-of-type(1) { grid-area: slides; text-align: left; }
-	.swinog-program-shortcode.swinog-program--presentations .swinog-program__tail  { grid-area: tail; align-self: start; }
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__mins  { display: none; }
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__link:nth-of-type(1) {
+		grid-area: slides;
+		text-align: left;
+		align-self: center;
+	}
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__tail  {
+		grid-area: tail;
+		align-self: center;
+		justify-content: flex-end;
+	}
 }
 
 /* ============================================================
