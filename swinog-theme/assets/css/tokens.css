@@ -1,0 +1,2437 @@
+/*
+ * SwiNOG · design tokens & section styles
+ *
+ * theme.json carries the palette / type scale / radii / spacing scale,
+ * exposed as --wp--preset--color--*, --wp--preset--font-size--*,
+ * --wp--custom--radius--*, etc. This file adds:
+ *   - reset-y page chrome + focus-visible
+ *   - per-size line-height / letter-spacing helper classes
+ *   - the single soft elevation shadow
+ *   - section styles per phase (Phase 2: SoftBar / SoftFoot + 5 homepage sections)
+ *
+ * Naming: BEM-ish — .swinog-{block}__{element}--{modifier}.
+ */
+
+/* ============================================================
+   Page chrome
+   ============================================================ */
+
+html, body {
+	margin: 0;
+	background: var(--wp--preset--color--paper);
+	color: var(--wp--preset--color--ink);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+code {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 0.92em;
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 5%, var(--wp--preset--color--paper));
+	padding: 0.05em 0.4em;
+	border-radius: 6px;
+}
+
+:focus-visible {
+	outline: 2px solid var(--wp--preset--color--accent);
+	outline-offset: 2px;
+}
+
+.swinog-visually-hidden {
+	position: absolute !important;
+	width: 1px; height: 1px;
+	padding: 0; margin: -1px;
+	overflow: hidden; clip: rect(0, 0, 0, 0);
+	white-space: nowrap; border: 0;
+}
+
+/* ============================================================
+   Type-scale metrics (theme.json fontSizes carry size only;
+   line-height + letter-spacing come from here)
+   ============================================================ */
+
+.swinog-display-xl {
+	font-size: var(--wp--preset--font-size--display-xl);
+	font-weight: 600;
+	line-height: 0.96;
+	letter-spacing: -0.04em;
+	margin: 20px 0 0;
+}
+.swinog-display-lg {
+	font-size: var(--wp--preset--font-size--display-lg);
+	font-weight: 600;
+	line-height: 0.95;
+	letter-spacing: -0.04em;
+	margin: 12px 0 0;
+}
+.swinog-display-md {
+	font-size: var(--wp--preset--font-size--display-md);
+	font-weight: 600;
+	line-height: 1.0;
+	letter-spacing: -0.03em;
+	margin: 16px 0;
+}
+.swinog-display-sm {
+	font-size: var(--wp--preset--font-size--display-sm);
+	font-weight: 600;
+	line-height: 1.05;
+	letter-spacing: -0.03em;
+	margin: 8px 0 0;
+}
+.swinog-h4 {
+	font-size: var(--wp--preset--font-size--h4);
+	font-weight: 600;
+	line-height: 1.1;
+	letter-spacing: -0.025em;
+	margin: 8px 0;
+}
+.swinog-h5 {
+	font-size: var(--wp--preset--font-size--h5);
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+	margin: 6px 0 8px;
+}
+.swinog-lead {
+	font-size: var(--wp--preset--font-size--lead);
+	line-height: 1.5;
+	color: var(--wp--preset--color--ink-2);
+	max-width: 560px;
+	margin: 24px 0 0;
+}
+.swinog-body-sm {
+	font-size: var(--wp--preset--font-size--small);
+	line-height: 1.5;
+	color: var(--wp--preset--color--ink-2);
+	margin: 0;
+}
+.swinog-mono {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--meta);
+	font-variant-numeric: tabular-nums;
+}
+.swinog-kicker {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-kicker--accent { color: var(--wp--preset--color--accent); }
+.swinog-ink-3 { color: var(--wp--preset--color--ink-3); }
+
+/* ============================================================
+   Pills & chips
+   ============================================================ */
+
+.swinog-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 12px;
+	border-radius: var(--wp--custom--radius--pill);
+	font-size: var(--wp--preset--font-size--meta);
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-pill--status {
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 70%, white);
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-pill--outline {
+	border: 1px solid color-mix(in oklab, var(--wp--preset--color--paper) 25%, transparent);
+	color: color-mix(in oklab, var(--wp--preset--color--paper) 70%, transparent);
+}
+.swinog-pill__dot {
+	width: 6px; height: 6px;
+	border-radius: 50%;
+	background: var(--wp--preset--color--accent);
+}
+.swinog-pill strong { color: var(--wp--preset--color--ink); }
+
+.swinog-link-pill {
+	display: inline-block;
+	padding: 10px 16px;
+	border-radius: var(--wp--custom--radius--pill);
+	border: 1px solid var(--wp--preset--color--rule);
+	background: white;
+	font-size: 14px;
+	color: var(--wp--preset--color--ink);
+	transition: background .15s ease;
+}
+.swinog-link-pill:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	color: var(--wp--preset--color--ink);
+}
+
+/* ============================================================
+   Soft elevation — used ONLY on next-meeting card +
+   event-page quick-facts. Other cards use borders only.
+   ============================================================ */
+
+.swinog-soft-shadow {
+	box-shadow:
+		0 1px 0 rgba(255,255,255,.5) inset,
+		0 6px 24px rgba(20,15,10,.06);
+}
+
+/* ============================================================
+   Button variants (sit on .wp-block-button.swinog-btn--*)
+   theme.json defines the default; we add the four named looks.
+   ============================================================ */
+
+.swinog-btn .wp-block-button__link {
+	padding: 14px 20px;
+	font-size: 15px;
+	font-weight: 500;
+	border-radius: var(--wp--custom--radius--btn);
+	border: 1px solid transparent;
+	transition: background .15s ease, transform .15s ease, color .15s ease;
+}
+.swinog-btn:hover .wp-block-button__link { transform: translateY(-1px); }
+
+.swinog-btn--primary .wp-block-button__link {
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+}
+.swinog-btn--primary:hover .wp-block-button__link {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 92%, var(--wp--preset--color--accent));
+	color: var(--wp--preset--color--paper);
+}
+.swinog-btn--secondary .wp-block-button__link {
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 70%, white);
+	border-color: var(--wp--preset--color--rule);
+	color: var(--wp--preset--color--ink);
+}
+.swinog-btn--secondary:hover .wp-block-button__link {
+	background: white;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-btn--accent .wp-block-button__link {
+	background: var(--wp--preset--color--accent);
+	color: white;
+}
+.swinog-btn--accent:hover .wp-block-button__link {
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink));
+	color: white;
+}
+.swinog-btn--ghost .wp-block-button__link {
+	background: transparent;
+	color: var(--wp--preset--color--ink-2);
+	padding: 8px 12px;
+	border: 0;
+}
+.swinog-btn--ghost:hover .wp-block-button__link {
+	color: var(--wp--preset--color--ink);
+}
+.swinog-btn--pill .wp-block-button__link {
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+	padding: 8px 14px;
+	border-radius: var(--wp--custom--radius--pill);
+	font-size: 14px;
+}
+.swinog-btn--pill:hover .wp-block-button__link {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 92%, var(--wp--preset--color--accent));
+	color: var(--wp--preset--color--paper);
+}
+
+.swinog-cta-row { margin-top: 32px; gap: 10px !important; }
+
+/* ============================================================
+   SoftBar (header)
+   ============================================================ */
+
+.swinog-softbar {
+	position: sticky;
+	top: 16px;
+	z-index: 50;
+	/* Align to the same 1280px container as the page body. */
+	max-width: 1280px;
+	width: calc(100% - 48px);
+	margin: 16px auto 0;
+	padding: 12px 14px 12px 22px;
+	border-radius: var(--wp--custom--radius--pill);
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 78%, white);
+	border: 1px solid var(--wp--preset--color--rule);
+	gap: 24px !important;
+	font-size: 14px;
+}
+.swinog-softbar__brand { display: inline-flex !important; align-items: center; gap: 10px; flex-wrap: nowrap; }
+.swinog-softbar__logo-link { display: inline-flex; line-height: 0; }
+.swinog-softbar__logo {
+	width: 24px; height: 24px;
+	border-radius: 8px;
+	background: var(--wp--preset--color--accent);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 1px 0 rgba(0,0,0,.04);
+}
+.swinog-softbar .wp-block-site-title,
+.swinog-softbar__wordmark {
+	font-weight: 600;
+	font-size: 16px;
+	letter-spacing: -0.01em;
+	color: var(--wp--preset--color--ink);
+	margin: 0;
+	line-height: 1;
+}
+.swinog-softbar .wp-block-site-title a {
+	color: var(--wp--preset--color--ink);
+	text-decoration: none;
+}
+.swinog-softbar .wp-block-site-title a:hover { color: var(--wp--preset--color--accent); }
+
+.swinog-softbar .wp-block-navigation { font-size: 14px; color: var(--wp--preset--color--ink-2); }
+.swinog-softbar .wp-block-navigation__container { gap: 20px; flex-wrap: nowrap; }
+.swinog-softbar .wp-block-navigation-item__content {
+	color: var(--wp--preset--color--ink-2);
+	padding: 6px 4px;
+	border-bottom: 1px solid transparent;
+	transition: color .15s, border-color .15s;
+}
+.swinog-softbar .wp-block-navigation-item__content:hover,
+.swinog-softbar .wp-block-navigation-item.current-menu-item .wp-block-navigation-item__content {
+	color: var(--wp--preset--color--ink);
+	border-bottom-color: var(--wp--preset--color--accent);
+}
+
+.swinog-softbar__actions { gap: 6px !important; flex-shrink: 0; }
+
+/* ============================================================
+   SoftFoot (footer)
+   ============================================================ */
+
+.swinog-softfoot-wrap {
+	padding: 56px 24px 24px;
+}
+.swinog-softfoot {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 40px 48px;
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 5%, var(--wp--preset--color--paper));
+	gap: 32px !important;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-softfoot__brand-row { display: inline-flex !important; align-items: center; gap: 10px; }
+.swinog-softfoot__logo {
+	width: 22px; height: 22px;
+	border-radius: 7px;
+	background: var(--wp--preset--color--accent);
+}
+.swinog-softfoot .wp-block-site-title { font-weight: 600; font-size: 18px; color: var(--wp--preset--color--ink); margin: 0; line-height: 1; }
+.swinog-softfoot .wp-block-site-title a { color: var(--wp--preset--color--ink); text-decoration: none; }
+.swinog-softfoot__about { margin: 10px 0 0; color: var(--wp--preset--color--ink-3); max-width: 360px; font-size: 13px; }
+.swinog-softfoot__contact-line { margin: 14px 0 0; font-size: 12px; color: var(--wp--preset--color--ink-3); }
+.swinog-softfoot__contact-line a { color: var(--wp--preset--color--ink-2); }
+.swinog-softfoot__h { font-weight: 600; color: var(--wp--preset--color--ink); font-size: 13px; margin: 0 0 10px; }
+.swinog-softfoot__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.swinog-softfoot__list a {
+	color: var(--wp--preset--color--ink-2);
+	border-bottom: 1px solid transparent;
+	transition: border-color .15s, color .15s;
+}
+.swinog-softfoot__list a:hover {
+	color: var(--wp--preset--color--ink);
+	border-bottom-color: var(--wp--preset--color--accent);
+}
+.swinog-softfoot__bottom {
+	margin: 16px 16px 0;
+	font-size: 12px;
+	color: var(--wp--preset--color--ink-3);
+	gap: 12px !important;
+}
+.swinog-softfoot__bottom p { margin: 0; }
+
+/* ============================================================
+   SoftHero
+   ============================================================ */
+
+.swinog-soft-hero-wrap { padding: 48px 24px 24px; }
+.swinog-soft-hero {
+	border-radius: var(--wp--custom--radius--xl);
+	padding: 72px 56px 56px;
+	background: linear-gradient(180deg, color-mix(in oklab, var(--wp--preset--color--accent) 8%, var(--wp--preset--color--paper)), var(--wp--preset--color--paper));
+	border: 1px solid var(--wp--preset--color--rule);
+	position: relative;
+	overflow: hidden;
+}
+.swinog-soft-hero__grid { gap: 48px !important; margin: 0 !important; }
+.swinog-hero-stats {
+	margin-top: 56px;
+	display: flex;
+	gap: 36px;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+	flex-wrap: wrap;
+}
+.swinog-hero-stats strong { color: var(--wp--preset--color--ink); }
+.swinog-soft-hero__dots {
+	position: absolute;
+	right: -80px;
+	top: -80px;
+	color: var(--wp--preset--color--accent);
+	opacity: 0.3;
+	pointer-events: none;
+}
+
+/* Next-meeting card (the only thing with the soft shadow on the home page) */
+.swinog-soft-event-card {
+	border-radius: var(--wp--custom--radius--md);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	overflow: hidden;
+}
+.swinog-soft-event-card__head {
+	padding: 20px 24px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--wp--preset--color--rule-2);
+}
+.swinog-soft-event-card__title { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--wp--preset--color--ink); }
+.swinog-soft-event-card__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--wp--preset--color--accent); }
+.swinog-soft-event-card__no { color: var(--wp--preset--color--ink-3); }
+.swinog-soft-event-card__body { padding: 26px; }
+.swinog-soft-event-card__when { font-size: 13px; color: var(--wp--preset--color--ink-3); }
+.swinog-soft-event-card__where {
+	font-size: 32px;
+	font-weight: 600;
+	letter-spacing: -0.025em;
+	margin-top: 6px;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-soft-event-card__stats { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.swinog-stat {
+	padding: 12px 14px;
+	border-radius: var(--wp--custom--radius--btn);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+}
+.swinog-stat__k { font-size: 11px; color: var(--wp--preset--color--ink-3); }
+.swinog-stat__v { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--wp--preset--color--ink); }
+.swinog-stat__v--small { font-size: 14px; }
+.swinog-stat__suf { color: var(--wp--preset--color--accent); margin-left: 1px; }
+.swinog-soft-event-card__cta {
+	margin-top: 18px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 16px;
+	border-radius: var(--wp--custom--radius--btn);
+	background: var(--wp--preset--color--accent);
+	color: white;
+	font-size: 14px;
+	font-weight: 500;
+}
+.swinog-soft-event-card__cta:hover {
+	color: white;
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink));
+}
+
+/* ============================================================
+   SoftFeatures (3-card grid)
+   ============================================================ */
+
+.swinog-soft-features-wrap { padding: 32px 24px; }
+.swinog-soft-features { gap: 16px !important; }
+.swinog-feature {
+	padding: 28px 28px 32px;
+	border-radius: var(--wp--custom--radius--md);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	height: 100%;
+}
+.swinog-feature__icon {
+	width: 44px; height: 44px;
+	border-radius: var(--wp--custom--radius--btn);
+	background: var(--wp--preset--color--accent-soft);
+	color: var(--wp--preset--color--accent);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	font-size: 20px;
+	margin-bottom: 16px;
+}
+.swinog-feature .swinog-kicker { margin: 16px 0 6px; }
+.swinog-feature p { margin: 0; }
+
+/* ============================================================
+   SoftAgenda (recent talks)
+   ============================================================ */
+
+.swinog-soft-agenda-wrap { padding: 40px 24px; }
+.swinog-soft-agenda {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 48px 48px 56px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-soft-agenda__head { margin-bottom: 28px; }
+.swinog-soft-agenda__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+}
+.swinog-talk-card {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 20px 22px;
+	border-radius: var(--wp--custom--radius--sm);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 3%, var(--wp--preset--color--paper));
+	color: var(--wp--preset--color--ink);
+	transition: background .15s, transform .15s;
+}
+.swinog-talk-card:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 6%, var(--wp--preset--color--paper));
+	transform: translateY(-1px);
+	color: var(--wp--preset--color--ink);
+}
+.swinog-talk-card__row { display: flex; justify-content: space-between; color: var(--wp--preset--color--ink-3); }
+.swinog-talk-card__title { font-size: 20px; font-weight: 600; line-height: 1.25; letter-spacing: -0.02em; }
+.swinog-talk-card__foot { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--wp--preset--color--ink-2); }
+.swinog-talk-card__arrow { color: var(--wp--preset--color--accent); font-size: 18px; }
+
+/* ============================================================
+   SoftList (dark mailing-list CTA)
+   ============================================================ */
+
+.swinog-soft-list-wrap { padding: 40px 24px; }
+.swinog-soft-list {
+	border-radius: var(--wp--custom--radius--xl);
+	padding: 64px 56px;
+	background: linear-gradient(135deg, color-mix(in oklab, var(--wp--preset--color--ink) 96%, var(--wp--preset--color--accent)) 0%, var(--wp--preset--color--ink) 100%);
+	color: var(--wp--preset--color--paper);
+	display: grid;
+	grid-template-columns: 1.2fr 1fr;
+	gap: 48px;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+}
+.swinog-soft-list__copy { position: relative; z-index: 1; }
+.swinog-soft-list__lead {
+	margin: 0;
+	font-size: 17px;
+	line-height: 1.55;
+	color: color-mix(in oklab, var(--wp--preset--color--paper) 75%, transparent);
+	max-width: 480px;
+}
+.swinog-soft-list__lead strong { color: var(--wp--preset--color--paper); font-family: var(--wp--preset--font-family--mono); font-size: 0.95em; }
+.swinog-soft-list__stats {
+	margin-top: 24px;
+	display: flex;
+	gap: 24px;
+	font-size: 13px;
+	color: color-mix(in oklab, var(--wp--preset--color--paper) 60%, transparent);
+	flex-wrap: wrap;
+}
+.swinog-soft-list__stats strong { color: var(--wp--preset--color--paper); font-family: var(--wp--preset--font-family--mono); }
+.swinog-soft-list__form {
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 8%, transparent);
+	border: 1px solid color-mix(in oklab, var(--wp--preset--color--paper) 20%, transparent);
+	padding: 14px;
+	border-radius: var(--wp--custom--radius--sm);
+	display: flex;
+	gap: 8px;
+	position: relative;
+	z-index: 1;
+}
+.swinog-soft-list__form input {
+	flex: 1;
+	padding: 14px 16px;
+	border-radius: 10px;
+	border: 1px solid color-mix(in oklab, var(--wp--preset--color--paper) 20%, transparent);
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 6%, transparent);
+	color: var(--wp--preset--color--paper);
+	font-family: inherit;
+	font-size: 15px;
+	outline: none;
+	min-width: 0;
+}
+.swinog-soft-list__form input::placeholder { color: color-mix(in oklab, var(--wp--preset--color--paper) 45%, transparent); }
+.swinog-soft-list__form button {
+	padding: 14px 18px;
+	border-radius: 10px;
+	background: var(--wp--preset--color--accent);
+	color: white;
+	border: 0;
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+}
+.swinog-soft-list__form button:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink));
+}
+.swinog-soft-list__glow {
+	position: absolute;
+	right: -120px; top: -120px;
+	width: 360px; height: 360px;
+	border-radius: 50%;
+	background: radial-gradient(circle, color-mix(in oklab, var(--wp--preset--color--accent) 60%, transparent), transparent 60%);
+	opacity: 0.35;
+	pointer-events: none;
+}
+
+/* ============================================================
+   SoftSponsors
+   ============================================================ */
+
+.swinog-soft-sponsors-wrap { padding: 32px 24px 56px; }
+.swinog-soft-sponsors__head { padding: 16px 0 28px; }
+.swinog-soft-sponsors__title {
+	margin: 6px auto 0;
+	font-size: 24px;
+	font-weight: 500;
+	letter-spacing: -0.015em;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-soft-sponsors__grid {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 12px;
+}
+.swinog-sponsor {
+	aspect-ratio: 2.4 / 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 4px;
+	border-radius: var(--wp--custom--radius--xs);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--wp--preset--color--ink-2);
+	text-align: center;
+	padding: 12px;
+}
+.swinog-sponsor--gold {
+	background: color-mix(in oklab, var(--wp--preset--color--accent-soft) 60%, white);
+	color: var(--wp--preset--color--ink);
+	border-color: color-mix(in oklab, var(--wp--preset--color--accent) 30%, var(--wp--preset--color--rule));
+}
+.swinog-sponsor__note {
+	display: block;
+	font-size: 11px;
+	font-weight: 400;
+	color: var(--wp--preset--color--ink-3);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   Phase 3 · Event page
+   ============================================================ */
+
+/* Breadcrumb ------------------------------------------------- */
+.swinog-breadcrumb {
+	padding: 24px 0 18px;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-breadcrumb a { color: var(--wp--preset--color--ink-3); }
+.swinog-breadcrumb a:hover { color: var(--wp--preset--color--ink); }
+.swinog-breadcrumb span[aria-hidden] { margin: 0 6px; }
+.swinog-breadcrumb__current { color: var(--wp--preset--color--ink); }
+
+/* Event hero + quick-facts ---------------------------------- */
+.swinog-event-hero-wrap {
+	/* alignwide on the block already centers within wideSize.
+	   These gutters match the softbar / breadcrumbs spacing
+	   so the box visually aligns with the rest of the site. */
+	width: calc(100% - 48px);
+	max-width: 1280px;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	padding: 0;
+}
+.swinog-event-hero {
+	border-radius: var(--wp--custom--radius--xl);
+	padding: 56px 56px 48px;
+	background: linear-gradient(180deg, color-mix(in oklab, var(--wp--preset--color--accent) 9%, var(--wp--preset--color--paper)) 0%, var(--wp--preset--color--paper) 100%);
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-event-hero__grid { gap: 40px !important; margin: 0 !important; }
+.swinog-event-hero__title {
+	margin: 18px 0 0;
+	font-size: 88px;
+	font-weight: 600;
+	line-height: 0.95;
+	letter-spacing: -0.04em;
+}
+.swinog-event-hero__meta {
+	margin-top: 16px;
+	font-size: 24px;
+	color: var(--wp--preset--color--ink-2);
+	letter-spacing: -0.01em;
+}
+.swinog-event-hero__meta strong { color: var(--wp--preset--color--ink); }
+.swinog-event-hero__lead {
+	margin: 22px 0 0;
+	font-size: 17px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+	max-width: 600px;
+}
+.swinog-event-hero__facts {
+	border-radius: var(--wp--custom--radius--base);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	padding: 24px;
+}
+.swinog-facts-dl {
+	margin: 14px 0 0;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 10px 16px;
+	font-size: 14px;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-facts-dl dt { color: var(--wp--preset--color--ink-3); }
+.swinog-facts-dl dd { margin: 0; color: var(--wp--preset--color--ink); }
+.swinog-facts-dl dd a { color: var(--wp--preset--color--accent); }
+.swinog-facts-dl__cta {
+	margin-top: 18px;
+	display: flex;
+	justify-content: center;
+	padding: 13px 16px;
+	border-radius: var(--wp--custom--radius--btn);
+	background: var(--wp--preset--color--accent);
+	color: white;
+	font-size: 14px;
+	font-weight: 500;
+}
+.swinog-facts-dl__cta:hover { color: white; background: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink)); }
+
+/* Event info strip ------------------------------------------ */
+.swinog-event-strip-wrap { padding: 24px 24px 8px; }
+.swinog-event-strip {
+	border-radius: var(--wp--custom--radius--base);
+	padding: 8px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.swinog-event-strip__cell {
+	padding: 16px 18px;
+	border-right: 1px solid var(--wp--preset--color--rule-2);
+}
+.swinog-event-strip__cell:last-child { border-right: 0; }
+.swinog-event-strip__k { font-size: 12px; color: var(--wp--preset--color--ink-3); }
+.swinog-event-strip__v {
+	font-size: 28px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	color: var(--wp--preset--color--ink);
+	margin-top: 2px;
+}
+.swinog-event-strip__v--small { font-size: 18px; }
+
+/* Event program --------------------------------------------- */
+.swinog-program-wrap { padding: 32px 24px; }
+.swinog-program {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 48px 48px 40px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-program__head { margin-bottom: 28px; }
+.swinog-program__day { margin-top: 8px; }
+.swinog-program__day-head {
+	display: flex;
+	align-items: baseline;
+	gap: 16px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-program__day-title { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+.swinog-program__day-meta  { font-size: 13px; color: var(--wp--preset--color--ink-3); }
+.swinog-program__row {
+	display: grid;
+	grid-template-columns: 80px 90px 1fr 260px 60px;
+	padding: 16px 16px;
+	border-bottom: 1px solid var(--wp--preset--color--rule-2);
+	align-items: baseline;
+	gap: 8px;
+}
+.swinog-program__row:last-child { border-bottom: 0; }
+.swinog-program__row--break  { color: var(--wp--preset--color--ink-3); }
+.swinog-program__row--break .swinog-program__title { color: var(--wp--preset--color--ink-3); }
+.swinog-program__row--breakout {
+	background: var(--wp--preset--color--accent-soft);
+	border-radius: 10px;
+	border-bottom: 0;
+	margin: 4px 0;
+}
+.swinog-program__row--breakout .swinog-program__kind { color: var(--wp--preset--color--accent); }
+.swinog-program__row--social {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	border-radius: 10px;
+	border-bottom: 0;
+	margin: 4px 0;
+}
+.swinog-program__row--social .swinog-program__kind { color: var(--wp--preset--color--ink-2); }
+.swinog-program__time { font-size: 13px; font-weight: 500; color: var(--wp--preset--color--ink); }
+.swinog-program__kind {
+	font-size: 11px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	font-weight: 600;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-program__title { font-size: 17px; color: var(--wp--preset--color--ink); letter-spacing: -0.01em; padding-right: 16px; }
+.swinog-program__who   { font-size: 13px; color: var(--wp--preset--color--ink-2); }
+.swinog-program__mins  { text-align: right; color: var(--wp--preset--color--ink-3); }
+
+/* Event speakers -------------------------------------------- */
+.swinog-speakers-wrap { padding: 24px 24px; }
+.swinog-speakers__head { margin-bottom: 24px; }
+.swinog-speakers__lead {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-speakers__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+.swinog-speaker {
+	padding: 24px;
+	border-radius: var(--wp--custom--radius--base);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+}
+.swinog-speaker__avatar {
+	width: 56px; height: 56px;
+	border-radius: 50%;
+	background: var(--wp--preset--color--accent-soft);
+	color: var(--wp--preset--color--accent);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	font-size: 18px;
+	flex-shrink: 0;
+}
+.swinog-speaker__name { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+.swinog-speaker__role { font-size: 13px; color: var(--wp--preset--color--ink-3); }
+.swinog-speaker p { margin: 10px 0 0; font-size: 14px; color: var(--wp--preset--color--ink-2); line-height: 1.5; }
+
+/* Event venue ----------------------------------------------- */
+.swinog-venue-wrap { padding: 32px 24px; }
+.swinog-venue {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 48px;
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	border: 1px solid var(--wp--preset--color--rule);
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 40px;
+	align-items: center;
+}
+.swinog-venue__copy p { font-size: 16px; line-height: 1.55; color: var(--wp--preset--color--ink-2); margin: 12px 0 0; }
+.swinog-venue__dl {
+	margin-top: 22px;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 8px 18px;
+	font-size: 14px;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-venue__dl dt { color: var(--wp--preset--color--ink-3); }
+.swinog-venue__dl dd { margin: 0; }
+.swinog-venue__dl a  { color: var(--wp--preset--color--accent); }
+.swinog-venue__map {
+	border-radius: var(--wp--custom--radius--sm);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	aspect-ratio: 4 / 3;
+	overflow: hidden;
+}
+.swinog-venue__map svg { width: 100%; height: 100%; display: block; background: color-mix(in oklab, var(--wp--preset--color--ink) 3%, var(--wp--preset--color--paper)); }
+
+/* swinog/venue dynamic block — cached OSM static-map PNG ----- */
+.swinog-venue__map img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+.swinog-venue__address {
+	margin-top: 18px;
+	font-style: normal;
+	font-size: 15px;
+	line-height: 1.5;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-venue__intro {
+	margin-top: 12px;
+	font-size: 16px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-venue__osm-link {
+	margin-top: 14px;
+	font-size: 14px;
+}
+.swinog-venue__osm-link a { color: var(--wp--preset--color--accent); }
+.swinog-venue__map-placeholder {
+	padding: 24px;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+	background: repeating-linear-gradient(
+		135deg,
+		color-mix(in oklab, var(--wp--preset--color--ink) 4%, white) 0 10px,
+		color-mix(in oklab, var(--wp--preset--color--ink) 7%, white) 10px 20px
+	);
+	border-radius: var(--wp--custom--radius--sm);
+}
+
+/* Event sponsor tiers --------------------------------------- */
+.swinog-tiers-wrap { padding: 16px 24px 56px; }
+.swinog-tiers__head { margin-bottom: 24px; }
+.swinog-tiers__lead { margin: 0; font-size: 16px; line-height: 1.55; color: var(--wp--preset--color--ink-2); }
+.swinog-tiers__lead a { color: var(--wp--preset--color--accent); }
+.swinog-tiers__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+.swinog-tier {
+	border-radius: var(--wp--custom--radius--base);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	padding: 24px;
+}
+.swinog-tier__head  { display: flex; justify-content: space-between; align-items: baseline; }
+.swinog-tier__name  { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+.swinog-tier__count { color: var(--wp--preset--color--ink-3); }
+.swinog-tier__rows  { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.swinog-tier__row {
+	padding: 14px 16px;
+	border-radius: var(--wp--custom--radius--btn);
+	font-size: 14px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+}
+.swinog-tier__row--filled {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	border: 1px solid var(--wp--preset--color--rule-2);
+	color: var(--wp--preset--color--ink);
+}
+.swinog-tier__row--open {
+	background: transparent;
+	border: 1px dashed var(--wp--preset--color--rule);
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-tier__row--open a { color: var(--wp--preset--color--accent); }
+.swinog-tier__note {
+	display: inline-block;
+	margin-left: 8px;
+	font-size: 11px;
+	color: var(--wp--preset--color--ink-3);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   Phase 4 · Archive (past meetings)
+   ============================================================ */
+
+.swinog-archive-hero-wrap { padding: 24px 24px 24px; }
+.swinog-archive-hero { padding: 24px 0; }
+.swinog-archive-hero__title {
+	margin: 12px 0 0;
+	font-size: var(--wp--preset--font-size--display-lg);
+	font-weight: 600;
+	line-height: 0.95;
+	letter-spacing: -0.04em;
+}
+.swinog-archive-hero__lead {
+	margin: 22px 0 0;
+	font-size: 18px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+	max-width: 620px;
+}
+.swinog-archive-hero__search {
+	margin-top: 24px;
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.swinog-archive-hero__search input {
+	padding: 14px 18px;
+	border-radius: var(--wp--custom--radius--btn);
+	border: 1px solid var(--wp--preset--color--rule);
+	background: white;
+	font-family: inherit;
+	font-size: 15px;
+	outline: none;
+	min-width: 320px;
+}
+.swinog-archive-hero__search button {
+	padding: 14px 18px;
+	border-radius: var(--wp--custom--radius--btn);
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+	font-size: 14px;
+	font-weight: 500;
+	border: 0;
+	cursor: pointer;
+}
+.swinog-archive-hero__stats {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+.swinog-stat-card {
+	padding: 20px;
+	border-radius: var(--wp--custom--radius--sm);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-stat-card__v { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; }
+.swinog-stat-card__k { font-size: 13px; color: var(--wp--preset--color--ink-3); margin-top: 4px; }
+
+/* Filters --------------------------------------------------- */
+.swinog-filters-wrap { padding: 8px 24px 16px; }
+.swinog-filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.swinog-filters__label { font-size: 12px; color: var(--wp--preset--color--ink-3); margin-right: 4px; }
+.swinog-filters__divider { width: 1px; height: 22px; background: var(--wp--preset--color--rule); margin: 0 8px; }
+
+.swinog-chip {
+	display: inline-block;
+	padding: 8px 14px;
+	border-radius: var(--wp--custom--radius--pill);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-2);
+	transition: background .15s, color .15s;
+}
+.swinog-chip:hover { background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper)); color: var(--wp--preset--color--ink); }
+.swinog-chip--active {
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+	border-color: var(--wp--preset--color--ink);
+}
+.swinog-chip--active:hover { background: var(--wp--preset--color--ink); color: var(--wp--preset--color--paper); }
+
+.swinog-tag {
+	display: inline-block;
+	padding: 3px 10px;
+	border-radius: var(--wp--custom--radius--pill);
+	background: var(--wp--preset--color--accent-soft);
+	color: var(--wp--preset--color--accent);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+/* Timeline -------------------------------------------------- */
+.swinog-timeline-wrap { padding: 8px 24px 32px; }
+.swinog-timeline { display: flex; flex-direction: column; gap: 12px; }
+.swinog-timeline__row {
+	display: grid;
+	grid-template-columns: 110px 1fr 220px 120px 32px;
+	gap: 24px;
+	padding: 22px 26px;
+	border-radius: var(--wp--custom--radius--sm);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	align-items: center;
+	color: var(--wp--preset--color--ink);
+	transition: background .15s, transform .15s, box-shadow .15s;
+}
+.swinog-timeline__row:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+	transform: translateY(-1px);
+	box-shadow: 0 8px 28px rgba(20, 15, 10, .06);
+	color: var(--wp--preset--color--ink);
+}
+.swinog-timeline__no-h { font-size: 36px; font-weight: 600; letter-spacing: -0.025em; }
+.swinog-timeline__no-d { font-size: 12px; color: var(--wp--preset--color--ink-3); }
+.swinog-timeline__where { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+.swinog-timeline__tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.swinog-timeline__city { font-size: 13px; color: var(--wp--preset--color--ink-2); }
+.swinog-timeline__count { font-size: 13px; color: var(--wp--preset--color--ink-2); }
+.swinog-timeline__arrow { font-size: 22px; color: var(--wp--preset--color--accent); text-align: right; }
+.swinog-timeline__more { margin-top: 18px; text-align: center; }
+
+/* Archive CTA ----------------------------------------------- */
+.swinog-archive-cta-wrap { padding: 16px 24px 56px; }
+.swinog-archive-cta {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 40px;
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-archive-cta p { margin: 0; font-size: 15px; color: var(--wp--preset--color--ink-2); max-width: 540px; line-height: 1.55; }
+
+/* ============================================================
+   Phase 5 · About / community
+   ============================================================ */
+
+.swinog-kicker--on-dark { color: var(--wp--preset--color--accent); }
+
+.swinog-about-hero-wrap { padding: 24px 24px 24px; }
+.swinog-about-hero { padding: 24px 0; }
+.swinog-about-hero__title {
+	margin: 12px 0 0;
+	font-size: var(--wp--preset--font-size--display-lg);
+	font-weight: 600;
+	line-height: 0.95;
+	letter-spacing: -0.04em;
+}
+.swinog-about-hero__lead {
+	margin: 22px 0 0;
+	font-size: 19px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+	max-width: 720px;
+}
+.swinog-about-hero__lead em { font-style: italic; color: var(--wp--preset--color--ink); }
+.swinog-about-hero__facts {
+	border-radius: var(--wp--custom--radius--sm);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	padding: 22px;
+}
+
+/* Principles */
+.swinog-principles-wrap { padding: 32px 24px; }
+.swinog-principles { gap: 12px !important; }
+.swinog-principles + .swinog-principles { margin-top: 12px; }
+.swinog-principle {
+	padding: 28px 28px 32px;
+	border-radius: var(--wp--custom--radius--base);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	height: 100%;
+}
+.swinog-principle .swinog-kicker { margin: 0 0 8px; }
+.swinog-principle p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--wp--preset--color--ink-2); }
+
+/* Core team grid */
+.swinog-board-wrap { padding: 32px 24px; }
+.swinog-board__head { margin-bottom: 22px; }
+.swinog-board__lead { margin: 0; font-size: 16px; line-height: 1.55; color: var(--wp--preset--color--ink-2); }
+.swinog-board__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+.swinog-board-card {
+	padding: 22px;
+	border-radius: var(--wp--custom--radius--sm);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	display: flex;
+	gap: 14px;
+	align-items: flex-start;
+}
+.swinog-board-card--open {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+	border-style: dashed;
+}
+.swinog-board-card__avatar {
+	width: 48px; height: 48px;
+	border-radius: 50%;
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 6%, var(--wp--preset--color--paper));
+	color: var(--wp--preset--color--ink-2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	font-size: 16px;
+	flex-shrink: 0;
+}
+.swinog-board-card__avatar--open {
+	background: transparent;
+	border: 1px dashed var(--wp--preset--color--rule);
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-board-card__name { font-size: 16px; font-weight: 600; letter-spacing: -0.005em; }
+.swinog-board-card__role { font-size: 13px; color: var(--wp--preset--color--ink-3); }
+.swinog-board-card__org  { margin-top: 4px; font-size: 12px; color: var(--wp--preset--color--ink-3); }
+.swinog-board-card__org a { color: var(--wp--preset--color--accent); }
+
+/* Code of conduct teaser */
+.swinog-coc-wrap { padding: 32px 24px; }
+.swinog-coc {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 48px;
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-coc__title { margin: 8px 0 16px; font-size: 36px; font-weight: 600; letter-spacing: -0.025em; }
+.swinog-coc__list { margin: 0; padding: 0 0 0 18px; font-size: 16px; line-height: 1.7; color: var(--wp--preset--color--ink-2); }
+.swinog-coc__list a { color: var(--wp--preset--color--accent); }
+.swinog-btn--block .wp-block-button__link { display: flex; justify-content: center; width: 100%; }
+
+/* How to join (dark) */
+.swinog-join-wrap { padding: 16px 24px 56px; }
+.swinog-join {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 48px 56px;
+	background: linear-gradient(135deg, color-mix(in oklab, var(--wp--preset--color--ink) 96%, var(--wp--preset--color--accent)) 0%, var(--wp--preset--color--ink) 100%);
+	color: var(--wp--preset--color--paper);
+	display: grid;
+	grid-template-columns: 1.4fr 1fr;
+	gap: 40px;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+}
+.swinog-join__copy { position: relative; z-index: 1; }
+.swinog-join__title {
+	margin: 12px 0;
+	font-size: 48px;
+	font-weight: 600;
+	letter-spacing: -0.03em;
+	line-height: 1;
+}
+.swinog-join__copy p { margin: 0; font-size: 17px; line-height: 1.55; color: color-mix(in oklab, var(--wp--preset--color--paper) 75%, transparent); max-width: 520px; }
+.swinog-join__copy em { color: var(--wp--preset--color--paper); font-style: italic; }
+.swinog-join__ctas { display: flex; flex-direction: column; gap: 8px; position: relative; z-index: 1; }
+.swinog-join__btn {
+	display: flex;
+	justify-content: center;
+	padding: 16px 20px;
+	border-radius: var(--wp--custom--radius--btn);
+	font-size: 14px;
+	font-weight: 500;
+	text-align: center;
+}
+.swinog-join__btn--accent {
+	background: var(--wp--preset--color--accent);
+	color: white;
+}
+.swinog-join__btn--accent:hover { color: white; background: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink)); }
+.swinog-join__btn--ghost {
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 8%, transparent);
+	border: 1px solid color-mix(in oklab, var(--wp--preset--color--paper) 25%, transparent);
+	color: var(--wp--preset--color--paper);
+}
+.swinog-join__btn--ghost:hover { color: var(--wp--preset--color--paper); background: color-mix(in oklab, var(--wp--preset--color--paper) 14%, transparent); }
+.swinog-join__glow {
+	position: absolute;
+	right: -120px; top: -120px;
+	width: 360px; height: 360px;
+	border-radius: 50%;
+	background: radial-gradient(circle, color-mix(in oklab, var(--wp--preset--color--accent) 50%, transparent), transparent 60%);
+	opacity: 0.4;
+	pointer-events: none;
+}
+
+/* ============================================================
+   Standard page template (page.html)
+   ============================================================ */
+.swinog-page { padding: 0; }
+.swinog-page__title {
+	font-size: var(--wp--preset--font-size--display-sm);
+	font-weight: 600;
+	line-height: 1.05;
+	letter-spacing: -0.03em;
+	margin: 56px auto 32px;
+	max-width: 780px;
+	padding: 0 24px;
+}
+/* When the title block is filtered out (Hide page title checkbox or
+   the page-no-title template), no DOM remains and the post-content
+   becomes the first child of main with margin-block-start: 0 from
+   WP's flow-layout rules — so no orphan space sits above the hero. */
+
+/* ============================================================
+   swinog/event-hero block · pulls page meta
+   ------------------------------------------------------------
+   Scoped via :has() so it only applies to the dynamic block
+   (which emits .__copy + .__facts as direct children) — the
+   static swinog/event-hero pattern uses wp:columns inside and
+   handles its own 60/36 split, so we must NOT regrid it here.
+   ============================================================ */
+.swinog-event-hero:has(> .swinog-event-hero__copy) {
+	display: grid;
+	grid-template-columns: minmax(0, 1.66fr) minmax(280px, 1fr);
+	gap: 56px;
+	align-items: end;
+}
+.swinog-event-hero__copy { min-width: 0; }
+.swinog-event-hero-wrap .swinog-event-hero__meta-sep { color: var(--wp--preset--color--ink-3); }
+.swinog-event-hero-wrap .swinog-event-hero__meta .swinog-event-hero__meta-loc {
+	color: var(--wp--preset--color--ink);
+	font-weight: 600;
+}
+.swinog-event-hero .swinog-cta-row { margin-top: 28px; }
+.swinog-event-hero__facts { margin: 0; }
+
+@media (max-width: 900px) {
+	.swinog-event-hero:has(> .swinog-event-hero__copy) {
+		grid-template-columns: 1fr;
+		gap: 28px;
+		align-items: stretch;
+	}
+}
+
+/* ============================================================
+   [swinog_list_all_events] · styled events overview rows
+   ============================================================ */
+.swinog-event-overview {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.swinog-event-overview__row {
+	display: grid;
+	grid-template-columns: 160px minmax(0, 1fr) minmax(0, 120px) 24px;
+	column-gap: 20px;
+	align-items: center;
+	padding: 18px 22px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: var(--wp--custom--radius--md);
+	color: var(--wp--preset--color--ink);
+	transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.swinog-event-overview__row:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 22px rgba(20, 15, 10, 0.06);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+	color: var(--wp--preset--color--ink);
+}
+.swinog-event-overview__row--past { opacity: 0.85; }
+.swinog-event-overview__row--upcoming { border-color: color-mix(in oklab, var(--wp--preset--color--accent) 30%, var(--wp--preset--color--rule)); }
+.swinog-event-overview__date {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+	white-space: nowrap;
+}
+.swinog-event-overview__date-main { color: var(--wp--preset--color--ink); font-weight: 500; }
+.swinog-event-overview__title {
+	margin: 0;
+	font-size: 19px;
+	font-weight: 600;
+	letter-spacing: -0.015em;
+	line-height: 1.25;
+}
+.swinog-event-overview__loc {
+	margin-top: 4px;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-event-overview__tag { text-align: right; }
+.swinog-event-overview__arrow {
+	color: var(--wp--preset--color--accent);
+	font-size: 18px;
+	text-align: right;
+}
+@media (max-width: 720px) {
+	.swinog-event-overview__row {
+		grid-template-columns: 1fr;
+		gap: 4px;
+		padding: 14px 16px;
+	}
+	.swinog-event-overview__tag,
+	.swinog-event-overview__arrow { display: none; }
+}
+
+/* ============================================================
+   swinog/program · shortcode-driven row layout
+   (used by [swinog_list_agenda] and [swinog_list_presentations])
+   ============================================================ */
+
+.swinog-program-shortcode { margin: 0; }
+/* Parent owns the column template — every row uses subgrid so all
+   "who" cells share one column, all mins cells share one column, etc.
+   Without this, each row's grid is independent and the cells drift. */
+.swinog-program-shortcode .swinog-program__rows {
+	display: grid;
+	gap: 0;
+}
+.swinog-program-shortcode.swinog-program--agenda .swinog-program__rows {
+	/* time | kind | title | who | (mins + chevron) */
+	grid-template-columns: 60px 84px minmax(0, 1fr) minmax(0, 220px) 96px;
+}
+.swinog-program-shortcode.swinog-program--presentations .swinog-program__rows {
+	/* title | who | slides | (video + chevron) */
+	grid-template-columns: minmax(0, 1fr) minmax(0, 220px) 90px 120px;
+}
+
+.swinog-program-shortcode .swinog-program__row {
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-column: 1 / -1;
+	align-items: start;
+	column-gap: 18px;
+	row-gap: 0;
+	padding: 16px 20px;
+	line-height: 1.4;
+	background: transparent;
+	border-bottom: 1px solid var(--wp--preset--color--rule-2);
+	transition: background .15s ease;
+}
+.swinog-program-shortcode .swinog-program__row:last-child {
+	border-bottom: 0;
+}
+.swinog-program-shortcode .swinog-program__row--expandable { cursor: pointer; }
+.swinog-program-shortcode .swinog-program__row--expandable:hover,
+.swinog-program-shortcode .swinog-program__row--expandable:focus-visible {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+}
+.swinog-program-shortcode .swinog-program__row:focus-visible {
+	outline: 2px solid var(--wp--preset--color--accent);
+	outline-offset: -2px;
+}
+
+.swinog-program-shortcode .swinog-program__row > * { min-width: 0; }
+
+/* Tail cell carries the trailing column + the chevron together,
+   so they always stay on the same baseline as the row's first line. */
+.swinog-program-shortcode .swinog-program__tail {
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	white-space: nowrap;
+}
+
+.swinog-program-shortcode .swinog-program__time {
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-program-shortcode .swinog-program__kind {
+	font-size: 11px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	font-weight: 600;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-program-shortcode .swinog-program__title {
+	font-size: 17px;
+	color: var(--wp--preset--color--ink);
+	letter-spacing: -0.01em;
+	padding-right: 8px;
+}
+.swinog-program-shortcode .swinog-program__who  { font-size: 13px; color: var(--wp--preset--color--ink-2); }
+.swinog-program-shortcode .swinog-program__mins { text-align: right; color: var(--wp--preset--color--ink-3); }
+
+.swinog-program-shortcode .swinog-program__link {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	text-align: center;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-program-shortcode .swinog-program__link a {
+	display: inline-block;
+	padding: 4px 10px;
+	border-radius: var(--wp--custom--radius--pill);
+	color: var(--wp--preset--color--accent);
+	background: var(--wp--preset--color--accent-soft);
+	transition: background .15s, color .15s;
+	text-decoration: none;
+}
+.swinog-program-shortcode .swinog-program__link a:hover {
+	background: var(--wp--preset--color--accent);
+	color: white;
+}
+
+.swinog-program-shortcode .swinog-program__chevron {
+	color: var(--wp--preset--color--ink-3);
+	transition: transform .2s ease, color .15s ease;
+	font-size: 12px;
+	text-align: center;
+	/* Fixed footprint so mins/video stay column-aligned across rows
+	   regardless of whether the row has an expandable abstract. */
+	display: inline-block;
+	width: 14px;
+	flex-shrink: 0;
+}
+.swinog-program-shortcode .swinog-program__chevron--placeholder {
+	visibility: hidden;
+}
+.swinog-program-shortcode .swinog-program__row.is-expanded .swinog-program__chevron {
+	transform: rotate(-180deg);
+	color: var(--wp--preset--color--accent);
+}
+
+/* Row kind colour-coding (Talk = plain, social = ink-tinted row) */
+.swinog-program-shortcode .swinog-program__row--social {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+}
+.swinog-program-shortcode .swinog-program__row--social .swinog-program__title,
+.swinog-program-shortcode .swinog-program__row--social .swinog-program__kind {
+	color: var(--wp--preset--color--ink-2);
+}
+
+/* Abstract spans the full row width — 5 subgrid columns in agenda,
+   5 in presentations. Use explicit span instead of `1 / -1` since some
+   browsers resolve `-1` differently inside subgrid. */
+.swinog-program-shortcode .swinog-program__abstract {
+	grid-column: 1 / -1;
+	margin: 12px -20px -16px;
+	box-sizing: border-box;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height .25s ease, padding .25s ease, opacity .15s ease;
+	padding: 0 20px;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+	opacity: 0;
+}
+.swinog-program-shortcode .swinog-program__row.is-expanded .swinog-program__abstract {
+	max-height: 1000px;
+	padding: 14px 20px 18px;
+	opacity: 1;
+	border-top: 1px solid var(--wp--preset--color--rule-2);
+}
+.swinog-program-shortcode .swinog-program__abstract p { margin: 0 0 8px; }
+.swinog-program-shortcode .swinog-program__abstract p:last-child { margin: 0; }
+
+/* Empty state */
+.swinog-program-empty {
+	padding: 22px 24px;
+	border-radius: var(--wp--custom--radius--sm);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 3%, var(--wp--preset--color--paper));
+	border: 1px dashed var(--wp--preset--color--rule);
+	color: var(--wp--preset--color--ink-3);
+	font-size: 14px;
+}
+
+/* Responsive — collapse to 2-line layout on mobile */
+@media (max-width: 720px) {
+	/* Mobile: drop the subgrid template, stack each cell vertically inside the row. */
+	.swinog-program-shortcode .swinog-program__rows,
+	.swinog-program-shortcode.swinog-program--agenda .swinog-program__rows,
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__rows {
+		display: block;
+	}
+	.swinog-program-shortcode .swinog-program__row {
+		display: grid;
+		grid-template-columns: 64px 1fr auto;
+		grid-template-areas:
+			"time   title   tail"
+			"kind   who     who";
+		row-gap: 6px;
+		column-gap: 12px;
+		padding: 14px 16px;
+	}
+	.swinog-program-shortcode.swinog-program--agenda .swinog-program__time  { grid-area: time; }
+	.swinog-program-shortcode.swinog-program--agenda .swinog-program__kind  { grid-area: kind; }
+	.swinog-program-shortcode.swinog-program--agenda .swinog-program__title { grid-area: title; }
+	.swinog-program-shortcode.swinog-program--agenda .swinog-program__who   { grid-area: who; }
+	.swinog-program-shortcode.swinog-program--agenda .swinog-program__tail  { grid-area: tail; align-self: start; }
+
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__row {
+		grid-template-columns: 1fr auto;
+		grid-template-areas:
+			"title  tail"
+			"who    who"
+			"mins   mins"
+			"slides video";
+	}
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__title { grid-area: title; }
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__who   { grid-area: who; }
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__mins  { grid-area: mins; text-align: left; }
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__link:nth-of-type(1) { grid-area: slides; text-align: left; }
+	.swinog-program-shortcode.swinog-program--presentations .swinog-program__tail  { grid-area: tail; align-self: start; }
+}
+
+/* ============================================================
+   swinog/breadcrumbs block · auto-injected above main
+   ============================================================ */
+.swinog-breadcrumb--block,
+.swinog-breadcrumb--block.alignwide {
+	box-sizing: border-box;
+	max-width: 1280px;
+	width: calc(100% - 48px);
+	margin: 24px auto 0 !important;
+	/* 22px inset matches the SoftBar's padding-left so the first crumb
+	   sits directly under the SoftBar logo. */
+	padding: 0 22px;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-breadcrumb__list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0;
+	padding: 0;
+	margin: 0;
+}
+.swinog-breadcrumb__link {
+	color: var(--wp--preset--color--ink-3);
+	transition: color .15s ease;
+}
+.swinog-breadcrumb__link:hover { color: var(--wp--preset--color--ink); }
+.swinog-breadcrumb__sep {
+	margin: 0 8px;
+	color: var(--wp--preset--color--ink-3);
+	user-select: none;
+}
+.swinog-breadcrumb__current {
+	color: var(--wp--preset--color--ink);
+}
+
+@media (max-width: 720px) {
+	.swinog-breadcrumb--block { padding: 0 16px; margin-top: 16px; }
+}
+
+/* ============================================================
+   Phase 6 · News
+   ============================================================ */
+
+/* News index hero */
+.swinog-news-hero-wrap { padding: 24px 24px 24px; }
+.swinog-news-hero      { padding: 24px 0; }
+.swinog-news-hero__title {
+	margin: 12px 0 0;
+	font-size: var(--wp--preset--font-size--display-lg);
+	font-weight: 600;
+	line-height: 0.95;
+	letter-spacing: -0.04em;
+}
+.swinog-news-hero__lead {
+	margin: 22px 0 0;
+	font-size: 19px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+	max-width: 620px;
+}
+.swinog-news-hero__ctas {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.swinog-news-hero__cta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 18px;
+	border-radius: var(--wp--custom--radius--btn);
+	border: 1px solid var(--wp--preset--color--rule);
+	background: white;
+	color: var(--wp--preset--color--ink);
+	font-size: 14px;
+	font-weight: 500;
+	transition: background .15s, transform .15s;
+}
+.swinog-news-hero__cta:hover { background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper)); color: var(--wp--preset--color--ink); transform: translateY(-1px); }
+.swinog-news-hero__icon { color: var(--wp--preset--color--accent); font-size: 16px; }
+
+/* News list grid (also used by search.html) */
+.swinog-news-list-wrap { padding: 16px 24px 32px; }
+.swinog-news-list      { gap: 0 !important; }
+.swinog-news-list .wp-block-post-template,
+.swinog-news-list__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.swinog-news-card {
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: var(--wp--custom--radius--base);
+	padding: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	transition: background .15s, transform .15s, box-shadow .15s;
+}
+.swinog-news-card:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 22px rgba(20, 15, 10, 0.06);
+}
+.swinog-news-card__meta {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 12px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-news-card__title {
+	margin: 4px 0;
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 1.25;
+	letter-spacing: -0.02em;
+}
+.swinog-news-card__title a { color: var(--wp--preset--color--ink); }
+.swinog-news-card__title a:hover { color: var(--wp--preset--color--accent); }
+.swinog-news-card__excerpt {
+	margin: 0;
+	color: var(--wp--preset--color--ink-2);
+	font-size: 15px;
+	line-height: 1.55;
+}
+.swinog-news-card__byline {
+	margin-top: auto;
+	padding-top: 6px;
+	font-size: 12px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-news-card__by { color: var(--wp--preset--color--ink-3); }
+
+/* News subscribe card */
+.swinog-news-subscribe-wrap { padding: 16px 24px 32px; }
+.swinog-news-subscribe {
+	display: grid;
+	grid-template-columns: 1.4fr 1fr;
+	gap: 32px;
+	align-items: center;
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 36px 40px;
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-news-subscribe__title {
+	margin: 4px 0 8px;
+	font-size: 28px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+}
+.swinog-news-subscribe__lead {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-news-subscribe__lead code { font-size: 0.95em; }
+.swinog-news-subscribe__form {
+	display: flex;
+	gap: 8px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	padding: 8px;
+	border-radius: var(--wp--custom--radius--btn);
+}
+.swinog-news-subscribe__form input {
+	flex: 1;
+	min-width: 0;
+	padding: 10px 14px;
+	border: 0;
+	background: transparent;
+	font-family: inherit;
+	font-size: 14px;
+	outline: none;
+}
+.swinog-news-subscribe__form button {
+	padding: 10px 16px;
+	border-radius: 8px;
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+	border: 0;
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+}
+.swinog-news-subscribe__form button:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 92%, var(--wp--preset--color--accent));
+}
+
+/* Single news article header */
+.swinog-news-single-hero-wrap { padding: 8px 24px 0; }
+.swinog-news-single-hero { padding: 24px 0 12px; }
+.swinog-news-single-hero__meta {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-news-single-hero__title {
+	margin: 12px 0 16px;
+	font-size: 56px;
+	font-weight: 600;
+	line-height: 1.05;
+	letter-spacing: -0.035em;
+}
+.swinog-news-single-hero__byline {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 14px;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-news-single-hero__avatar img { border-radius: 50%; }
+.swinog-news-single-hero__author a   { color: var(--wp--preset--color--ink); font-weight: 500; }
+
+/* Single news body — Newsreader serif on <p> and <h2> per design pack */
+.swinog-news-body-wrap { padding: 16px 24px 56px; }
+.swinog-news-body p,
+.swinog-news-body h2 {
+	font-family: var(--wp--preset--font-family--serif);
+}
+.swinog-news-body p {
+	font-size: 20px;
+	line-height: 1.65;
+	font-weight: 500;
+	color: var(--wp--preset--color--ink);
+	margin: 0 0 22px;
+}
+.swinog-news-body h2 {
+	font-size: 34px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	line-height: 1.15;
+	margin: 40px 0 12px;
+}
+.swinog-news-body h3 {
+	font-family: var(--wp--preset--font-family--sans);
+	font-size: 22px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	margin: 28px 0 10px;
+}
+.swinog-news-body blockquote {
+	margin: 28px 0;
+	padding: 16px 22px;
+	border-left: 3px solid var(--wp--preset--color--accent);
+	background: var(--wp--preset--color--accent-soft);
+	border-radius: 0 var(--wp--custom--radius--sm) var(--wp--custom--radius--sm) 0;
+	font-style: italic;
+}
+.swinog-news-body blockquote p { font-size: 20px; margin: 0; }
+.swinog-news-body :is(img, .wp-block-image) {
+	border-radius: var(--wp--custom--radius--md);
+	margin: 24px 0;
+}
+.swinog-news-body :is(ul, ol) {
+	font-family: var(--wp--preset--font-family--serif);
+	font-size: 20px;
+	line-height: 1.65;
+	padding-left: 24px;
+	margin: 0 0 22px;
+}
+.swinog-news-body code,
+.swinog-news-body pre { font-family: var(--wp--preset--font-family--mono); }
+
+/* Related posts strip */
+.swinog-news-related-wrap { padding: 24px 24px 56px; }
+.swinog-news-related__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+	margin-top: 16px;
+}
+
+/* ============================================================
+   Phase 7 · 404 + Search
+   ============================================================ */
+
+.swinog-404 {
+	padding: 72px 24px 96px;
+	text-align: center;
+}
+.swinog-404__title {
+	margin: 12px 0 16px;
+	font-size: var(--wp--preset--font-size--display-md);
+	font-weight: 600;
+	letter-spacing: -0.035em;
+	line-height: 1.05;
+}
+.swinog-404__lead {
+	max-width: 560px;
+	margin: 0 auto 24px;
+	font-size: 17px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-404__search {
+	max-width: 480px;
+	margin: 0 auto 28px;
+}
+.swinog-404__links { gap: 8px !important; margin-top: 16px; }
+
+/* Search results page */
+.swinog-search { padding: 24px 24px 56px; }
+.swinog-search__head { padding: 24px 0 32px; }
+.swinog-search__title {
+	font-size: var(--wp--preset--font-size--display-sm);
+	font-weight: 600;
+	letter-spacing: -0.03em;
+	line-height: 1.05;
+	margin: 12px 0 16px;
+}
+.swinog-search__form { max-width: 560px; }
+.swinog-search__empty {
+	padding: 32px 24px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-search__empty a { color: var(--wp--preset--color--accent); }
+
+/* Pagination shared by news/search/archive */
+.swinog-pagination {
+	margin: 24px 0 0;
+	gap: 6px !important;
+	font-size: 14px;
+}
+.swinog-pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	min-width: 36px;
+	height: 36px;
+	padding: 0 12px;
+	border-radius: var(--wp--custom--radius--pill);
+	border: 1px solid var(--wp--preset--color--rule);
+	background: white;
+	color: var(--wp--preset--color--ink-2);
+	justify-content: center;
+}
+.swinog-pagination .page-numbers.current {
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+	border-color: var(--wp--preset--color--ink);
+}
+.swinog-pagination a.page-numbers:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	color: var(--wp--preset--color--ink);
+}
+
+/* ============================================================
+   swinog/agenda block · empty state
+   ============================================================ */
+.swinog-agenda-block__empty {
+	margin-top: 12px;
+	padding: 22px 24px;
+	border-radius: var(--wp--custom--radius--sm);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 3%, var(--wp--preset--color--paper));
+	border: 1px dashed var(--wp--preset--color--rule);
+	color: var(--wp--preset--color--ink-3);
+	font-size: 14px;
+	line-height: 1.55;
+}
+.swinog-agenda-block__empty p { margin: 0 0 6px; }
+.swinog-agenda-block__empty p:last-child { margin: 0; }
+.swinog-agenda-block__empty strong { color: var(--wp--preset--color--ink); }
+
+/* ============================================================
+   wp-swinog-events plugin integration
+   Maps the plugin's namespaced .stgl-block tree onto SwiNOG tokens.
+   ============================================================ */
+
+.stgl-block {
+	--stgl-color-fg:           var(--wp--preset--color--ink);
+	--stgl-color-muted:        var(--wp--preset--color--ink-3);
+	--stgl-color-accent:       var(--wp--preset--color--accent);
+	--stgl-color-accent-hover: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink));
+	--stgl-color-border:       var(--wp--preset--color--rule);
+	--stgl-color-bg-soft:      color-mix(in oklab, var(--wp--preset--color--ink) 3%, var(--wp--preset--color--paper));
+	--stgl-color-bg-tier:      var(--wp--preset--color--accent-soft);
+	--stgl-radius:             var(--wp--custom--radius--sm);
+	--stgl-gap:                12px;
+	font-family: var(--wp--preset--font-family--sans);
+	margin: 0;
+}
+
+.stgl-block-title {
+	font-size: 26px;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+	margin: 0 0 18px;
+	color: var(--wp--preset--color--ink);
+}
+
+.stgl-empty {
+	background: var(--stgl-color-bg-soft);
+	border: 1px solid var(--wp--preset--color--rule-2);
+	border-radius: var(--wp--custom--radius--xs);
+	padding: 14px 18px;
+	color: var(--wp--preset--color--ink-3);
+	font-style: normal;
+}
+
+/* ---- Tables (agenda + presentations) ---- */
+.stgl-block .stgl-table {
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: var(--wp--custom--radius--md);
+	overflow: hidden;
+}
+.stgl-block .stgl-table th,
+.stgl-block .stgl-table td {
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--wp--preset--color--rule-2);
+}
+.stgl-block .stgl-table thead th {
+	background: var(--stgl-color-bg-soft);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--ink-3);
+	border-bottom: 1px solid var(--wp--preset--color--rule);
+}
+.stgl-block .stgl-table tbody tr:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+}
+.stgl-block .stgl-table .col-time {
+	font-family: var(--wp--preset--font-family--mono);
+	font-variant-numeric: tabular-nums;
+	color: var(--wp--preset--color--ink);
+	font-weight: 500;
+	white-space: nowrap;
+}
+.stgl-block .stgl-table td.col-title strong { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+.stgl-block .stgl-table .stgl-abstract {
+	margin-top: 6px;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--wp--preset--color--ink-2);
+}
+.stgl-block .stgl-link {
+	display: inline-block;
+	padding: 4px 10px;
+	border-radius: var(--wp--custom--radius--pill);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--accent);
+	background: var(--wp--preset--color--accent-soft);
+	border-bottom: 0;
+}
+.stgl-block .stgl-link:hover {
+	color: white;
+	background: var(--wp--preset--color--accent);
+}
+
+/* ---- Sponsor grid ---- */
+.stgl-block.stgl-sponsors .stgl-sponsor-tier {
+	margin: 28px 0 12px;
+	font-family: var(--wp--preset--font-family--sans);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--accent);
+}
+.stgl-block .stgl-sponsor-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: 12px;
+	align-items: stretch; /* every card in a row gets the same height */
+}
+.stgl-block .stgl-sponsor-card {
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: var(--wp--custom--radius--sm);
+	padding: 22px 18px 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	min-height: 180px;
+	height: 100%;
+	transition: background .15s, transform .15s, box-shadow .15s;
+}
+.stgl-block .stgl-sponsor-card:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 22px rgba(20, 15, 10, 0.06);
+}
+/* Logo area takes the available vertical space at the top so the name
+   block can be pinned to the bottom — first-line baselines of every
+   sponsor name align across the row. */
+.stgl-block .stgl-sponsor-link,
+.stgl-block .stgl-sponsor-card > img.stgl-sponsor-logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1 1 auto;
+	min-height: 0;
+	max-height: 110px;
+}
+.stgl-block .stgl-sponsor-logo {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	align-self: center;
+}
+/* Pin the meta to the bottom of the card. */
+.stgl-block .stgl-sponsor-meta {
+	margin-top: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-height: 0;
+}
+.stgl-block .stgl-sponsor-name {
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--wp--preset--color--ink);
+}
+.stgl-block .stgl-sponsor-name a {
+	color: inherit;
+	border-bottom: 1px solid transparent;
+	transition: border-color .15s;
+}
+.stgl-block .stgl-sponsor-name a:hover { border-bottom-color: var(--wp--preset--color--accent); color: var(--wp--preset--color--ink); }
+.stgl-block .stgl-sponsor-desc {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--wp--preset--color--ink-3);
+}
+
+/* Child-pages list ([swinog_list_all_events]) */
+.stgl-event-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.stgl-event-list li a {
+	display: block;
+	padding: 14px 18px;
+	border-radius: var(--wp--custom--radius--sm);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	color: var(--wp--preset--color--ink);
+	font-weight: 500;
+	transition: background .15s, transform .15s;
+}
+.stgl-event-list li a:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+	transform: translateY(-1px);
+	color: var(--wp--preset--color--ink);
+}
+
+@media (max-width: 720px) {
+	.stgl-block .stgl-table thead { display: none; }
+	.stgl-block .stgl-table,
+	.stgl-block .stgl-table tbody,
+	.stgl-block .stgl-table tr,
+	.stgl-block .stgl-table td { display: block; width: 100%; }
+	.stgl-block .stgl-table tr {
+		border-bottom: 1px solid var(--wp--preset--color--rule);
+		padding: 8px 0;
+	}
+	.stgl-block .stgl-table td {
+		padding: 6px 16px;
+		border-bottom: 0;
+	}
+	.stgl-block .stgl-sponsor-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================================
+   Configurability · server-rendered blocks
+   (header CTAs, footer widget grid, copyright row)
+   ============================================================ */
+
+/* Header CTA cluster on the right — plain <a> with style modifiers */
+.swinog-header-ctas {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	flex-shrink: 0;
+}
+.swinog-header-cta {
+	display: inline-flex;
+	align-items: center;
+	padding: 8px 14px;
+	border-radius: var(--wp--custom--radius--pill);
+	font-size: 14px;
+	line-height: 1.2;
+	white-space: nowrap;
+	text-decoration: none;
+	border: 1px solid transparent;
+	transition: background .15s, color .15s, border-color .15s;
+}
+.swinog-header-cta--primary {
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+	font-weight: 500;
+}
+.swinog-header-cta--primary:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 92%, var(--wp--preset--color--accent));
+	color: var(--wp--preset--color--paper);
+}
+.swinog-header-cta--secondary {
+	background: white;
+	color: var(--wp--preset--color--ink);
+	border-color: var(--wp--preset--color--rule);
+}
+.swinog-header-cta--secondary:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, white);
+	color: var(--wp--preset--color--ink);
+}
+.swinog-header-cta--outline {
+	background: transparent;
+	color: var(--wp--preset--color--accent);
+	border-color: var(--wp--preset--color--accent);
+	padding: 7px 13px;
+	font-weight: 500;
+}
+.swinog-header-cta--outline:hover {
+	background: var(--wp--preset--color--accent-soft);
+	color: var(--wp--preset--color--accent);
+}
+.swinog-header-cta--accent {
+	background: var(--wp--preset--color--accent);
+	color: white;
+	font-weight: 500;
+}
+.swinog-header-cta--accent:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink));
+	color: white;
+}
+.swinog-header-cta--ghost {
+	background: transparent;
+	color: var(--wp--preset--color--ink-2);
+	padding: 8px 10px;
+}
+.swinog-header-cta--ghost:hover { color: var(--wp--preset--color--ink); }
+
+/* Footer widget grid */
+.swinog-footer-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--swinog-footer-columns, 4), minmax(0, 1fr));
+	gap: var(--swinog-footer-gap, 32px);
+	padding: 40px 48px;
+	border-radius: var(--wp--custom--radius--lg);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 5%, var(--wp--preset--color--paper));
+}
+.swinog-footer-grid__col {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-footer-grid__col .swinog-widget__h,
+.swinog-footer-grid__col h4 {
+	font-weight: 600;
+	color: var(--wp--preset--color--ink);
+	font-size: 13px;
+	margin: 0 0 6px;
+}
+.swinog-footer-grid__col p { margin: 0 0 6px; font-size: 13px; line-height: 1.5; }
+.swinog-footer-grid__col ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-size: 13px;
+}
+.swinog-footer-grid__col ul a {
+	color: var(--wp--preset--color--ink-2);
+	border-bottom: 1px solid transparent;
+	transition: color .15s, border-color .15s;
+}
+.swinog-footer-grid__col ul a:hover {
+	color: var(--wp--preset--color--ink);
+	border-bottom-color: var(--wp--preset--color--accent);
+}
+
+.swinog-footer-grid__empty {
+	padding: 16px 14px;
+	border-radius: var(--wp--custom--radius--sm);
+	border: 1px dashed var(--wp--preset--color--rule);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+	font-size: 12px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-footer-grid__empty .swinog-widget__h {
+	color: var(--wp--preset--color--ink-3);
+	margin: 0 0 6px;
+}
+.swinog-footer-grid__empty a { color: var(--wp--preset--color--accent); }
+
+/* Footer copyright row */
+.swinog-footer-copyright {
+	margin: 16px 16px 0;
+	display: flex;
+	justify-content: space-between;
+	font-size: 12px;
+	color: var(--wp--preset--color--ink-3);
+	gap: 12px;
+	flex-wrap: wrap;
+}
+.swinog-footer-copyright p { margin: 0; }
+.swinog-footer-copyright a { color: var(--wp--preset--color--ink-2); }
+.swinog-footer-copyright__empty a { color: var(--wp--preset--color--accent); }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 1100px) {
+	.swinog-soft-hero { padding: 56px 36px 40px; }
+	.swinog-soft-hero__grid { grid-template-columns: 1fr !important; }
+	.swinog-soft-features { flex-wrap: wrap !important; }
+	.swinog-soft-features .wp-block-column { flex-basis: calc(50% - 8px) !important; }
+	.swinog-soft-agenda__grid { grid-template-columns: 1fr 1fr; }
+	.swinog-soft-list { grid-template-columns: 1fr; padding: 48px 36px; }
+	.swinog-soft-sponsors__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+	.swinog-event-hero { padding: 40px 36px 32px; }
+	.swinog-event-hero__title { font-size: 64px; }
+	.swinog-event-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.swinog-event-strip__cell:nth-child(3) { border-right: 0; }
+	.swinog-speakers__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.swinog-venue { grid-template-columns: 1fr; }
+	.swinog-tiers__grid { grid-template-columns: 1fr; }
+
+	.swinog-archive-hero__title { font-size: 64px; }
+	.swinog-timeline__row { grid-template-columns: 90px 1fr 140px 100px 24px; gap: 16px; }
+
+	.swinog-about-hero__title { font-size: 64px; }
+	.swinog-board__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.swinog-join { grid-template-columns: 1fr; padding: 36px 32px; }
+	.swinog-join__title { font-size: 38px; }
+
+	.swinog-footer-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		padding: 28px 24px;
+	}
+
+	.swinog-news-hero__title { font-size: 64px; }
+	.swinog-news-list .wp-block-post-template,
+	.swinog-news-list__grid { grid-template-columns: 1fr 1fr; }
+	.swinog-news-related__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.swinog-news-subscribe { grid-template-columns: 1fr; padding: 28px 26px; }
+	.swinog-news-single-hero__title { font-size: 44px; }
+}
+
+@media (max-width: 720px) {
+	.swinog-softbar { flex-wrap: wrap; gap: 12px !important; padding: 12px 16px; margin: 12px 12px 0; }
+	.swinog-softbar .wp-block-navigation { display: none; }
+	.swinog-soft-hero-wrap,
+	.swinog-soft-features-wrap,
+	.swinog-soft-agenda-wrap,
+	.swinog-soft-list-wrap,
+	.swinog-soft-sponsors-wrap { padding-left: 16px; padding-right: 16px; }
+	.swinog-soft-hero { padding: 36px 22px 30px; }
+	.swinog-display-xl { font-size: 52px; }
+	.swinog-display-md { font-size: 36px; }
+	.swinog-display-sm { font-size: 32px; }
+	.swinog-soft-features .wp-block-column { flex-basis: 100% !important; }
+	.swinog-soft-agenda { padding: 28px 22px; }
+	.swinog-soft-agenda__grid { grid-template-columns: 1fr; }
+	.swinog-soft-list { padding: 36px 22px; }
+	.swinog-soft-sponsors__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.swinog-softfoot { grid-template-columns: 1fr !important; padding: 28px; gap: 20px !important; }
+	.swinog-softfoot__bottom { flex-direction: column; align-items: flex-start; }
+
+	.swinog-event-hero-wrap,
+	.swinog-event-strip-wrap,
+	.swinog-program-wrap,
+	.swinog-speakers-wrap,
+	.swinog-venue-wrap,
+	.swinog-tiers-wrap { padding-left: 16px; padding-right: 16px; }
+	.swinog-event-hero { padding: 28px 22px; }
+	.swinog-event-hero__title { font-size: 44px; }
+	.swinog-event-hero__meta { font-size: 18px; }
+	.swinog-event-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.swinog-event-strip__cell { border-right: 0; }
+	.swinog-event-strip__cell:nth-child(odd) { border-right: 1px solid var(--wp--preset--color--rule-2); }
+	.swinog-program, .swinog-venue { padding: 28px 22px; }
+	.swinog-program__row {
+		grid-template-columns: 70px 1fr;
+		row-gap: 4px;
+	}
+	.swinog-program__who  { grid-column: 1 / -1; padding-left: 70px; }
+	.swinog-program__mins { display: none; }
+	.swinog-program__kind { grid-column: 2; }
+	.swinog-speakers__grid { grid-template-columns: 1fr; }
+
+	.swinog-archive-hero-wrap,
+	.swinog-filters-wrap,
+	.swinog-timeline-wrap,
+	.swinog-archive-cta-wrap { padding-left: 16px; padding-right: 16px; }
+	.swinog-archive-hero__title { font-size: 44px; }
+	.swinog-archive-hero__stats { grid-template-columns: 1fr 1fr; }
+	.swinog-archive-hero__search input { min-width: 0; flex: 1; }
+	.swinog-timeline__row {
+		grid-template-columns: 1fr 1fr;
+		grid-template-areas: "no count" "body body" "city city";
+		gap: 12px;
+		padding: 18px 18px;
+	}
+	.swinog-timeline__no    { grid-area: no; }
+	.swinog-timeline__count { grid-area: count; text-align: right; }
+	.swinog-timeline__body  { grid-area: body; }
+	.swinog-timeline__city  { grid-area: city; }
+	.swinog-timeline__arrow { display: none; }
+	.swinog-archive-cta { padding: 28px 22px; }
+	.swinog-archive-cta .wp-block-columns { flex-direction: column; }
+
+	.swinog-about-hero-wrap,
+	.swinog-principles-wrap,
+	.swinog-board-wrap,
+	.swinog-coc-wrap,
+	.swinog-join-wrap { padding-left: 16px; padding-right: 16px; }
+	.swinog-about-hero__title { font-size: 44px; }
+	.swinog-board__grid { grid-template-columns: 1fr; }
+	.swinog-coc { padding: 28px 22px; }
+	.swinog-coc__title { font-size: 28px; }
+	.swinog-join { padding: 28px 22px; }
+	.swinog-join__title { font-size: 30px; }
+
+	.swinog-softbar .wp-block-navigation { display: none; }
+	.swinog-footer-grid { grid-template-columns: 1fr; padding: 24px 18px; }
+	.swinog-footer-copyright { flex-direction: column; align-items: flex-start; }
+
+	.swinog-news-hero-wrap,
+	.swinog-news-list-wrap,
+	.swinog-news-subscribe-wrap,
+	.swinog-news-single-hero-wrap,
+	.swinog-news-body-wrap,
+	.swinog-news-related-wrap,
+	.swinog-404,
+	.swinog-search { padding-left: 16px; padding-right: 16px; }
+	.swinog-news-hero__title { font-size: 44px; }
+	.swinog-news-list .wp-block-post-template,
+	.swinog-news-list__grid { grid-template-columns: 1fr; }
+	.swinog-news-related__grid { grid-template-columns: 1fr; }
+	.swinog-news-single-hero__title { font-size: 32px; }
+	.swinog-news-body p,
+	.swinog-news-body :is(ul, ol) { font-size: 18px; }
+	.swinog-news-body h2 { font-size: 26px; }
+	.swinog-404__title { font-size: 36px; }
+	.swinog-search__title { font-size: 32px; }
+}
+
+/* ============================================================
+   Print
+   ============================================================ */
+
+@media print {
+	.swinog-softbar, .swinog-softfoot-wrap, .swinog-soft-list-wrap { display: none; }
+	body { background: white; color: black; }
+}

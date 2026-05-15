@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "swinog/event-hero",
+	"title": "SwiNOG · Event hero",
+	"category": "theme",
+	"icon": "calendar-alt",
+	"description": "Event detail hero: pulls the page title, date, location, pill, fee, talks summary and format from the page's meta. CTA buttons are editable in the inspector.",
+	"supports": {
+		"html": false,
+		"inserter": true,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"primaryLabel":   { "type": "string", "default": "Jump to program →" },
+		"primaryUrl":     { "type": "string", "default": "#program" },
+		"secondaryLabel": { "type": "string", "default": "" },
+		"secondaryUrl":   { "type": "string", "default": "" },
+		"icsLabel":       { "type": "string", "default": "Add to calendar" },
+		"icsUrl":         { "type": "string", "default": "" }
+	},
+	"render":     "file:./render.php",
+	"textdomain": "swinog"
+}

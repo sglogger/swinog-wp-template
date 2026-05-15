@@ -1,0 +1,12 @@
+## SwiNOG project ignores
+design_handoff_swinog_website/
+.DS_Store
+.env
+CLAUDE.md
+vendor/
+composer.lock
+*.log
+.claude/
+docker-compose.yml
+local_wp_core
+design_handoff_swinog_website

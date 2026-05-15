@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "swinog/venue-map",
+	"title": "SwiNOG · Venue map (dynamic)",
+	"category": "theme",
+	"icon": "location-alt",
+	"description": "Just the auto-generated OpenStreetMap PNG for this page's address. Drop into any venue layout in place of a static SVG/image.",
+	"supports": {
+		"html":     false,
+		"inserter": true,
+		"align":    ["wide", "full"]
+	},
+	"attributes": {},
+	"editorScript": "file:./index.js",
+	"render":       "file:./render.php",
+	"textdomain":   "swinog"
+}

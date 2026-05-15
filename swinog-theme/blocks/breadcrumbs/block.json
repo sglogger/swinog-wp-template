@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "swinog/breadcrumbs",
+	"title": "SwiNOG · Breadcrumbs",
+	"category": "theme",
+	"icon": "feedback",
+	"description": "Automatic breadcrumbs derived from the current URL. Self-suppresses on the homepage and when the page's \"Hide breadcrumbs\" option is set.",
+	"supports": {
+		"html": false,
+		"inserter": true,
+		"align": ["wide", "full"],
+		"spacing": { "margin": true, "padding": true }
+	},
+	"render":     "file:./render.php",
+	"textdomain": "swinog"
+}

@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "swinog/venue",
+	"title": "SwiNOG · Event venue (dynamic)",
+	"category": "theme",
+	"icon": "location",
+	"description": "Venue section that auto-renders a static OpenStreetMap PNG generated from the page's address meta. Pair with the SwiNOG · Event details meta box.",
+	"supports": {
+		"html":     false,
+		"inserter": true,
+		"align":    ["wide", "full"]
+	},
+	"attributes": {
+		"kicker": { "type": "string", "default": "Venue" },
+		"intro":  { "type": "string", "default": "" }
+	},
+	"editorScript": "file:./index.js",
+	"render":       "file:./render.php",
+	"textdomain":   "swinog"
+}
