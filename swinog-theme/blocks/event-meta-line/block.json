@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "swinog/event-meta-line",
+	"title": "SwiNOG · Event date · location line (dynamic)",
+	"category": "theme",
+	"icon": "calendar",
+	"description": "Renders 'date · location' line below the H1. Date + location are pulled from the SwiNOG · Event details meta box.",
+	"supports": {
+		"html":     false,
+		"inserter": true,
+		"align":    false
+	},
+	"attributes": {},
+	"editorScript": "file:./index.js",
+	"render":       "file:./render.php",
+	"textdomain":   "swinog"
+}

@@ -18,13 +18,9 @@
 
 			<!-- wp:swinog/event-pill /-->
 
-			<!-- wp:heading {"level":1,"className":"swinog-event-hero__title"} -->
-			<h1 class="wp-block-heading swinog-event-hero__title">SwiNOG #41</h1>
-			<!-- /wp:heading -->
+			<!-- wp:swinog/event-title /-->
 
-			<!-- wp:paragraph {"className":"swinog-event-hero__meta"} -->
-			<p class="swinog-event-hero__meta">28 April 2026 · <strong>Kursaal Berne</strong></p>
-			<!-- /wp:paragraph -->
+			<!-- wp:swinog/event-meta-line /-->
 
 			<!-- wp:paragraph {"className":"swinog-event-hero__lead"} -->
 			<p class="swinog-event-hero__lead">One day of operator talks, hallway track, and one long evening at a long table. Single track. Free to attend. Fourteen talks across routing, peering, automation, transceivers, AI ops and policy. Videos and slides are linked from each entry below.</p>

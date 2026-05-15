@@ -317,6 +317,19 @@ add_action('init', static function (): void {
     if (is_dir($pill_dir) && file_exists($pill_dir . '/block.json')) {
         register_block_type($pill_dir);
     }
+
+    // Server-rendered "Event title" — H1 pulled from the page title.
+    $title_dir = get_theme_file_path('/blocks/event-title');
+    if (is_dir($title_dir) && file_exists($title_dir . '/block.json')) {
+        register_block_type($title_dir);
+    }
+
+    // Server-rendered "Event meta line" — "<date> · <location>" line
+    // under the H1, pulled from the event-details meta.
+    $meta_dir = get_theme_file_path('/blocks/event-meta-line');
+    if (is_dir($meta_dir) && file_exists($meta_dir . '/block.json')) {
+        register_block_type($meta_dir);
+    }
 }, 20);
 
 /**
@@ -329,7 +342,7 @@ add_action('init', static function (): void {
  */
 add_filter('block_type_metadata', static function (array $metadata): array {
     $name = (string) ($metadata['name'] ?? '');
-    if (!in_array($name, ['swinog/agenda', 'swinog/venue', 'swinog/venue-map', 'swinog/event-quickfacts', 'swinog/event-pill'], true)) {
+    if (!in_array($name, ['swinog/agenda', 'swinog/venue', 'swinog/venue-map', 'swinog/event-quickfacts', 'swinog/event-pill', 'swinog/event-title', 'swinog/event-meta-line'], true)) {
         return $metadata;
     }
     $deps = ['wp-blocks', 'wp-element', 'wp-i18n', 'wp-components', 'wp-block-editor', 'wp-server-side-render'];

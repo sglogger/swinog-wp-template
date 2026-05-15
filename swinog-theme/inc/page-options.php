@@ -179,9 +179,27 @@ function swinog_render_event_details_box(WP_Post $post): void
     $fee       = (string) get_post_meta($post->ID, SWINOG_EVENT_FEE_META, true);
     $talks     = (string) get_post_meta($post->ID, SWINOG_EVENT_TALKS_META, true);
     $format    = (string) get_post_meta($post->ID, SWINOG_EVENT_FORMAT_META, true);
-    $recording = (string) get_post_meta($post->ID, SWINOG_EVENT_RECORDING_META, true);
-    $ics       = (string) get_post_meta($post->ID, SWINOG_EVENT_ICS_META, true);
+    $recording   = (string) get_post_meta($post->ID, SWINOG_EVENT_RECORDING_META, true);
+    $ics         = (string) get_post_meta($post->ID, SWINOG_EVENT_ICS_META, true);
+    $hide_title  = (bool) get_post_meta($post->ID, SWINOG_HIDE_TITLE_META, true);
+    $hide_crumbs = (bool) get_post_meta($post->ID, SWINOG_HIDE_BREADCRUMBS_META, true);
     wp_nonce_field('swinog_event_details', 'swinog_event_details_nonce');
+    ?>
+    <p>
+        <label>
+            <input type="checkbox" name="swinog_ed_hide_page_title" value="1" <?php checked($hide_title); ?> />
+            <?php esc_html_e('Hide the page title (H1) on this page', 'swinog'); ?>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input type="checkbox" name="swinog_ed_hide_breadcrumbs" value="1" <?php checked($hide_crumbs); ?> />
+            <?php esc_html_e('Hide breadcrumbs on this page', 'swinog'); ?>
+        </label>
+    </p>
+    <hr style="margin:14px 0;border:0;border-top:1px solid #dcdcde;" />
+    <?php
+    // Re-open the markup output below.
     ?>
     <p>
         <label for="swinog_event_date" style="display:block;margin-bottom:4px;font-weight:600;">
@@ -266,6 +284,9 @@ add_action('save_post_page', static function (int $post_id): void {
     if (!current_user_can('edit_page', $post_id)) {
         return;
     }
+    // Hide title / breadcrumbs checkboxes (mirrored from the page-options box).
+    update_post_meta($post_id, SWINOG_HIDE_TITLE_META,       !empty($_POST['swinog_ed_hide_page_title'])  ? 1 : 0);
+    update_post_meta($post_id, SWINOG_HIDE_BREADCRUMBS_META, !empty($_POST['swinog_ed_hide_breadcrumbs']) ? 1 : 0);
     foreach ([
         SWINOG_EVENT_DATE_META      => 'swinog_event_date',
         SWINOG_EVENT_LOCATION_META  => 'swinog_event_location',
