@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Sponsors
+ * Title: SwiNOG · Sponsors · #soft-sponsors
  * Slug: swinog/soft-sponsors
  * Categories: swinog
- * Description: Centred kicker + responsive sponsor logo grid (real SwiNOG #41 supporters).
+ * Description: Centred kicker + responsive sponsor logo grid (real SwiNOG #41 supporters). Anchor: #soft-sponsors
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-soft-sponsors-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-soft-sponsors-wrap">
+<!-- wp:group {"anchor":"soft-sponsors","tagName":"section","className":"swinog-soft-sponsors-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="soft-sponsors" class="wp-block-group alignfull swinog-soft-sponsors-wrap">
 
 	<!-- wp:group {"className":"swinog-soft-sponsors__head","align":"wide","layout":{"type":"flex","orientation":"vertical","justifyContent":"center","verticalAlignment":"center"}} -->
 	<div class="wp-block-group alignwide swinog-soft-sponsors__head">

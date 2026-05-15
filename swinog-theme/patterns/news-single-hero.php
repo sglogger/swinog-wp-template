@@ -1,13 +1,13 @@
 <?php
 /**
- * Title: SwiNOG · News single hero
+ * Title: SwiNOG · News single hero · #news-single-hero
  * Slug: swinog/news-single-hero
  * Categories: swinog
- * Description: Article header — tag chip, date + read-time, big serif-friendly H1, byline avatar + name.
+ * Description: Article header — tag chip, date + read-time, big serif-friendly H1, byline avatar + name. Anchor: #news-single-hero
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"header","className":"swinog-news-single-hero-wrap","align":"full","layout":{"type":"constrained","contentSize":"780px","wideSize":"1280px"}} -->
+<!-- wp:group {"anchor":"news-single-hero","tagName":"header","className":"swinog-news-single-hero-wrap","align":"full","layout":{"type":"constrained","contentSize":"780px","wideSize":"1280px"}} -->
 <header class="wp-block-group alignfull swinog-news-single-hero-wrap">
 
 	<!-- wp:group {"className":"swinog-news-single-hero","layout":{"type":"default"}} -->

@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Plugin · Sponsors
+ * Title: SwiNOG · Plugin · Sponsors · #plugin-sponsors
  * Slug: swinog/plugin-sponsors
  * Categories: swinog-events
- * Description: Plugin-driven sponsor grid grouped by tier. Edit the "event" slug; "layout=list" for a flat grid.
+ * Description: Plugin-driven sponsor grid grouped by tier. Edit the "event" slug; "layout=list" for a flat grid. Anchor: #plugin-sponsors
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-tiers-wrap swinog-plugin-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-tiers-wrap swinog-plugin-wrap">
+<!-- wp:group {"anchor":"plugin-sponsors","tagName":"section","className":"swinog-tiers-wrap swinog-plugin-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="plugin-sponsors" class="wp-block-group alignfull swinog-tiers-wrap swinog-plugin-wrap">
 
 	<!-- wp:group {"className":"swinog-tiers__head","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-tiers__head">

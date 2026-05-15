@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · News related
+ * Title: SwiNOG · News related · #news-related
  * Slug: swinog/news-related
  * Categories: swinog
- * Description: Three related-post cards at the foot of a single news post. Dynamic via core/query.
+ * Description: Three related-post cards at the foot of a single news post. Dynamic via core/query. Anchor: #news-related
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-news-related-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-news-related-wrap">
+<!-- wp:group {"anchor":"news-related","tagName":"section","className":"swinog-news-related-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="news-related" class="wp-block-group alignfull swinog-news-related-wrap">
 
 	<!-- wp:group {"className":"swinog-news-related","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-news-related">

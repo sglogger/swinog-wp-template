@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · About hero
+ * Title: SwiNOG · About hero · #about-hero
  * Slug: swinog/about-hero
  * Categories: swinog
- * Description: About-page hero — breadcrumb, kicker, big H1, lead, "at a glance" facts card.
+ * Description: About-page hero — breadcrumb, kicker, big H1, lead, "at a glance" facts card. Anchor: #about-hero
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-about-hero-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-about-hero-wrap">
+<!-- wp:group {"anchor":"about-hero","tagName":"section","className":"swinog-about-hero-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="about-hero" class="wp-block-group alignfull swinog-about-hero-wrap">
 
 	<!-- wp:group {"className":"swinog-about-hero","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-about-hero">

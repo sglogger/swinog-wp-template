@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Code of conduct (short)
+ * Title: SwiNOG · Code of conduct (short) · #about-coc
  * Slug: swinog/about-coc
  * Categories: swinog
- * Description: Two-column code-of-conduct teaser — numbered short list + primary/secondary CTAs.
+ * Description: Two-column code-of-conduct teaser — numbered short list + primary/secondary CTAs. Anchor: #about-coc
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-coc-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-coc-wrap">
+<!-- wp:group {"anchor":"about-coc","tagName":"section","className":"swinog-coc-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="about-coc" class="wp-block-group alignfull swinog-coc-wrap">
 
 	<!-- wp:group {"className":"swinog-coc","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-coc">

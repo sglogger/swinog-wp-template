@@ -1,9 +1,9 @@
 <?php
 /**
- * Title: SwiNOG · Plugin · Recent talks (dynamic)
+ * Title: SwiNOG · Plugin · Recent talks (dynamic) · #plugin-recent-talks
  * Slug: swinog/plugin-recent-talks
  * Categories: swinog-events
- * Description: Dynamic SwiNOG-styled card grid driven by the wp-swinog-events plugin. Set one or more event slugs (comma-separated) to highlight talks from multiple meetings.
+ * Description: Dynamic SwiNOG-styled card grid driven by the wp-swinog-events plugin. Set one or more event slugs (comma-separated) to highlight talks from multiple meetings. Anchor: #plugin-recent-talks
  * Inserter: true
  */
 ?>

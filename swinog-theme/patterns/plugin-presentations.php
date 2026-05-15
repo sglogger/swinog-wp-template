@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Plugin · Presentations (with slides + video)
+ * Title: SwiNOG · Plugin · Presentations (with slides + video) · #plugin-presentations
  * Slug: swinog/plugin-presentations
  * Categories: swinog-events
- * Description: Plugin-driven presentations table — title, presenter, company, slides + video links. Edit the "event" slug.
+ * Description: Plugin-driven presentations table — title, presenter, company, slides + video links. Edit the "event" slug. Anchor: #plugin-presentations
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-program-wrap swinog-plugin-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-program-wrap swinog-plugin-wrap">
+<!-- wp:group {"anchor":"plugin-presentations","tagName":"section","className":"swinog-program-wrap swinog-plugin-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="plugin-presentations" class="wp-block-group alignfull swinog-program-wrap swinog-plugin-wrap">
 
 	<!-- wp:group {"className":"swinog-program","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-program">

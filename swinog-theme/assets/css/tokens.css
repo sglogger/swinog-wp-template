@@ -241,6 +241,16 @@ code {
 
 .swinog-cta-row { margin-top: 32px; gap: 10px !important; }
 
+/* Anchor-jump offset: the sticky SoftBar takes ~80px at the top of
+   the viewport, so any in-page #anchor target needs that much
+   scroll-margin to avoid landing behind the header. Scoped to ids
+   on <section> elements inside <main> so we don't disrupt other id
+   targets (form labels, modals, focus management, etc.). */
+main section[id] { scroll-margin-top: 100px; }
+@media (max-width: 720px) {
+	main section[id] { scroll-margin-top: 80px; }
+}
+
 /* ============================================================
    SoftBar (header)
    ============================================================ */

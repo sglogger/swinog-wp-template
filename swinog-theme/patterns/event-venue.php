@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Event venue
+ * Title: SwiNOG · Event venue · #event-venue
  * Slug: swinog/event-venue
  * Categories: swinog
- * Description: Two-column venue card — editable copy + facts list on the left, auto-generated OpenStreetMap PNG on the right (filled by the SwiNOG · Event details meta box).
+ * Description: Two-column venue card — editable copy + facts list on the left, auto-generated OpenStreetMap PNG on the right (filled by the SwiNOG · Event details meta box). Anchor: #event-venue
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-venue-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-venue-wrap">
+<!-- wp:group {"anchor":"event-venue","tagName":"section","className":"swinog-venue-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="event-venue" class="wp-block-group alignfull swinog-venue-wrap">
 
 	<!-- wp:group {"className":"swinog-venue","layout":{"type":"default"}} -->
 	<div class="wp-block-group swinog-venue">

@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Soft features
+ * Title: SwiNOG · Soft features · #soft-features
  * Slug: swinog/soft-features
  * Categories: swinog
- * Description: Three-column card grid — Meetings / List / Archive — kicker + H5 + body each.
+ * Description: Three-column card grid — Meetings / List / Archive — kicker + H5 + body each. Anchor: #soft-features
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-soft-features-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-soft-features-wrap">
+<!-- wp:group {"anchor":"soft-features","tagName":"section","className":"swinog-soft-features-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="soft-features" class="wp-block-group alignfull swinog-soft-features-wrap">
 
 	<!-- wp:columns {"className":"swinog-soft-features","align":"wide"} -->
 	<div class="wp-block-columns alignwide swinog-soft-features">

@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Core team
+ * Title: SwiNOG · Core team · #about-board
  * Slug: swinog/about-board
  * Categories: swinog
- * Description: Avatar cards for visible Core Team members + dashed "open seat" rotating-role cards.
+ * Description: Avatar cards for visible Core Team members + dashed "open seat" rotating-role cards. Anchor: #about-board
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-board-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-board-wrap">
+<!-- wp:group {"anchor":"about-board","tagName":"section","className":"swinog-board-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="about-board" class="wp-block-group alignfull swinog-board-wrap">
 
 	<!-- wp:group {"className":"swinog-board__head","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-board__head">

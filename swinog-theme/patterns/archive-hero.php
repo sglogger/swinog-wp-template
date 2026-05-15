@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Archive hero
+ * Title: SwiNOG · Archive hero · #archive-hero
  * Slug: swinog/archive-hero
  * Categories: swinog
- * Description: Past-meetings hero — breadcrumb, kicker, big H1, lead, inline search, 2×2 stat grid.
+ * Description: Past-meetings hero — breadcrumb, kicker, big H1, lead, inline search, 2×2 stat grid. Anchor: #archive-hero
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-archive-hero-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-archive-hero-wrap">
+<!-- wp:group {"anchor":"archive-hero","tagName":"section","className":"swinog-archive-hero-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="archive-hero" class="wp-block-group alignfull swinog-archive-hero-wrap">
 
 	<!-- wp:group {"className":"swinog-archive-hero","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-archive-hero">

@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Plugin · Agenda
+ * Title: SwiNOG · Plugin · Agenda · #plugin-agenda
  * Slug: swinog/plugin-agenda
  * Categories: swinog-events
- * Description: Plugin-driven agenda. Edit the [swinog_list_agenda] shortcode's "event" slug to match the SwiNOG term (e.g. swinog-41).
+ * Description: Plugin-driven agenda. Edit the [swinog_list_agenda] shortcode's "event" slug to match the SwiNOG term (e.g. swinog-41). Anchor: #plugin-agenda
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-program-wrap swinog-plugin-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-program-wrap swinog-plugin-wrap">
+<!-- wp:group {"anchor":"plugin-agenda","tagName":"section","className":"swinog-program-wrap swinog-plugin-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="plugin-agenda" class="wp-block-group alignfull swinog-program-wrap swinog-plugin-wrap">
 
 	<!-- wp:group {"className":"swinog-program","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-program">

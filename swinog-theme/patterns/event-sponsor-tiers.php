@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Event sponsor tiers
+ * Title: SwiNOG · Event sponsor tiers · #event-sponsor-tiers
  * Slug: swinog/event-sponsor-tiers
  * Categories: swinog
- * Description: Three-tier breakdown for a meeting's sponsors — Gold / Supporting / Infrastructure. Real SwiNOG #41 lineup.
+ * Description: Three-tier breakdown for a meeting's sponsors — Gold / Supporting / Infrastructure. Real SwiNOG #41 lineup. Anchor: #event-sponsor-tiers
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-tiers-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-tiers-wrap">
+<!-- wp:group {"anchor":"event-sponsor-tiers","tagName":"section","className":"swinog-tiers-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="event-sponsor-tiers" class="wp-block-group alignfull swinog-tiers-wrap">
 
 	<!-- wp:group {"className":"swinog-tiers__head","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-tiers__head">

@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · News hero
+ * Title: SwiNOG · News hero · #news-hero
  * Slug: swinog/news-hero
  * Categories: swinog
- * Description: News-index page hero — kicker, H1, lead, RSS + list-subscribe CTAs on the right.
+ * Description: News-index page hero — kicker, H1, lead, RSS + list-subscribe CTAs on the right. Anchor: #news-hero
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-news-hero-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-news-hero-wrap">
+<!-- wp:group {"anchor":"news-hero","tagName":"section","className":"swinog-news-hero-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="news-hero" class="wp-block-group alignfull swinog-news-hero-wrap">
 
 	<!-- wp:group {"className":"swinog-news-hero","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-news-hero">

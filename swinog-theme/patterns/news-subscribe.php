@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · News subscribe
+ * Title: SwiNOG · News subscribe · #news-subscribe
  * Slug: swinog/news-subscribe
  * Categories: swinog
- * Description: Inline tonal subscribe card for the news index — left blurb, right email form.
+ * Description: Inline tonal subscribe card for the news index — left blurb, right email form. Anchor: #news-subscribe
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-news-subscribe-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-news-subscribe-wrap">
+<!-- wp:group {"anchor":"news-subscribe","tagName":"section","className":"swinog-news-subscribe-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="news-subscribe" class="wp-block-group alignfull swinog-news-subscribe-wrap">
 
 	<!-- wp:html -->
 	<div class="swinog-news-subscribe">

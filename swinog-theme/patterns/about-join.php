@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · How to join
+ * Title: SwiNOG · How to join · #about-join
  * Slug: swinog/about-join
  * Categories: swinog
- * Description: Dark gradient join block with stacked CTAs (subscribe + submit a talk).
+ * Description: Dark gradient join block with stacked CTAs (subscribe + submit a talk). Anchor: #about-join
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-join-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-join-wrap">
+<!-- wp:group {"anchor":"about-join","tagName":"section","className":"swinog-join-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="about-join" class="wp-block-group alignfull swinog-join-wrap">
 
 	<!-- wp:html -->
 	<div class="swinog-join">

@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Archive filters
+ * Title: SwiNOG · Archive filters · #archive-filters
  * Slug: swinog/archive-filters
  * Categories: swinog
- * Description: Year-range and topic pill filters for the meetings archive.
+ * Description: Year-range and topic pill filters for the meetings archive. Anchor: #archive-filters
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-filters-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-filters-wrap">
+<!-- wp:group {"anchor":"archive-filters","tagName":"section","className":"swinog-filters-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="archive-filters" class="wp-block-group alignfull swinog-filters-wrap">
 
 	<!-- wp:html -->
 	<div class="swinog-filters">

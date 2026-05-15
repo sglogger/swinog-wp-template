@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Event hero
+ * Title: SwiNOG · Event hero · #event-hero
  * Slug: swinog/event-hero
  * Categories: swinog
- * Description: Event detail page hero. Left column is editable core blocks (pill, title, meta line, lead, CTAs — edit the text and button URLs directly). Right column is the SwiNOG · Event Quick Facts dynamic block, which auto-fills Date / Venue / Fee / Talks / Format / recording CTA from the SwiNOG · Event details meta box.
+ * Description: Event detail page hero. Left column is editable core blocks (pill, title, meta line, lead, CTAs — edit the text and button URLs directly). Right column is the SwiNOG · Event Quick Facts dynamic block, which auto-fills Date / Venue / Fee / Talks / Format / recording CTA from the SwiNOG · Event details meta box. Anchor: #event-hero
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-event-hero-wrap","align":"wide","layout":{"type":"default"}} -->
-<section class="wp-block-group alignwide swinog-event-hero-wrap">
+<!-- wp:group {"anchor":"event-hero","tagName":"section","className":"swinog-event-hero-wrap","align":"wide","layout":{"type":"default"}} -->
+<section id="event-hero" class="wp-block-group alignwide swinog-event-hero-wrap">
 
 	<!-- wp:group {"className":"swinog-event-hero","layout":{"type":"default"}} -->
 	<div class="wp-block-group swinog-event-hero">

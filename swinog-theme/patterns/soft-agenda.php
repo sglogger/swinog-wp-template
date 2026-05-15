@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Soft agenda
+ * Title: SwiNOG · Soft agenda · #soft-agenda
  * Slug: swinog/soft-agenda
  * Categories: swinog
- * Description: Recent-talks card with header + 2-column talk grid, "full archive" CTA.
+ * Description: Recent-talks card with header + 2-column talk grid, "full archive" CTA. Anchor: #soft-agenda
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-soft-agenda-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-soft-agenda-wrap">
+<!-- wp:group {"anchor":"soft-agenda","tagName":"section","className":"swinog-soft-agenda-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="soft-agenda" class="wp-block-group alignfull swinog-soft-agenda-wrap">
 
 	<!-- wp:group {"className":"swinog-soft-agenda","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-soft-agenda">

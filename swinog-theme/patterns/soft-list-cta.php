@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Mailing-list CTA
+ * Title: SwiNOG · Mailing-list CTA · #soft-list-cta
  * Slug: swinog/soft-list-cta
  * Categories: swinog
- * Description: Full-width dark gradient block, outline pill, email signup form, corner accent glow.
+ * Description: Full-width dark gradient block, outline pill, email signup form, corner accent glow. Anchor: #soft-list-cta
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-soft-list-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-soft-list-wrap">
+<!-- wp:group {"anchor":"soft-list-cta","tagName":"section","className":"swinog-soft-list-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="soft-list-cta" class="wp-block-group alignfull swinog-soft-list-wrap">
 
 	<!-- wp:html -->
 	<div class="swinog-soft-list">

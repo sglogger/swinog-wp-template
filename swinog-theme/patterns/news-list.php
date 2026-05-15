@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · News list (dynamic)
+ * Title: SwiNOG · News list (dynamic) · #news-list
  * Slug: swinog/news-list
  * Categories: swinog
- * Description: Two-column grid of recent posts. Uses core/query to pull from real Posts.
+ * Description: Two-column grid of recent posts. Uses core/query to pull from real Posts. Anchor: #news-list
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-news-list-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-news-list-wrap">
+<!-- wp:group {"anchor":"news-list","tagName":"section","className":"swinog-news-list-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="news-list" class="wp-block-group alignfull swinog-news-list-wrap">
 
 	<!-- wp:query {"queryId":51,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"align":"wide","className":"swinog-news-list"} -->
 	<div class="wp-block-query alignwide swinog-news-list">

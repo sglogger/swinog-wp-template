@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Archive CTA
+ * Title: SwiNOG · Archive CTA · #archive-cta
  * Slug: swinog/archive-cta
  * Categories: swinog
- * Description: Two-column tonal CTA asking for missing pre-2010 slides.
+ * Description: Two-column tonal CTA asking for missing pre-2010 slides. Anchor: #archive-cta
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-archive-cta-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-archive-cta-wrap">
+<!-- wp:group {"anchor":"archive-cta","tagName":"section","className":"swinog-archive-cta-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="archive-cta" class="wp-block-group alignfull swinog-archive-cta-wrap">
 
 	<!-- wp:group {"className":"swinog-archive-cta","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-archive-cta">

@@ -1,13 +1,13 @@
 <?php
 /**
- * Title: SwiNOG · Event program
+ * Title: SwiNOG · Event program · #event-program
  * Slug: swinog/event-program
  * Categories: swinog
- * Description: Single-day program grid with time / kind / title / speaker / mins per row. Real SwiNOG #41 lineup.
+ * Description: Single-day program grid with time / kind / title / speaker / mins per row. Real SwiNOG #41 lineup. Anchor: #event-program
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-program-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<!-- wp:group {"anchor":"event-program","tagName":"section","className":"swinog-program-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
 <section id="program" class="wp-block-group alignfull swinog-program-wrap">
 
 	<!-- wp:group {"className":"swinog-program","align":"wide","layout":{"type":"default"}} -->

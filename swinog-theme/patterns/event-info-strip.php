@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Event info strip
+ * Title: SwiNOG · Event info strip · #event-info-strip
  * Slug: swinog/event-info-strip
  * Categories: swinog
- * Description: Five-column stat strip below the event hero (talks, speakers, sponsors, format, year).
+ * Description: Five-column stat strip below the event hero (talks, speakers, sponsors, format, year). Anchor: #event-info-strip
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-event-strip-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-event-strip-wrap">
+<!-- wp:group {"anchor":"event-info-strip","tagName":"section","className":"swinog-event-strip-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="event-info-strip" class="wp-block-group alignfull swinog-event-strip-wrap">
 
 	<!-- wp:html -->
 	<div class="swinog-event-strip">

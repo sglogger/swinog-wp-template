@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Archive timeline
+ * Title: SwiNOG · Archive timeline · #archive-timeline
  * Slug: swinog/archive-timeline
  * Categories: swinog
- * Description: Reverse-chronological list of past meetings with highlight tag chips. Real SwiNOG meeting dates.
+ * Description: Reverse-chronological list of past meetings with highlight tag chips. Real SwiNOG meeting dates. Anchor: #archive-timeline
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-timeline-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-timeline-wrap">
+<!-- wp:group {"anchor":"archive-timeline","tagName":"section","className":"swinog-timeline-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="archive-timeline" class="wp-block-group alignfull swinog-timeline-wrap">
 
 	<!-- wp:html -->
 	<div class="swinog-timeline">

@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Soft hero
+ * Title: SwiNOG · Soft hero · #soft-hero
  * Slug: swinog/soft-hero
  * Categories: swinog
- * Description: Rounded gradient hero with copy left, next-meeting card right, decorative dot grid.
+ * Description: Rounded gradient hero with copy left, next-meeting card right, decorative dot grid. Anchor: #soft-hero
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-soft-hero-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-soft-hero-wrap">
+<!-- wp:group {"anchor":"soft-hero","tagName":"section","className":"swinog-soft-hero-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="soft-hero" class="wp-block-group alignfull swinog-soft-hero-wrap">
 
 	<!-- wp:group {"className":"swinog-soft-hero","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-soft-hero">

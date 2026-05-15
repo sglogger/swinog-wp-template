@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · Event speakers
+ * Title: SwiNOG · Event speakers · #event-speakers
  * Slug: swinog/event-speakers
  * Categories: swinog
- * Description: 3-column speaker cards with monogram avatars (real SwiNOG #41 speakers).
+-column speaker cards with monogram avatars (real SwiNOG #41 speakers). Anchor: #event-speakers
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-speakers-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-speakers-wrap">
+<!-- wp:group {"anchor":"event-speakers","tagName":"section","className":"swinog-speakers-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="event-speakers" class="wp-block-group alignfull swinog-speakers-wrap">
 
 	<!-- wp:group {"className":"swinog-speakers__head","align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide swinog-speakers__head">

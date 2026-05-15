@@ -1,14 +1,14 @@
 <?php
 /**
- * Title: SwiNOG · About principles
+ * Title: SwiNOG · About principles · #about-principles
  * Slug: swinog/about-principles
  * Categories: swinog
- * Description: 2×2 grid of community principles (operators first / real over polished / free / quiet).
+×2 grid of community principles (operators first / real over polished / free / quiet). Anchor: #about-principles
  * Inserter: true
  */
 ?>
-<!-- wp:group {"tagName":"section","className":"swinog-principles-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
-<section class="wp-block-group alignfull swinog-principles-wrap">
+<!-- wp:group {"anchor":"about-principles","tagName":"section","className":"swinog-principles-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+<section id="about-principles" class="wp-block-group alignfull swinog-principles-wrap">
 
 	<!-- wp:columns {"className":"swinog-principles","align":"wide"} -->
 	<div class="wp-block-columns alignwide swinog-principles">
