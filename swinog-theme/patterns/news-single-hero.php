@@ -7,8 +7,8 @@
  * Inserter: true
  */
 ?>
-<!-- wp:group {"anchor":"news-single-hero","tagName":"header","className":"swinog-news-single-hero-wrap","align":"full","layout":{"type":"constrained","contentSize":"780px","wideSize":"1280px"}} -->
-<header class="wp-block-group alignfull swinog-news-single-hero-wrap">
+<!-- wp:group {"anchor":"news-single-hero","tagName":"header","className":"swinog-news-single-hero-wrap","layout":{"type":"default"}} -->
+<header class="wp-block-group swinog-news-single-hero-wrap">
 
 	<!-- wp:group {"className":"swinog-news-single-hero","layout":{"type":"default"}} -->
 	<div class="wp-block-group swinog-news-single-hero">

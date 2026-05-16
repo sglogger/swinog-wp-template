@@ -5,11 +5,19 @@
 <!-- wp:group {"tagName":"main","className":"swinog-page","layout":{"type":"default"}} -->
 <main class="wp-block-group swinog-page">
 
-	<!-- wp:pattern {"slug":"swinog/news-single-hero"} /-->
+	<!-- wp:group {"className":"swinog-news-article-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
+	<div class="wp-block-group alignfull swinog-news-article-wrap">
 
-	<!-- wp:group {"className":"swinog-news-body-wrap swinog-news-body","align":"full","layout":{"type":"constrained","contentSize":"780px","wideSize":"1280px"}} -->
-	<div class="wp-block-group alignfull swinog-news-body-wrap swinog-news-body">
-		<!-- wp:post-content {"layout":{"type":"constrained","contentSize":"780px","wideSize":"1080px"}} /-->
+		<!-- wp:group {"tagName":"article","className":"swinog-news-article swinog-news-body","align":"wide","layout":{"type":"constrained","contentSize":"100%","wideSize":"100%"}} -->
+		<article class="wp-block-group alignwide swinog-news-article swinog-news-body">
+
+			<!-- wp:pattern {"slug":"swinog/news-single-hero"} /-->
+
+			<!-- wp:post-content {"layout":{"type":"constrained","contentSize":"100%","wideSize":"100%"}} /-->
+
+		</article>
+		<!-- /wp:group -->
+
 	</div>
 	<!-- /wp:group -->
 

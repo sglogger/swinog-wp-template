@@ -1890,8 +1890,8 @@ main section[id] { scroll-margin-top: 100px; }
 }
 
 /* Single news article header */
-.swinog-news-single-hero-wrap { padding: 8px 24px 0; }
-.swinog-news-single-hero { padding: 24px 0 12px; }
+.swinog-news-single-hero-wrap { padding: 0 0 8px; }
+.swinog-news-single-hero      { padding: 0; }
 .swinog-news-single-hero__meta {
 	display: flex;
 	align-items: center;
@@ -1918,6 +1918,18 @@ main section[id] { scroll-margin-top: 100px; }
 
 /* Single news body — Newsreader serif on <p> and <h2> per design pack */
 .swinog-news-body-wrap { padding: 16px 24px 56px; }
+
+/* Single-post article card — wraps the news-single-hero pattern + the
+   post-content in one rounded white card on the page background. */
+.swinog-news-article-wrap { padding: 16px 24px 24px; }
+.swinog-news-article {
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 48px 56px 56px;
+	margin: 0 auto;
+}
+
 .swinog-news-body p,
 .swinog-news-body h2 {
 	font-family: var(--wp--preset--font-family--serif);
@@ -1965,6 +1977,18 @@ main section[id] { scroll-margin-top: 100px; }
 }
 .swinog-news-body code,
 .swinog-news-body pre { font-family: var(--wp--preset--font-family--mono); }
+/* In-body links — accent colour with a subtle underline so they stand
+   out against the Newsreader serif copy. */
+.swinog-news-body :is(p, li, blockquote) a {
+	color: var(--wp--preset--color--accent);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+}
+.swinog-news-body :is(p, li, blockquote) a:hover {
+	color: color-mix(in oklab, var(--wp--preset--color--accent) 80%, var(--wp--preset--color--ink));
+	text-decoration-thickness: 2px;
+}
 
 /* Related posts strip */
 .swinog-news-related-wrap { padding: 24px 24px 56px; }
@@ -1973,7 +1997,14 @@ main section[id] { scroll-margin-top: 100px; }
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: 16px;
 	margin-top: 16px;
+	list-style: none;
+	padding: 0;
 }
+.swinog-news-related__grid > li {
+	margin: 0;
+	display: flex;
+}
+.swinog-news-related__grid .swinog-news-card { width: 100%; }
 
 /* ============================================================
    Phase 7 · 404 + Search

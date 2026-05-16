@@ -21,9 +21,9 @@
 		<h2 class="wp-block-heading swinog-h4">Recent posts.</h2>
 		<!-- /wp:heading -->
 
-		<!-- wp:query {"queryId":62,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false,"exclude":"current"},"className":"swinog-news-related__grid"} -->
-		<div class="wp-block-query swinog-news-related__grid">
-			<!-- wp:post-template -->
+		<!-- wp:query {"queryId":62,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false}} -->
+		<div class="wp-block-query">
+			<!-- wp:post-template {"className":"swinog-news-related__grid"} -->
 				<!-- wp:group {"className":"swinog-news-card","layout":{"type":"flex","orientation":"vertical"}} -->
 				<div class="wp-block-group swinog-news-card">
 					<!-- wp:group {"className":"swinog-news-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->

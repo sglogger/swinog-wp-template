@@ -188,3 +188,23 @@ require_once get_theme_file_path('/inc/blocks.php');
 require_once get_theme_file_path('/inc/page-options.php');
 require_once get_theme_file_path('/inc/venue-map.php');
 require_once get_theme_file_path('/inc/swinog-events-integration.php');
+
+/* ------------------------------------------------------------------
+ * Exclude the current post from the news-related query (queryId 62
+ * in patterns/news-related.php). The Query block has no built-in
+ * "exclude current" toggle, so we filter the query vars at render.
+ * ------------------------------------------------------------------ */
+
+add_filter('query_loop_block_query_vars', static function (array $query, $block): array {
+    $attrs = is_object($block) && isset($block->context['queryId'])
+        ? null
+        : (isset($block->parsed_block['attrs']) ? $block->parsed_block['attrs'] : []);
+    $query_id = $attrs['queryId'] ?? ($block->context['queryId'] ?? null);
+    if ((int) $query_id !== 62 || !is_singular('post')) {
+        return $query;
+    }
+    $exclude = isset($query['post__not_in']) && is_array($query['post__not_in']) ? $query['post__not_in'] : [];
+    $exclude[] = get_the_ID();
+    $query['post__not_in'] = array_values(array_unique(array_map('intval', $exclude)));
+    return $query;
+}, 10, 2);

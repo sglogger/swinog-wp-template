@@ -41,9 +41,17 @@ if ($plugin_on) {
     $query_args = [
         'post_type'              => 'stgl_presentation',
         'posts_per_page'         => $count,
-        'orderby'                => ['menu_order' => 'ASC', 'date' => 'DESC'],
+        'orderby'                => 'rand',
         'no_found_rows'          => true,
         'update_post_term_cache' => true,
+        // Only talks that actually have a video URL set.
+        'meta_query'             => [
+            [
+                'key'     => 'stgl_presenter_videourl',
+                'value'   => '',
+                'compare' => '!=',
+            ],
+        ],
     ];
     if ($event_slugs) {
         $query_args['tax_query'] = [
@@ -129,6 +137,7 @@ ob_start();
 					$presenter = (string) get_post_meta($id, 'stgl_presenter_name',    true);
 					$company   = (string) get_post_meta($id, 'stgl_presenter_company', true);
 					$time      = (string) get_post_meta($id, 'stgl_presenter_time',    true);
+					$video_url = (string) get_post_meta($id, 'stgl_presenter_videourl', true);
 
 					$terms = get_the_terms($id, 'stgl_presentation_cat');
 					$event_slug = ($terms && !is_wp_error($terms)) ? $terms[0]->slug : '';
@@ -140,7 +149,7 @@ ob_start();
 
 					$company_label = $company !== '' ? $company : ($event_slug !== '' ? $terms[0]->name : '');
 					?>
-					<a class="swinog-talk-card" href="<?php the_permalink(); ?>">
+					<a class="swinog-talk-card" href="<?php echo esc_url($video_url); ?>" target="_blank" rel="noopener">
 						<div class="swinog-talk-card__row">
 							<span class="swinog-mono"><?php echo esc_html($talk_id); ?></span>
 							<span class="swinog-mono"><?php echo esc_html($company_label); ?></span>
