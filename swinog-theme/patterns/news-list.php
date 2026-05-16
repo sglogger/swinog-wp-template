@@ -14,19 +14,28 @@
 	<div class="wp-block-query alignwide swinog-news-list">
 
 		<!-- wp:post-template {"className":"swinog-news-list__grid"} -->
-			<!-- wp:group {"className":"swinog-news-card","layout":{"type":"flex","orientation":"vertical"}} -->
+			<!-- wp:group {"className":"swinog-news-card","layout":{"type":"default"}} -->
 			<div class="wp-block-group swinog-news-card">
-				<!-- wp:group {"className":"swinog-news-card__meta","layout":{"type":"flex","verticalAlignment":"center","flexWrap":"wrap"}} -->
-				<div class="wp-block-group swinog-news-card__meta">
-					<!-- wp:post-terms {"term":"category","className":"swinog-tag swinog-tag--filled"} /-->
-					<!-- wp:post-date {"format":"Y-m-d","className":"swinog-news-card__date","fontSize":"meta"} /-->
+				<!-- wp:group {"className":"swinog-news-card__copy","layout":{"type":"flex","orientation":"vertical"}} -->
+				<div class="wp-block-group swinog-news-card__copy">
+					<!-- wp:group {"className":"swinog-news-card__meta","layout":{"type":"flex","verticalAlignment":"center","flexWrap":"wrap"}} -->
+					<div class="wp-block-group swinog-news-card__meta">
+						<!-- wp:post-terms {"term":"category","className":"swinog-tag swinog-tag--filled"} /-->
+						<!-- wp:post-date {"format":"Y-m-d","className":"swinog-news-card__date","fontSize":"meta"} /-->
+					</div>
+					<!-- /wp:group -->
+					<!-- wp:post-title {"level":3,"isLink":true,"className":"swinog-news-card__title"} /-->
+					<!-- wp:post-excerpt {"className":"swinog-news-card__excerpt"} /-->
+					<!-- wp:group {"className":"swinog-news-card__byline","layout":{"type":"flex","verticalAlignment":"center","flexWrap":"wrap"}} -->
+					<div class="wp-block-group swinog-news-card__byline">
+						<!-- wp:post-author-name {"className":"swinog-news-card__by","isLink":false} /-->
+					</div>
+					<!-- /wp:group -->
 				</div>
 				<!-- /wp:group -->
-				<!-- wp:post-title {"level":3,"isLink":true,"className":"swinog-news-card__title"} /-->
-				<!-- wp:post-excerpt {"className":"swinog-news-card__excerpt"} /-->
-				<!-- wp:group {"className":"swinog-news-card__byline","layout":{"type":"flex","verticalAlignment":"center","flexWrap":"wrap"}} -->
-				<div class="wp-block-group swinog-news-card__byline">
-					<!-- wp:post-author-name {"className":"swinog-news-card__by","isLink":false} /-->
+				<!-- wp:group {"className":"swinog-news-card__media","layout":{"type":"default"}} -->
+				<div class="wp-block-group swinog-news-card__media">
+					<!-- wp:post-featured-image {"isLink":true} /-->
 				</div>
 				<!-- /wp:group -->
 			</div>

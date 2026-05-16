@@ -1096,7 +1096,7 @@ main section[id] { scroll-margin-top: 100px; }
 .swinog-timeline { display: flex; flex-direction: column; gap: 12px; }
 .swinog-timeline__row {
 	display: grid;
-	grid-template-columns: 110px 1fr 220px 120px 32px;
+	grid-template-columns: 110px 1fr 120px 32px;
 	gap: 24px;
 	padding: 22px 26px;
 	border-radius: var(--wp--custom--radius--sm);
@@ -1116,8 +1116,7 @@ main section[id] { scroll-margin-top: 100px; }
 .swinog-timeline__no-d { font-size: 12px; color: var(--wp--preset--color--ink-3); }
 .swinog-timeline__where { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
 .swinog-timeline__tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
-.swinog-timeline__city { font-size: 13px; color: var(--wp--preset--color--ink-2); }
-.swinog-timeline__count { font-size: 13px; color: var(--wp--preset--color--ink-2); }
+.swinog-timeline__count { font-size: 13px; color: var(--wp--preset--color--ink-2); text-align: right; }
 .swinog-timeline__arrow { font-size: 22px; color: var(--wp--preset--color--accent); text-align: right; }
 .swinog-timeline__more { margin-top: 18px; text-align: center; }
 
@@ -1711,20 +1710,51 @@ main section[id] { scroll-margin-top: 100px; }
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	align-items: stretch;
+}
+.swinog-news-list .wp-block-post-template > li,
+.swinog-news-list__grid > li {
+	margin: 0;
+	display: flex;
 }
 .swinog-news-card {
 	background: white;
 	border: 1px solid var(--wp--preset--color--rule);
 	border-radius: var(--wp--custom--radius--base);
 	padding: 24px;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 12px;
+	width: 100%;
+	position: relative;
 	transition: background .15s, transform .15s, box-shadow .15s;
 }
 .swinog-news-card:hover {
 	transform: translateY(-1px);
 	box-shadow: 0 6px 22px rgba(20, 15, 10, 0.06);
+}
+/* Whole-card click target — the title link is stretched to cover
+   the card via a pseudo-element. Inner interactive blocks (category
+   pills, featured image, author link) sit above it via z-index so
+   they keep their own click behaviour. */
+.swinog-news-card__title a::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	border-radius: inherit;
+}
+.swinog-news-card .wp-block-post-terms,
+.swinog-news-card .wp-block-post-featured-image,
+.swinog-news-card__byline a {
+	position: relative;
+	z-index: 2;
+}
+.swinog-news-card__copy {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	height: 100%;
 }
 .swinog-news-card__meta {
 	display: flex;
@@ -1755,6 +1785,51 @@ main section[id] { scroll-margin-top: 100px; }
 	color: var(--wp--preset--color--ink-3);
 }
 .swinog-news-card__by { color: var(--wp--preset--color--ink-3); }
+
+/* Media placeholder — hidden on standard cards, visible on the featured
+   (first) one. The soft accent fill fronts the empty box when no
+   featured image is set so the layout doesn't collapse. */
+.swinog-news-card__media { display: none; }
+.swinog-news-card__media,
+.swinog-news-card__media .wp-block-post-featured-image,
+.swinog-news-card__media .wp-block-post-featured-image a {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+.swinog-news-card__media .wp-block-post-featured-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: var(--wp--custom--radius--sm);
+}
+
+/* Featured card — first post spans the full grid width and goes 2-col
+   (copy left, media right). */
+.swinog-news-list .wp-block-post-template > li:first-child,
+.swinog-news-list__grid > li:first-child {
+	grid-column: 1 / -1;
+}
+.swinog-news-list .wp-block-post-template > li:first-child .swinog-news-card,
+.swinog-news-list__grid > li:first-child .swinog-news-card {
+	grid-template-columns: 1fr 1fr;
+	gap: 32px;
+	padding: 32px;
+	align-items: stretch;
+}
+.swinog-news-list .wp-block-post-template > li:first-child .swinog-news-card__title,
+.swinog-news-list__grid > li:first-child .swinog-news-card__title {
+	font-size: 30px;
+	line-height: 1.2;
+}
+.swinog-news-list .wp-block-post-template > li:first-child .swinog-news-card__media,
+.swinog-news-list__grid > li:first-child .swinog-news-card__media {
+	display: block;
+	min-height: 220px;
+	background: color-mix(in oklab, var(--wp--preset--color--accent-soft) 70%, white);
+	border-radius: var(--wp--custom--radius--sm);
+	overflow: hidden;
+}
 
 /* News subscribe card */
 .swinog-news-subscribe-wrap { padding: 16px 24px 32px; }
@@ -3139,7 +3214,7 @@ main section[id] { scroll-margin-top: 100px; }
 	.swinog-tiers__grid { grid-template-columns: 1fr; }
 
 	.swinog-archive-hero__title { font-size: 64px; }
-	.swinog-timeline__row { grid-template-columns: 90px 1fr 140px 100px 24px; gap: 16px; }
+	.swinog-timeline__row { grid-template-columns: 90px 1fr 100px 24px; gap: 16px; }
 
 	.swinog-about-hero__title { font-size: 64px; }
 	.swinog-board__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -3154,6 +3229,10 @@ main section[id] { scroll-margin-top: 100px; }
 	.swinog-news-hero__title { font-size: 64px; }
 	.swinog-news-list .wp-block-post-template,
 	.swinog-news-list__grid { grid-template-columns: 1fr 1fr; }
+	.swinog-news-list .wp-block-post-template > li:first-child .swinog-news-card,
+	.swinog-news-list__grid > li:first-child .swinog-news-card { grid-template-columns: 1fr; padding: 24px; gap: 16px; }
+	.swinog-news-list .wp-block-post-template > li:first-child .swinog-news-card__media,
+	.swinog-news-list__grid > li:first-child .swinog-news-card__media { min-height: 180px; }
 	.swinog-news-related__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.swinog-news-subscribe { grid-template-columns: 1fr; padding: 28px 26px; }
 	.swinog-news-single-hero__title { font-size: 44px; }
@@ -3222,14 +3301,13 @@ main section[id] { scroll-margin-top: 100px; }
 	.swinog-archive-hero__search input { min-width: 0; flex: 1; }
 	.swinog-timeline__row {
 		grid-template-columns: 1fr 1fr;
-		grid-template-areas: "no count" "body body" "city city";
+		grid-template-areas: "no count" "body body";
 		gap: 12px;
 		padding: 18px 18px;
 	}
 	.swinog-timeline__no    { grid-area: no; }
 	.swinog-timeline__count { grid-area: count; text-align: right; }
 	.swinog-timeline__body  { grid-area: body; }
-	.swinog-timeline__city  { grid-area: city; }
 	.swinog-timeline__arrow { display: none; }
 	.swinog-archive-cta { padding: 28px 22px; }
 	.swinog-archive-cta .wp-block-columns { flex-direction: column; }

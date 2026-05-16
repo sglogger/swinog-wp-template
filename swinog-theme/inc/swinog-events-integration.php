@@ -355,20 +355,28 @@ add_filter('block_type_metadata', static function (array $metadata): array {
 });
 
 /* ==================================================================
- * [swinog_list_all_events] — styled events overview.
+ * [swinog_list_all_events] / [stgl_childpages] — events timeline.
  *
  * Lists child pages of the current page (or the page given by
- * `parent="<id>"`), pulling each child's title, date and location
- * from the swinog_event_* meta fields. Sorted newest-first by date,
- * falling back to menu_order when no date is set.
+ * `parent="<id>"`) as a reverse-chronological timeline matching the
+ * `.swinog-timeline*` styles in assets/css/tokens.css.
+ *
+ * Per-page meta keys read:
+ *   swinog_event_date     — ISO date; formatted "M Y" (e.g. "May 2026").
+ *   swinog_event_location — bold venue title (e.g. "Welle 7, Bern").
+ *   swinog_event_tag      — slug of a stgl_presentation_cat term; the
+ *                           number of presentations attached to that
+ *                           term is rendered as the talks count.
+ *   swinog_event_attendees— optional, e.g. "218" or "~200".
+ *   swinog_event_topics   — optional, comma-separated chip labels.
  * ================================================================== */
 
 function swinog_render_events_overview($atts): string
 {
     $atts = shortcode_atts([
-        'parent'    => 0,
-        'order'     => 'desc',
-        'show_past' => '1',
+        'parent' => 0,
+        'order'  => 'desc',
+        'limit'  => 0,
     ], (array) $atts, 'swinog_list_all_events');
 
     $parent = (int) $atts['parent'];
@@ -395,16 +403,12 @@ function swinog_render_events_overview($atts): string
         return '';
     }
 
-    // Pair each page with its date for sorting, then sort by date desc.
     $rows = array_map(static function (WP_Post $p): array {
         $date = (string) get_post_meta($p->ID, 'swinog_event_date', true);
-        $ts   = $date !== '' ? strtotime($date) : 0;
         return [
             'post' => $p,
             'date' => $date,
-            'ts'   => $ts ?: 0,
-            'loc'  => (string) get_post_meta($p->ID, 'swinog_event_location', true),
-            'tag'  => (string) get_post_meta($p->ID, 'swinog_event_tag', true),
+            'ts'   => $date !== '' ? (strtotime($date) ?: 0) : 0,
         ];
     }, $children);
 
@@ -414,38 +418,127 @@ function swinog_render_events_overview($atts): string
         : ($b['ts'] <=> $a['ts'])
     );
 
-    ob_start();
-    ?>
-    <div class="swinog-event-overview">
-        <?php foreach ($rows as $row) :
-            $p     = $row['post'];
-            $date  = function_exists('swinog_format_event_date') ? swinog_format_event_date($row['date']) : $row['date'];
-            $url   = (string) get_permalink($p);
-            $past  = $row['ts'] > 0 && $row['ts'] < current_time('timestamp');
-            ?>
-            <a class="swinog-event-overview__row<?php echo $past ? ' swinog-event-overview__row--past' : ' swinog-event-overview__row--upcoming'; ?>" href="<?php echo esc_url($url); ?>">
-                <div class="swinog-event-overview__date">
-                    <?php if ($date !== '') : ?>
-                        <span class="swinog-event-overview__date-main"><?php echo esc_html($date); ?></span>
-                    <?php else : ?>
-                        <span class="swinog-event-overview__date-main swinog-ink-3"><?php esc_html_e('Date TBA', 'swinog'); ?></span>
-                    <?php endif; ?>
-                </div>
-                <div class="swinog-event-overview__body">
-                    <h3 class="swinog-event-overview__title"><?php echo esc_html(get_the_title($p)); ?></h3>
-                    <?php if ($row['loc'] !== '') : ?>
-                        <div class="swinog-event-overview__loc"><?php echo esc_html($row['loc']); ?></div>
-                    <?php endif; ?>
-                </div>
-                <div class="swinog-event-overview__tag">
-                    <?php if ($row['tag'] !== '') : ?>
-                        <span class="swinog-tag"><?php echo esc_html($row['tag']); ?></span>
-                    <?php endif; ?>
-                </div>
-                <div class="swinog-event-overview__arrow" aria-hidden="true">→</div>
-            </a>
-        <?php endforeach; ?>
-    </div>
-    <?php
-    return (string) ob_get_clean();
+    $limit = (int) $atts['limit'];
+    if ($limit > 0) {
+        $rows = array_slice($rows, 0, $limit);
+    }
+
+    $html = '';
+    foreach ($rows as $row) {
+        $html .= swinog_render_events_overview_row($row['post'], $row['date']);
+    }
+    if ($html === '') {
+        return '';
+    }
+
+    return '<div class="swinog-timeline alignwide">' . $html . '</div>';
+}
+
+function swinog_count_event_posts(string $post_type, string $term_slug): int
+{
+    if ($post_type === '' || $term_slug === '') {
+        return 0;
+    }
+    $q = new WP_Query([
+        'post_type'              => $post_type,
+        'post_status'            => 'publish',
+        'posts_per_page'         => -1,
+        'fields'                 => 'ids',
+        'no_found_rows'          => true,
+        'update_post_meta_cache' => false,
+        'update_post_term_cache' => false,
+        'tax_query'              => [[
+            'taxonomy' => 'stgl_presentation_cat',
+            'field'    => 'slug',
+            'terms'    => $term_slug,
+        ]],
+    ]);
+    return (int) $q->post_count;
+}
+
+function swinog_render_events_overview_row(WP_Post $page, string $date_meta): string
+{
+    $id    = $page->ID;
+    $url   = (string) get_permalink($id);
+    $title = get_the_title($id);
+
+    $location  = trim((string) get_post_meta($id, 'swinog_event_location',  true));
+    $event_tag = trim((string) get_post_meta($id, 'swinog_event_tag',       true));
+    $attendees = trim((string) get_post_meta($id, 'swinog_event_attendees', true));
+    $topics    = trim((string) get_post_meta($id, 'swinog_event_topics',    true));
+
+    // Issue number — "#NN" parsed from the title.
+    $number_h = esc_html($title);
+    if (preg_match('/#\s*(\d+)/', $title, $m)) {
+        $number_h = '#' . esc_html($m[1]);
+    }
+
+    // Short date — "24 Jun 2025" / fall back to post_date if no meta set.
+    if ($date_meta !== '') {
+        $ts = strtotime($date_meta);
+        $date_display = $ts !== false ? wp_date('j M Y', $ts) : $date_meta;
+    } else {
+        $date_display = mysql2date('j M Y', $page->post_date);
+    }
+
+    // Talks + sponsors counts from the linked stgl_presentation_cat term.
+    // The term's own `count` mixes both CPTs (the taxonomy is shared with
+    // stgl_sponsor), so query each post type explicitly.
+    $talks    = 0;
+    $sponsors = 0;
+    if ($event_tag !== '' && taxonomy_exists('stgl_presentation_cat')) {
+        $slug      = sanitize_title($event_tag);
+        $talks     = swinog_count_event_posts('stgl_presentation', $slug);
+        $sponsors  = swinog_count_event_posts('stgl_sponsor',      $slug);
+    }
+
+    // Topic chips.
+    $tags_html = '';
+    if ($topics !== '') {
+        foreach (array_filter(array_map('trim', explode(',', $topics))) as $t) {
+            $tags_html .= '<span class="swinog-tag">' . esc_html($t) . '</span>';
+        }
+    }
+
+    // Right-column counts.
+    $count_html = '';
+    if ($attendees !== '') {
+        $count_html .= '<div>' . esc_html($attendees) . ' attendees</div>';
+    }
+    $stats = [];
+    if ($talks > 0) {
+        $stats[] = (int) $talks . ' talks';
+    }
+    if ($sponsors > 0) {
+        $stats[] = (int) $sponsors . ' sponsors';
+    }
+    if ($stats !== []) {
+        $count_html .= '<div class="swinog-ink-3">' . esc_html(implode(' · ', $stats)) . '</div>';
+    }
+
+    $where      = $location !== '' ? esc_html($location) : esc_html($title);
+    $tags_block = $tags_html !== ''
+        ? '<div class="swinog-timeline__tags">' . $tags_html . '</div>'
+        : '';
+
+    return sprintf(
+        '<a class="swinog-timeline__row" href="%1$s">'
+        . '<div class="swinog-timeline__no">'
+            . '<div class="swinog-timeline__no-h">%2$s</div>'
+            . '<div class="swinog-timeline__no-d">%3$s</div>'
+        . '</div>'
+        . '<div class="swinog-timeline__body">'
+            . '<div class="swinog-timeline__where">%4$s</div>'
+            . '%5$s'
+        . '</div>'
+        . '<div class="swinog-timeline__count">%6$s</div>'
+        . '<div class="swinog-timeline__arrow" aria-hidden="true">&rarr;</div>'
+        . '</a>',
+        esc_url($url),
+        $number_h,
+        esc_html($date_display),
+        $where,
+        $tags_block,
+        $count_html
+    );
 }
