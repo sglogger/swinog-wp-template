@@ -38,20 +38,21 @@ const SWINOG_EVENT_ICS_META        = 'swinog_event_ics_url';
  * ------------------------------------------------------------------ */
 
 add_action('init', static function (): void {
-    register_post_meta('page', SWINOG_HIDE_TITLE_META, [
-        'type'          => 'boolean',
-        'single'        => true,
-        'show_in_rest'  => true,
-        'default'       => false,
-        'auth_callback' => static fn (): bool => current_user_can('edit_pages'),
-    ]);
-
-    $crumb_post_types = ['page', 'post'];
+    // Hide-title + hide-breadcrumbs are both registered for every
+    // post type whose singular view we render a title / breadcrumb on.
+    $hide_post_types = ['page', 'post'];
     if (function_exists('swinog_events_plugin_active') && swinog_events_plugin_active()) {
-        $crumb_post_types[] = 'stgl_presentation';
-        $crumb_post_types[] = 'stgl_sponsor';
+        $hide_post_types[] = 'stgl_presentation';
+        $hide_post_types[] = 'stgl_sponsor';
     }
-    foreach ($crumb_post_types as $pt) {
+    foreach ($hide_post_types as $pt) {
+        register_post_meta($pt, SWINOG_HIDE_TITLE_META, [
+            'type'          => 'boolean',
+            'single'        => true,
+            'show_in_rest'  => true,
+            'default'       => false,
+            'auth_callback' => static fn (): bool => current_user_can('edit_posts'),
+        ]);
         register_post_meta($pt, SWINOG_HIDE_BREADCRUMBS_META, [
             'type'          => 'boolean',
             'single'        => true,
@@ -127,14 +128,12 @@ function swinog_render_page_options_box(WP_Post $post): void
     $hide_crumbs = (bool) get_post_meta($post->ID, SWINOG_HIDE_BREADCRUMBS_META, true);
     wp_nonce_field('swinog_page_options', 'swinog_page_options_nonce');
     ?>
-    <?php if ($post->post_type === 'page') : ?>
     <p>
         <label>
             <input type="checkbox" name="swinog_hide_page_title" value="1" <?php checked($hide_title); ?> />
             <?php esc_html_e('Hide the page title (H1) on this page', 'swinog'); ?>
         </label>
     </p>
-    <?php endif; ?>
     <p>
         <label>
             <input type="checkbox" name="swinog_hide_breadcrumbs" value="1" <?php checked($hide_crumbs); ?> />
@@ -184,23 +183,24 @@ function swinog_render_event_details_box(WP_Post $post): void
     $hide_title  = (bool) get_post_meta($post->ID, SWINOG_HIDE_TITLE_META, true);
     $hide_crumbs = (bool) get_post_meta($post->ID, SWINOG_HIDE_BREADCRUMBS_META, true);
     wp_nonce_field('swinog_event_details', 'swinog_event_details_nonce');
+    // The two visibility checkboxes below use the SAME input names as
+    // the "Page options" meta box. WordPress posts both inputs in one
+    // request, the save handler in that box does the actual write, and
+    // this box just stays in visual sync with it.
     ?>
     <p>
         <label>
-            <input type="checkbox" name="swinog_ed_hide_page_title" value="1" <?php checked($hide_title); ?> />
+            <input type="checkbox" name="swinog_hide_page_title" value="1" <?php checked($hide_title); ?> />
             <?php esc_html_e('Hide the page title (H1) on this page', 'swinog'); ?>
         </label>
     </p>
     <p>
         <label>
-            <input type="checkbox" name="swinog_ed_hide_breadcrumbs" value="1" <?php checked($hide_crumbs); ?> />
+            <input type="checkbox" name="swinog_hide_breadcrumbs" value="1" <?php checked($hide_crumbs); ?> />
             <?php esc_html_e('Hide breadcrumbs on this page', 'swinog'); ?>
         </label>
     </p>
     <hr style="margin:14px 0;border:0;border-top:1px solid #dcdcde;" />
-    <?php
-    // Re-open the markup output below.
-    ?>
     <p>
         <label for="swinog_event_date" style="display:block;margin-bottom:4px;font-weight:600;">
             <?php esc_html_e('Date', 'swinog'); ?>
@@ -284,9 +284,8 @@ add_action('save_post_page', static function (int $post_id): void {
     if (!current_user_can('edit_page', $post_id)) {
         return;
     }
-    // Hide title / breadcrumbs checkboxes (mirrored from the page-options box).
-    update_post_meta($post_id, SWINOG_HIDE_TITLE_META,       !empty($_POST['swinog_ed_hide_page_title'])  ? 1 : 0);
-    update_post_meta($post_id, SWINOG_HIDE_BREADCRUMBS_META, !empty($_POST['swinog_ed_hide_breadcrumbs']) ? 1 : 0);
+    // Hide title / breadcrumbs live in the page-options box (not here)
+    // — duplicating them clobbered the page-options write on save.
     foreach ([
         SWINOG_EVENT_DATE_META      => 'swinog_event_date',
         SWINOG_EVENT_LOCATION_META  => 'swinog_event_location',
@@ -335,12 +334,13 @@ function swinog_format_event_date(string $iso, bool $with_day = false): string
 }
 
 /* ------------------------------------------------------------------
- * Render-time filter: strip core/post-title on Pages where the
- * `_swinog_hide_page_title` meta is set.
+ * Render-time filter: strip core/post-title on any singular view
+ * (page, post, or plugin CPT) where the `_swinog_hide_page_title`
+ * meta is set.
  * ------------------------------------------------------------------ */
 
 add_filter('render_block_core/post-title', static function (string $content): string {
-    if (!is_page()) {
+    if (!is_singular()) {
         return $content;
     }
     $post_id = get_queried_object_id();
