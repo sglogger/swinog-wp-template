@@ -2345,6 +2345,779 @@ main section[id] { scroll-margin-top: 100px; }
 .swinog-footer-copyright__empty a { color: var(--wp--preset--color--accent); }
 
 /* ============================================================
+   Phase 4 · Charter & Sponsor pages
+   ============================================================ */
+
+/* Shared section padding */
+.swinog-section-wrap { padding: 32px 24px; }
+
+/* Shared section header: 1fr / 3fr kicker+h2 + lead. */
+.swinog-section-head {
+	display: grid;
+	grid-template-columns: 1fr 3fr;
+	gap: 32px;
+	align-items: baseline;
+	margin-bottom: 22px;
+}
+.swinog-section-head__h {
+	margin: 8px 0 0;
+	font-size: var(--wp--preset--font-size--h3);
+	font-weight: 600;
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+}
+.swinog-section-head__lead {
+	margin: 0;
+	font-size: 17px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+}
+
+/* Shared white "at-a-glance" stat card (charter + sponsor heroes) */
+.swinog-stat-card {
+	border-radius: var(--wp--custom--radius--base);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	padding: 22px;
+}
+.swinog-stat-card__h {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--ink-3);
+	margin: 0;
+}
+.swinog-stat-card__dl {
+	margin: 12px 0 0;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 8px 16px;
+	font-size: 14px;
+}
+.swinog-stat-card__dl dt { color: var(--wp--preset--color--ink-3); }
+.swinog-stat-card__dl dd { margin: 0; }
+
+/* Page hero (gradient card, dot pattern) — charter + sponsor */
+.swinog-page-hero-wrap { padding: 48px 24px 24px; }
+.swinog-page-hero {
+	border-radius: var(--wp--custom--radius--xl);
+	padding: 56px 56px 48px;
+	background: linear-gradient(180deg, color-mix(in oklab, var(--wp--preset--color--accent) 8%, var(--wp--preset--color--paper)), var(--wp--preset--color--paper));
+	border: 1px solid var(--wp--preset--color--rule);
+	position: relative;
+	overflow: hidden;
+}
+.swinog-page-hero__grid {
+	display: grid;
+	grid-template-columns: 1.4fr 1fr;
+	gap: 48px;
+	align-items: end;
+	position: relative;
+	z-index: 1;
+}
+.swinog-page-hero__title {
+	margin: 12px 0 0;
+	font-size: 82px;
+	font-weight: 600;
+	line-height: 0.95;
+	letter-spacing: -0.04em;
+}
+.swinog-page-hero__lead {
+	margin: 24px 0 0;
+	font-size: 19px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+	max-width: 640px;
+}
+.swinog-page-hero__ctas {
+	margin-top: 28px;
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.swinog-page-hero__btn {
+	padding: 16px 22px;
+	border-radius: var(--wp--custom--radius--xs);
+	font-size: 15px;
+	font-weight: 500;
+	transition: transform .15s, background .15s, color .15s;
+}
+.swinog-page-hero__btn--ink {
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+}
+.swinog-page-hero__btn--ink:hover {
+	color: var(--wp--preset--color--paper);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 92%, var(--wp--preset--color--accent));
+	transform: translateY(-1px);
+}
+.swinog-page-hero__btn--light {
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 70%, white);
+	border: 1px solid var(--wp--preset--color--rule);
+	color: var(--wp--preset--color--ink);
+}
+.swinog-page-hero__btn--light:hover {
+	color: var(--wp--preset--color--ink);
+	background: white;
+	transform: translateY(-1px);
+}
+.swinog-page-hero__dots {
+	position: absolute;
+	right: -80px;
+	top: -80px;
+	color: var(--wp--preset--color--accent);
+	opacity: 0.25;
+	pointer-events: none;
+}
+
+/* Generic 2-col card grid (principles, resources, why-first-4) */
+.swinog-card-grid-2 {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 12px;
+}
+.swinog-info-card {
+	padding: 28px 28px 32px;
+	border-radius: var(--wp--custom--radius--base);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-info-card__head {
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+}
+.swinog-info-card__n {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 12px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-info-card__label {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--wp--preset--color--accent);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+.swinog-info-card__title {
+	margin: 0;
+	font-size: 21px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	color: var(--wp--preset--color--ink);
+	line-height: 1.25;
+}
+.swinog-info-card__body {
+	margin: 14px 0 0;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+}
+
+/* Charter purpose: white card with ordered list of hairlines */
+.swinog-purpose {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 44px 48px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-purpose__grid {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 32px;
+	align-items: baseline;
+}
+.swinog-purpose__h {
+	margin: 10px 0 0;
+	font-size: 36px;
+	font-weight: 600;
+	line-height: 1.05;
+	letter-spacing: -0.03em;
+}
+.swinog-purpose__caption {
+	margin: 16px 0 0;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-purpose__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+.swinog-purpose__row {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 18px;
+	padding: 20px 0;
+}
+.swinog-purpose__row + .swinog-purpose__row {
+	border-top: 1px solid var(--wp--preset--color--rule-2);
+}
+.swinog-purpose__n {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 13px;
+	color: var(--wp--preset--color--accent);
+	font-weight: 500;
+	padding-top: 2px;
+}
+.swinog-purpose__t {
+	font-size: 19px;
+	font-weight: 600;
+	letter-spacing: -0.015em;
+	color: var(--wp--preset--color--ink);
+	line-height: 1.3;
+}
+.swinog-purpose__b {
+	margin-top: 6px;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+}
+
+/* Charter resources cards */
+.swinog-resource-card {
+	padding: 26px 28px 28px;
+	border-radius: var(--wp--custom--radius--base);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-resource-card__tag {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-resource-card__name {
+	margin: 6px 0 0;
+	font-size: 24px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-resource-card__body {
+	margin: 10px 0 18px;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-resource-card__cta {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--wp--preset--color--accent);
+}
+
+/* Charter org-facts: tinted facts card + white board card */
+.swinog-org-grid {
+	display: grid;
+	grid-template-columns: 1.2fr 1fr;
+	gap: 12px;
+}
+.swinog-org-facts {
+	padding: 32px 36px 36px;
+	border-radius: var(--wp--custom--radius--md);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-org-facts__h {
+	margin: 8px 0 22px;
+	font-size: 32px;
+	font-weight: 600;
+	letter-spacing: -0.025em;
+}
+.swinog-org-facts__dl {
+	margin: 0;
+	display: grid;
+	grid-template-columns: 180px 1fr;
+	font-size: 14px;
+}
+.swinog-org-facts__dl dt {
+	padding: 12px 0;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-org-facts__dl dd {
+	margin: 0;
+	padding: 12px 0;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-org-facts__dl dt:not(:first-of-type),
+.swinog-org-facts__dl dd:not(:first-of-type) {
+	border-top: 1px solid var(--wp--preset--color--rule-2);
+}
+.swinog-org-board {
+	padding: 32px 36px;
+	border-radius: var(--wp--custom--radius--md);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+}
+.swinog-org-board__h {
+	margin: 8px 0 18px;
+	font-size: 24px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+}
+.swinog-org-board__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.swinog-org-board__row {
+	padding: 12px 0;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: baseline;
+	gap: 12px;
+}
+.swinog-org-board__row + .swinog-org-board__row {
+	border-top: 1px solid var(--wp--preset--color--rule-2);
+}
+.swinog-org-board__name {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-org-board__role {
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-org-board__mail {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 12px;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-org-board__contact {
+	margin-top: 18px;
+	padding: 14px 16px;
+	border-radius: 12px;
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 5%, var(--wp--preset--color--paper));
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-org-board__contact strong { color: var(--wp--preset--color--ink); }
+
+/* Dark CTA — gradient (charter) + solid (sponsor contact) variants */
+.swinog-darkcta-wrap { padding: 16px 24px 56px; }
+.swinog-darkcta {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 48px 56px;
+	color: var(--wp--preset--color--paper);
+	display: grid;
+	grid-template-columns: 1.4fr 1fr;
+	gap: 40px;
+	align-items: center;
+	overflow: hidden;
+	position: relative;
+	background: linear-gradient(135deg, color-mix(in oklab, var(--wp--preset--color--ink) 96%, var(--wp--preset--color--accent)) 0%, var(--wp--preset--color--ink) 100%);
+}
+.swinog-darkcta--solid {
+	background: var(--wp--preset--color--ink);
+	grid-template-columns: 1.2fr 1fr;
+	align-items: stretch;
+}
+.swinog-darkcta__kicker {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--accent);
+	margin: 0;
+}
+.swinog-darkcta__h {
+	margin: 12px 0 12px;
+	font-size: 48px;
+	font-weight: 600;
+	line-height: 1.0;
+	letter-spacing: -0.03em;
+	color: var(--wp--preset--color--paper);
+}
+.swinog-darkcta--solid .swinog-darkcta__h { font-size: 44px; }
+.swinog-darkcta__lead {
+	margin: 0;
+	font-size: 17px;
+	line-height: 1.55;
+	color: color-mix(in oklab, var(--wp--preset--color--paper) 75%, transparent);
+	max-width: 540px;
+}
+.swinog-darkcta__lead a {
+	color: var(--wp--preset--color--paper);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+.swinog-darkcta__buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.swinog-darkcta__row {
+	margin-top: 28px;
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.swinog-darkcta__btn {
+	padding: 16px 22px;
+	border-radius: 12px;
+	font-size: 15px;
+	font-weight: 500;
+	text-align: center;
+	transition: transform .15s ease, background .15s ease;
+}
+.swinog-darkcta__btn--accent {
+	background: var(--wp--preset--color--accent);
+	color: white;
+}
+.swinog-darkcta__btn--accent:hover {
+	color: white;
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink));
+	transform: translateY(-1px);
+}
+.swinog-darkcta__btn--ghost {
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 8%, transparent);
+	border: 1px solid color-mix(in oklab, var(--wp--preset--color--paper) 25%, transparent);
+	color: var(--wp--preset--color--paper);
+}
+.swinog-darkcta__btn--ghost:hover {
+	color: var(--wp--preset--color--paper);
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 14%, transparent);
+	transform: translateY(-1px);
+}
+
+/* Bank-details card (inside sponsor contact) */
+.swinog-bank {
+	padding: 24px 26px;
+	border-radius: var(--wp--custom--radius--sm);
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 6%, transparent);
+	border: 1px solid color-mix(in oklab, var(--wp--preset--color--paper) 18%, transparent);
+}
+.swinog-bank__h {
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: color-mix(in oklab, var(--wp--preset--color--paper) 60%, transparent);
+	margin: 0;
+}
+.swinog-bank__dl {
+	margin: 12px 0 0;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 10px 16px;
+	font-size: 14px;
+}
+.swinog-bank__dl dt { color: color-mix(in oklab, var(--wp--preset--color--paper) 60%, transparent); }
+.swinog-bank__dl dd { margin: 0; color: var(--wp--preset--color--paper); }
+.swinog-bank__dl dd.swinog-bank__mono { font-family: var(--wp--preset--font-family--mono); }
+.swinog-bank__note {
+	margin-top: 22px;
+	padding: 14px 16px;
+	border-radius: 10px;
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 24%, transparent);
+	border: 1px solid color-mix(in oklab, var(--wp--preset--color--accent) 32%, transparent);
+	font-size: 13px;
+	color: var(--wp--preset--color--paper);
+}
+.swinog-bank__note strong { color: var(--wp--preset--color--paper); }
+
+/* Sponsor about (white card, 2-col) */
+.swinog-sponsor-about {
+	border-radius: var(--wp--custom--radius--md);
+	padding: 36px 40px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	display: grid;
+	grid-template-columns: 1fr 1.8fr;
+	gap: 32px;
+	align-items: start;
+}
+.swinog-sponsor-about__h {
+	margin: 10px 0 0;
+	font-size: 30px;
+	font-weight: 600;
+	line-height: 1.1;
+	letter-spacing: -0.025em;
+}
+.swinog-sponsor-about__body {
+	font-size: 16px;
+	line-height: 1.6;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-sponsor-about__body p { margin: 0; }
+.swinog-sponsor-about__body p + p,
+.swinog-sponsor-about__body ul { margin-top: 14px; }
+.swinog-sponsor-about__body ul { padding-left: 18px; }
+.swinog-sponsor-about__body li + li { margin-top: 8px; }
+.swinog-sponsor-about__cap {
+	margin-top: 14px;
+	color: var(--wp--preset--color--ink);
+}
+
+/* Sponsor why: 5th wide card */
+.swinog-why-wide {
+	grid-column: 1 / -1;
+	padding: 28px 32px 30px;
+	border-radius: var(--wp--custom--radius--base);
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 8%, var(--wp--preset--color--paper));
+	border: 1px solid color-mix(in oklab, var(--wp--preset--color--accent) 22%, var(--wp--preset--color--paper));
+}
+.swinog-why-wide__grid {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 24px;
+	align-items: center;
+}
+.swinog-why-wide__title {
+	margin: 2px 0 0;
+	font-size: 24px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	color: var(--wp--preset--color--ink);
+	line-height: 1.2;
+}
+.swinog-why-wide__body {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+}
+
+/* Sponsor packages */
+.swinog-packages {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 12px;
+}
+.swinog-pkg {
+	padding: 26px 24px 24px;
+	border-radius: var(--wp--custom--radius--base);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	color: var(--wp--preset--color--ink);
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	position: relative;
+}
+.swinog-pkg--featured {
+	background: var(--wp--preset--color--ink);
+	border-color: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+}
+.swinog-pkg__badge {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	padding: 3px 10px;
+	border-radius: var(--wp--custom--radius--pill);
+	background: var(--wp--preset--color--accent);
+	color: white;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+.swinog-pkg__tier {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-pkg--featured .swinog-pkg__tier {
+	color: color-mix(in oklab, var(--wp--preset--color--paper) 65%, transparent);
+}
+.swinog-pkg__chf {
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-pkg--featured .swinog-pkg__chf {
+	color: color-mix(in oklab, var(--wp--preset--color--paper) 65%, transparent);
+}
+.swinog-pkg__price {
+	font-size: 44px;
+	font-weight: 600;
+	letter-spacing: -0.03em;
+	line-height: 1;
+	margin-top: 2px;
+}
+.swinog-pkg__seats {
+	padding: 8px 12px;
+	border-radius: var(--wp--custom--radius--pill);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 5%, var(--wp--preset--color--paper));
+	display: inline-flex;
+	align-self: flex-start;
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-pkg--featured .swinog-pkg__seats {
+	background: color-mix(in oklab, var(--wp--preset--color--paper) 12%, transparent);
+	color: var(--wp--preset--color--paper);
+}
+.swinog-pkg__blurb {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--wp--preset--color--ink-2);
+}
+.swinog-pkg--featured .swinog-pkg__blurb {
+	color: color-mix(in oklab, var(--wp--preset--color--paper) 80%, transparent);
+}
+.swinog-pkg__cta {
+	margin-top: auto;
+	padding: 12px 14px;
+	border-radius: 10px;
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+	font-size: 13px;
+	font-weight: 500;
+	text-align: center;
+	transition: transform .15s, background .15s, color .15s;
+}
+.swinog-pkg__cta:hover {
+	transform: translateY(-1px);
+	color: var(--wp--preset--color--paper);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 92%, var(--wp--preset--color--accent));
+}
+.swinog-pkg--featured .swinog-pkg__cta {
+	background: var(--wp--preset--color--accent);
+	color: white;
+}
+.swinog-pkg--featured .swinog-pkg__cta:hover {
+	color: white;
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink));
+}
+.swinog-custom-pkg {
+	margin-top: 12px;
+	padding: 20px 24px;
+	border-radius: var(--wp--custom--radius--sm);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
+	border: 1px dashed var(--wp--preset--color--rule);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 24px;
+	flex-wrap: wrap;
+}
+.swinog-custom-pkg__t {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-custom-pkg__b {
+	font-size: 14px;
+	color: var(--wp--preset--color--ink-2);
+	margin-top: 2px;
+}
+.swinog-custom-pkg__cta {
+	padding: 12px 18px;
+	border-radius: 10px;
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--paper);
+	font-size: 14px;
+	font-weight: 500;
+	transition: transform .15s, background .15s, color .15s;
+}
+.swinog-custom-pkg__cta:hover {
+	color: var(--wp--preset--color--paper);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 92%, var(--wp--preset--color--accent));
+	transform: translateY(-1px);
+}
+
+/* Sponsor matrix */
+.swinog-matrix {
+	border-radius: var(--wp--custom--radius--base);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	overflow: hidden;
+}
+.swinog-matrix__scroll { overflow-x: auto; }
+.swinog-matrix__inner { min-width: 720px; }
+.swinog-matrix__head {
+	display: grid;
+	grid-template-columns: minmax(360px, 2fr) repeat(4, 1fr);
+	padding: 20px 28px;
+	border-bottom: 1px solid var(--wp--preset--color--rule);
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 3%, var(--wp--preset--color--paper));
+}
+.swinog-matrix__col {
+	text-align: center;
+	padding-left: 8px;
+}
+.swinog-matrix__tier {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-matrix__price {
+	font-size: 12px;
+	color: var(--wp--preset--color--ink-3);
+	margin-top: 2px;
+}
+.swinog-matrix__group {
+	padding: 16px 28px 8px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--accent);
+}
+.swinog-matrix__row {
+	display: grid;
+	grid-template-columns: minmax(360px, 2fr) repeat(4, 1fr);
+	padding: 12px 28px;
+	border-top: 1px solid var(--wp--preset--color--rule-2);
+	align-items: center;
+}
+.swinog-matrix__row--odd {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+}
+.swinog-matrix__feat {
+	font-size: 14px;
+	color: var(--wp--preset--color--ink-2);
+	line-height: 1.4;
+	padding-right: 24px;
+}
+.swinog-matrix__cell {
+	display: flex;
+	justify-content: center;
+}
+.swinog-tick {
+	display: inline-flex;
+	width: 22px;
+	height: 22px;
+	align-items: center;
+	justify-content: center;
+	border-radius: 6px;
+	font-size: 12px;
+	font-weight: 600;
+}
+.swinog-tick--on {
+	background: var(--wp--preset--color--accent);
+	color: white;
+}
+.swinog-tick--off {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 5%, var(--wp--preset--color--paper));
+	color: var(--wp--preset--color--ink-3);
+	font-size: 14px;
+	font-weight: 400;
+}
+.swinog-tick--text {
+	width: auto;
+	background: transparent;
+	font-size: 14px;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-matrix__footnote {
+	margin-top: 12px;
+	font-size: 12px;
+	color: var(--wp--preset--color--ink-3);
+}
+
+/* ============================================================
    Responsive
    ============================================================ */
 
@@ -2384,6 +3157,18 @@ main section[id] { scroll-margin-top: 100px; }
 	.swinog-news-related__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.swinog-news-subscribe { grid-template-columns: 1fr; padding: 28px 26px; }
 	.swinog-news-single-hero__title { font-size: 44px; }
+
+	.swinog-page-hero { padding: 48px 36px 40px; }
+	.swinog-page-hero__grid { grid-template-columns: 1fr; gap: 32px; }
+	.swinog-page-hero__title { font-size: 64px; }
+	.swinog-section-head { grid-template-columns: 1fr; gap: 16px; }
+	.swinog-packages { grid-template-columns: repeat(2, 1fr); }
+	.swinog-org-grid { grid-template-columns: 1fr; }
+	.swinog-purpose { padding: 36px 36px; }
+	.swinog-purpose__grid { grid-template-columns: 1fr; }
+	.swinog-sponsor-about { grid-template-columns: 1fr; padding: 32px; }
+	.swinog-darkcta { grid-template-columns: 1fr; padding: 40px 36px; }
+	.swinog-darkcta__h, .swinog-darkcta--solid .swinog-darkcta__h { font-size: 36px; }
 }
 
 @media (max-width: 720px) {
@@ -2483,6 +3268,27 @@ main section[id] { scroll-margin-top: 100px; }
 	.swinog-news-body h2 { font-size: 26px; }
 	.swinog-404__title { font-size: 36px; }
 	.swinog-search__title { font-size: 32px; }
+
+	.swinog-page-hero-wrap,
+	.swinog-darkcta-wrap,
+	.swinog-section-wrap { padding-left: 16px; padding-right: 16px; }
+	.swinog-page-hero { padding: 32px 22px; }
+	.swinog-page-hero__title { font-size: clamp(40px, 11vw, 52px); }
+	.swinog-card-grid-2 { grid-template-columns: 1fr; }
+	.swinog-packages { grid-template-columns: 1fr; }
+	.swinog-why-wide__grid { grid-template-columns: 1fr; gap: 12px; }
+	.swinog-org-facts { padding: 24px 22px; }
+	.swinog-org-facts__dl { grid-template-columns: 1fr; }
+	.swinog-org-facts__dl dd { padding-top: 0; }
+	.swinog-org-facts__dl dt { padding-bottom: 4px; }
+	.swinog-org-facts__dl dd:not(:first-of-type) { border-top: 0; }
+	.swinog-org-board { padding: 24px 22px; }
+	.swinog-purpose { padding: 28px 22px; }
+	.swinog-darkcta { padding: 28px 22px; }
+	.swinog-darkcta__h, .swinog-darkcta--solid .swinog-darkcta__h { font-size: 30px; }
+	.swinog-sponsor-about { padding: 24px 22px; }
+	.swinog-matrix__head, .swinog-matrix__row { padding-left: 20px; padding-right: 20px; }
+	.swinog-bank { padding: 20px 22px; }
 }
 
 /* ============================================================
