@@ -19,7 +19,7 @@
 		"kicker":       { "type": "string", "default": "" },
 		"title":        { "type": "string", "default": "Recent talks worth your time." },
 		"archiveLabel": { "type": "string", "default": "Full archive →" },
-		"archiveUrl":   { "type": "string", "default": "/event-category/" }
+		"archiveUrl":   { "type": "string", "default": "https://www.youtube.com/@swinog" }
 	},
 	"editorScript": "file:./index.js",
 	"render":       "file:./render.php",

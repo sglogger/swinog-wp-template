@@ -36,6 +36,32 @@ $event_slugs  = $events_raw === ''
         preg_split('/[,\s]+/', $events_raw) ?: []
     )));
 
+// No explicit `events` attribute → fall back to the latest available
+// term in stgl_presentation_cat (highest trailing number, e.g. "swinog-42"
+// beats "swinog-41"). Only consider terms that actually have presentations
+// attached so an empty placeholder term doesn't shadow real data.
+if (!$event_slugs && $plugin_on && taxonomy_exists('stgl_presentation_cat')) {
+    $terms = get_terms([
+        'taxonomy'   => 'stgl_presentation_cat',
+        'hide_empty' => true,
+        'fields'     => 'id=>slug',
+    ]);
+    if (!is_wp_error($terms) && $terms) {
+        $latest = '';
+        $latest_n = -1;
+        foreach ($terms as $slug) {
+            $n = (int) preg_replace('/[^0-9]+/', '', $slug);
+            if ($n > $latest_n) {
+                $latest_n = $n;
+                $latest   = $slug;
+            }
+        }
+        if ($latest !== '') {
+            $event_slugs = [$latest];
+        }
+    }
+}
+
 $query = null;
 if ($plugin_on) {
     $query_args = [
@@ -84,9 +110,17 @@ if ($kicker === '' && $event_slugs) {
     }
 }
 
+// Default to alignwide when the block author hasn't picked an alignment
+// explicitly. Without this, dropping the block on a constrained page
+// renders it at the narrow contentSize (~780px) instead of matching the
+// rest of the wide content (~1280px).
+$wrapper_classes = ['swinog-soft-agenda-wrap', 'swinog-agenda-block'];
+if (empty($attributes['align'])) {
+    $wrapper_classes[] = 'alignwide';
+}
 $wrapper_attrs = function_exists('get_block_wrapper_attributes')
-    ? get_block_wrapper_attributes(['class' => 'swinog-soft-agenda-wrap swinog-agenda-block'])
-    : 'class="swinog-soft-agenda-wrap swinog-agenda-block"';
+    ? get_block_wrapper_attributes(['class' => implode(' ', $wrapper_classes)])
+    : 'class="' . esc_attr(implode(' ', $wrapper_classes)) . '"';
 
 ob_start();
 ?>
@@ -94,16 +128,11 @@ ob_start();
 	<div class="swinog-soft-agenda">
 
 		<div class="swinog-soft-agenda__head">
-			<div>
-				<?php if ($kicker !== '') : ?>
-					<p class="swinog-kicker swinog-kicker--accent"><?php echo esc_html($kicker); ?></p>
-				<?php endif; ?>
-				<?php if ($title !== '') : ?>
-					<h2 class="swinog-display-sm"><?php echo esc_html($title); ?></h2>
-				<?php endif; ?>
-			</div>
-			<?php if ($arch_label !== '' && $arch_url !== '') : ?>
-				<a class="swinog-link-pill" href="<?php echo esc_url($arch_url); ?>"><?php echo esc_html($arch_label); ?></a>
+			<?php if ($kicker !== '') : ?>
+				<p class="swinog-kicker swinog-kicker--accent"><?php echo esc_html($kicker); ?></p>
+			<?php endif; ?>
+			<?php if ($title !== '') : ?>
+				<h2 class="swinog-display-sm"><?php echo esc_html($title); ?></h2>
 			<?php endif; ?>
 		</div>
 
@@ -131,28 +160,56 @@ ob_start();
 		<?php else : ?>
 			<div class="swinog-soft-agenda__grid" style="grid-template-columns: repeat(<?php echo (int) $columns; ?>, minmax(0, 1fr));">
 				<?php
+				static $meeting_date_cache = [];
 				while ($query->have_posts()) {
 					$query->the_post();
 					$id        = (int) get_the_ID();
 					$presenter = (string) get_post_meta($id, 'stgl_presenter_name',    true);
 					$company   = (string) get_post_meta($id, 'stgl_presenter_company', true);
-					$time      = (string) get_post_meta($id, 'stgl_presenter_time',    true);
 					$video_url = (string) get_post_meta($id, 'stgl_presenter_videourl', true);
 
 					$terms = get_the_terms($id, 'stgl_presentation_cat');
 					$event_slug = ($terms && !is_wp_error($terms)) ? $terms[0]->slug : '';
 					$event_num  = $event_slug ? preg_replace('/[^0-9]+/', '', $event_slug) : '';
-					$order_n    = (int) get_post_field('menu_order', $id);
-					$talk_id    = ($event_num && $order_n)
-						? sprintf('T-%s-%02d', $event_num, $order_n)
-						: ($time !== '' ? $time : (string) get_the_ID());
 
-					$company_label = $company !== '' ? $company : ($event_slug !== '' ? $terms[0]->name : '');
+					// Left chip: "SwiNOG#41" (no space, matches the brand convention).
+					$event_label = $event_num !== '' ? 'SwiNOG#' . $event_num : ($event_slug ?: '');
+
+					// Right chip: meeting date. Look up the matching event page
+					// (the one whose swinog_event_tag meta == $event_slug) and
+					// read its swinog_event_date. Cache the result per request
+					// so 6 cards = 1 query per unique event slug.
+					$meeting_date_display = '';
+					if ($event_slug !== '') {
+						if (!array_key_exists($event_slug, $meeting_date_cache)) {
+							$meeting_date_cache[$event_slug] = '';
+							$event_pages = get_posts([
+								'post_type'              => 'page',
+								'post_status'            => 'publish',
+								'posts_per_page'         => 1,
+								'fields'                 => 'ids',
+								'no_found_rows'          => true,
+								'update_post_term_cache' => false,
+								'meta_query'             => [[
+									'key'   => 'swinog_event_tag',
+									'value' => $event_slug,
+								]],
+							]);
+							if (!empty($event_pages)) {
+								$d = (string) get_post_meta((int) $event_pages[0], 'swinog_event_date', true);
+								if ($d !== '') {
+									$ts = strtotime($d);
+									$meeting_date_cache[$event_slug] = $ts !== false ? wp_date('j M Y', $ts) : $d;
+								}
+							}
+						}
+						$meeting_date_display = $meeting_date_cache[$event_slug];
+					}
 					?>
 					<a class="swinog-talk-card" href="<?php echo esc_url($video_url); ?>" target="_blank" rel="noopener">
 						<div class="swinog-talk-card__row">
-							<span class="swinog-mono"><?php echo esc_html($talk_id); ?></span>
-							<span class="swinog-mono"><?php echo esc_html($company_label); ?></span>
+							<span class="swinog-mono"><?php echo esc_html($event_label); ?></span>
+							<span class="swinog-mono"><?php echo esc_html($meeting_date_display); ?></span>
 						</div>
 						<div class="swinog-talk-card__title"><?php the_title(); ?></div>
 						<div class="swinog-talk-card__foot">
@@ -165,6 +222,14 @@ ob_start();
 				wp_reset_postdata();
 				?>
 			</div>
+			<?php if ($arch_label !== '' && $arch_url !== '') :
+				$is_external = (bool) preg_match('#^https?://#i', $arch_url)
+					&& parse_url($arch_url, PHP_URL_HOST) !== parse_url(home_url(), PHP_URL_HOST);
+				?>
+				<div class="swinog-soft-agenda__foot">
+					<a class="swinog-link-pill" href="<?php echo esc_url($arch_url); ?>"<?php echo $is_external ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html($arch_label); ?></a>
+				</div>
+			<?php endif; ?>
 		<?php endif; ?>
 	</div>
 </section>
