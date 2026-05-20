@@ -576,7 +576,15 @@ main section[id] { scroll-margin-top: 100px; }
    SoftAgenda (recent talks)
    ============================================================ */
 
-.swinog-soft-agenda-wrap { padding: 40px 24px; }
+.swinog-soft-agenda-wrap {
+	/* Pin to the same 1280px container as the softbar / event hero so the
+	   card lines up with the header and the other sections. */
+	width: calc(100% - 48px);
+	max-width: 1280px;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	padding: 40px 0;
+}
 .swinog-soft-agenda {
 	border-radius: var(--wp--custom--radius--lg);
 	padding: 48px 48px 28px;

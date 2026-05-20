@@ -13,6 +13,7 @@
 
 	var registerBlockType = wp.blocks.registerBlockType;
 	var InspectorControls = wp.blockEditor && wp.blockEditor.InspectorControls;
+	var useBlockProps     = wp.blockEditor && wp.blockEditor.useBlockProps;
 	var ServerSideRender  = ( wp.serverSideRender && wp.serverSideRender.default ) || wp.serverSideRender;
 	var components        = wp.components || {};
 	var PanelBody         = components.PanelBody;
@@ -142,12 +143,17 @@
 			)
 		);
 
+		// Spread useBlockProps onto the wrapper so the editor applies the
+		// alignment (alignwide/alignfull) + spacing classes — otherwise the
+		// preview is constrained to content width regardless of `align`.
+		var blockProps = useBlockProps ? useBlockProps() : {};
+
 		var preview = createElement( ServerSideRender, {
 			block: 'swinog/agenda',
 			attributes: a,
 		} );
 
-		return createElement( Fragment, {}, inspector, preview );
+		return createElement( Fragment, {}, inspector, createElement( 'div', blockProps, preview ) );
 	}
 
 	registerBlockType( 'swinog/agenda', {
