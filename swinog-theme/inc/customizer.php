@@ -66,26 +66,20 @@ add_action('customize_register', static function (WP_Customize_Manager $wp): voi
     /* -- Menu selector ------------------------------------------ */
     $wp->add_section('swinog_header_nav', [
         'title'       => __('Primary navigation', 'swinog'),
-        'description' => __('Pick which menu the header uses. Menus are managed under Site Editor → Navigation.', 'swinog'),
+        'description' => __('Build menus under Appearance → Menus. Pick one here, or leave on the default to use whichever menu is assigned to the “Header (primary)” location.', 'swinog'),
         'panel'       => 'swinog_header',
         'priority'    => 10,
     ]);
 
     $wp->add_setting('swinog_primary_nav', [
         'default'           => $defaults['swinog_primary_nav'],
-        'sanitize_callback' => 'sanitize_title',
+        'sanitize_callback' => static fn ($v): string => $v === '' ? '' : (string) absint($v),
         'transport'         => 'refresh',
     ]);
 
-    $nav_choices = ['' => __('— Theme default (SwiNOG · Primary) —', 'swinog')];
-    foreach (get_posts([
-        'post_type'      => 'wp_navigation',
-        'posts_per_page' => -1,
-        'post_status'    => ['publish', 'draft'],
-        'orderby'        => 'title',
-        'order'          => 'ASC',
-    ]) as $nav) {
-        $nav_choices[$nav->post_name] = $nav->post_title;
+    $nav_choices = ['' => __('— Menu assigned to “Header (primary)” —', 'swinog')];
+    foreach (wp_get_nav_menus() as $menu) {
+        $nav_choices[(string) $menu->term_id] = $menu->name;
     }
 
     $wp->add_control('swinog_primary_nav', [

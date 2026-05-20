@@ -40,6 +40,10 @@ add_action('after_setup_theme', static function (): void {
         'flex-width'  => true,
     ]);
 
+    register_nav_menus([
+        'primary' => __('Header (primary)', 'swinog'),
+    ]);
+
     add_editor_style('assets/css/tokens.css');
 });
 

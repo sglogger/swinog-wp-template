@@ -339,6 +339,79 @@ main section[id] { scroll-margin-top: 100px; }
 	border-bottom-color: var(--wp--preset--color--accent);
 }
 
+/* Classic-menu header nav + dropdowns (Appearance → Menus) */
+.swinog-softbar__nav > .wp-block-navigation__container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.swinog-softbar__nav li { position: relative; margin: 0; }
+.swinog-softbar__nav .menu-item-has-children > .wp-block-navigation-item__content {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+.swinog-softbar__nav .menu-item-has-children > .wp-block-navigation-item__content::after {
+	content: "";
+	width: .4em;
+	height: .4em;
+	border-right: 1.5px solid currentColor;
+	border-bottom: 1.5px solid currentColor;
+	transform: translateY(-2px) rotate(45deg);
+	transition: transform .15s;
+}
+.swinog-softbar__nav .menu-item-has-children:hover > .wp-block-navigation-item__content::after,
+.swinog-softbar__nav .menu-item-has-children:focus-within > .wp-block-navigation-item__content::after {
+	transform: translateY(0) rotate(225deg);
+}
+.swinog-softbar__nav .sub-menu {
+	position: absolute;
+	top: calc(100% + 8px);
+	left: 0;
+	z-index: 60;
+	min-width: 220px;
+	margin: 0;
+	padding: 8px;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	background: var(--wp--preset--color--white);
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: 14px;
+	box-shadow: 0 16px 36px color-mix(in oklab, var(--wp--preset--color--ink) 14%, transparent);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(4px);
+	transition: opacity .15s ease, transform .15s ease, visibility .15s;
+}
+.swinog-softbar__nav li.menu-item-has-children:hover > .sub-menu,
+.swinog-softbar__nav li.menu-item-has-children:focus-within > .sub-menu {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+.swinog-softbar__nav .sub-menu .wp-block-navigation-item__content {
+	display: block;
+	white-space: nowrap;
+	padding: 8px 12px;
+	border-bottom: none;
+	border-radius: 9px;
+}
+.swinog-softbar__nav .sub-menu .wp-block-navigation-item__content:hover {
+	border-bottom: none;
+	color: var(--wp--preset--color--ink);
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 8%, var(--wp--preset--color--paper));
+}
+/* Nested (third level) opens to the side */
+.swinog-softbar__nav .sub-menu .sub-menu {
+	top: -9px;
+	left: calc(100% + 6px);
+}
+
 .swinog-softbar__actions { gap: 6px !important; flex-shrink: 0; }
 
 /* ============================================================

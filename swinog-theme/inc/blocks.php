@@ -193,35 +193,66 @@ add_action('widgets_init', static function (): void {
 });
 
 /* ------------------------------------------------------------------
- * Bind core/navigation in the header to the Customizer menu pick.
+ * Render the header's core/navigation block from a classic menu
+ * (Appearance → Menus) instead of a block wp_navigation post.
  *
- * Skipped if the block already has an explicit ref attribute (i.e. an
- * editor saved a specific menu in the Site Editor). The className
- * `swinog-softbar__nav` is the marker.
+ * The header part marks its nav with the `swinog-softbar__nav` class.
+ * We swap that block's output for wp_nav_menu(), choosing the menu the
+ * Customizer points at (swinog_primary_nav = menu term id) or, when
+ * unset, whichever menu is assigned to the `primary` location. The
+ * markup is remapped onto the block-navigation classes the header CSS
+ * already targets, so styling is unchanged.
  * ------------------------------------------------------------------ */
 
-add_filter('render_block_data', static function (array $parsed_block): array {
-    if (($parsed_block['blockName'] ?? '') !== 'core/navigation') {
-        return $parsed_block;
-    }
-    if (!empty($parsed_block['attrs']['ref'])) {
-        return $parsed_block;
-    }
-    $class = (string) ($parsed_block['attrs']['className'] ?? '');
-    if (!str_contains($class, 'swinog-softbar__nav')) {
-        return $parsed_block;
+function swinog_render_header_menu(): string
+{
+    $menu_id = (string) swinog_mod('swinog_primary_nav');
+
+    $args = [
+        'container'            => 'nav',
+        'container_class'      => 'wp-block-navigation swinog-softbar__nav',
+        'container_aria_label' => __('Primary', 'swinog'),
+        'menu_class'           => 'wp-block-navigation__container',
+        'depth'                => 0,
+        'fallback_cb'          => false,
+        'echo'                 => false,
+        'swinog_header'        => true,
+    ];
+    if ($menu_id !== '') {
+        $args['menu'] = (int) $menu_id;
+    } else {
+        $args['theme_location'] = 'primary';
     }
 
-    $slug = (string) swinog_mod('swinog_primary_nav');
-    if ($slug === '') {
-        $slug = 'swinog-primary';
+    $html = wp_nav_menu($args);
+
+    return is_string($html) ? $html : '';
+}
+
+add_filter('render_block', static function (string $content, array $block): string {
+    if (($block['blockName'] ?? '') !== 'core/navigation') {
+        return $content;
     }
-    $post = get_page_by_path($slug, OBJECT, 'wp_navigation');
-    if ($post instanceof WP_Post) {
-        $parsed_block['attrs']['ref'] = (int) $post->ID;
+    if (!str_contains((string) ($block['attrs']['className'] ?? ''), 'swinog-softbar__nav')) {
+        return $content;
     }
-    return $parsed_block;
-});
+    return swinog_render_header_menu();
+}, 10, 2);
+
+/* Map classic-menu markup onto the block-navigation classes the CSS uses. */
+add_filter('nav_menu_css_class', static function (array $classes, $item, $args): array {
+    if (!empty($args->swinog_header)) {
+        $classes[] = 'wp-block-navigation-item';
+    }
+    return $classes;
+}, 10, 3);
+
+add_filter('nav_menu_link_attributes', static function (array $atts, $item, $args): array {
+    if (!empty($args->swinog_header)) {
+        $atts['class'] = trim((string) ($atts['class'] ?? '') . ' wp-block-navigation-item__content');
+    }
+    return $atts;
+}, 10, 3);
 
 /* ------------------------------------------------------------------
  * Seed the default primary navigation menu + footer widgets on first
