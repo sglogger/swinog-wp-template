@@ -188,6 +188,7 @@ require_once get_theme_file_path('/inc/blocks.php');
 require_once get_theme_file_path('/inc/page-options.php');
 require_once get_theme_file_path('/inc/venue-map.php');
 require_once get_theme_file_path('/inc/swinog-events-integration.php');
+require_once get_theme_file_path('/inc/github-updater.php');
 
 /* ------------------------------------------------------------------
  * Exclude the current post from the news-related query (queryId 62

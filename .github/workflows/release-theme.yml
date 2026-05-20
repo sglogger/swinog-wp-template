@@ -1,0 +1,77 @@
+name: Auto-tag & release from theme version
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - swinog-theme/style.css
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tag-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Read version from theme stylesheet
+        id: ver
+        run: |
+          HEADER=$(grep -E '^\s*Version:' swinog-theme/style.css | head -n1 | awk -F: '{print $2}' | xargs)
+          if [ -z "$HEADER" ]; then
+            echo "::error::Could not find Version header in swinog-theme/style.css"
+            exit 1
+          fi
+          echo "version=$HEADER" >> "$GITHUB_OUTPUT"
+          echo "tag=v$HEADER"    >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag already exists
+        id: exists
+        run: |
+          if git rev-parse -q --verify "refs/tags/${{ steps.ver.outputs.tag }}" >/dev/null; then
+            echo "Tag ${{ steps.ver.outputs.tag }} already exists – skipping tag creation."
+            echo "tag_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag_exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create & push tag
+        if: steps.exists.outputs.tag_exists == 'false'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ steps.ver.outputs.tag }}" -m "Release ${{ steps.ver.outputs.tag }}"
+          git push origin "${{ steps.ver.outputs.tag }}"
+
+      - name: Build theme ZIP
+        run: |
+          SLUG=swinog-theme
+          STAGE="$RUNNER_TEMP/$SLUG"
+          mkdir -p "$STAGE"
+          rsync -a --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.gitignore' \
+            --exclude='.gitattributes' \
+            --exclude='.editorconfig' \
+            --exclude='.DS_Store' \
+            --exclude='node_modules' \
+            --exclude='vendor' \
+            --exclude='tests' \
+            --exclude='*.zip' \
+            ./swinog-theme/ "$STAGE/"
+          cd "$RUNNER_TEMP"
+          zip -r "$GITHUB_WORKSPACE/$SLUG.zip" "$SLUG"
+
+      - name: Create / update GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          files: swinog-theme.zip
+          generate_release_notes: true
+          fail_on_unmatched_files: true
