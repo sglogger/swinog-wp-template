@@ -1202,6 +1202,13 @@ main section[id] { scroll-margin-top: 100px; }
 }
 .swinog-timeline__no-h { font-size: 36px; font-weight: 600; letter-spacing: -0.025em; }
 .swinog-timeline__no-d { font-size: 12px; color: var(--wp--preset--color--ink-3); }
+
+/* Title-led variant (dynamic events overview): the left column carries the
+   full page title instead of a big "#NN", so it needs room and a smaller face. */
+.swinog-timeline--titled .swinog-timeline__row { grid-template-columns: minmax(220px, 1.3fr) minmax(0, 1fr) auto 28px; }
+.swinog-timeline--titled .swinog-timeline__no-h { font-size: 24px; line-height: 1.2; letter-spacing: -0.015em; }
+/* Keep talks · attendees · sponsors on a single line. */
+.swinog-timeline--titled .swinog-timeline__count { white-space: nowrap; }
 .swinog-timeline__where { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
 .swinog-timeline__tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
 .swinog-timeline__count { font-size: 13px; color: var(--wp--preset--color--ink-2); text-align: right; }
@@ -1413,7 +1420,8 @@ main section[id] { scroll-margin-top: 100px; }
 	font-weight: 600;
 }
 .swinog-event-hero .swinog-cta-row { margin-top: 28px; }
-.swinog-event-hero__facts { margin: 0; }
+/* Bottom-align the quick-facts card with the left column's last line. */
+.swinog-event-hero__facts { margin: 0; align-self: end; }
 
 @media (max-width: 900px) {
 	.swinog-event-hero:has(> .swinog-event-hero__copy) {
@@ -2287,6 +2295,8 @@ main section[id] { scroll-margin-top: 100px; }
 	text-transform: uppercase;
 	color: var(--wp--preset--color--accent);
 }
+/* No tier label (sponsor level unset) → drop the empty heading + its rule. */
+.stgl-block.stgl-sponsors .stgl-sponsor-tier:empty { display: none; }
 .stgl-block .stgl-sponsor-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -3334,6 +3344,7 @@ main section[id] { scroll-margin-top: 100px; }
 
 	.swinog-archive-hero__title { font-size: 64px; }
 	.swinog-timeline__row { grid-template-columns: 90px 1fr 100px 24px; gap: 16px; }
+	.swinog-timeline--titled .swinog-timeline__row { grid-template-columns: minmax(170px, 1.2fr) minmax(0, 1fr) auto 24px; }
 
 	.swinog-about-hero__title { font-size: 64px; }
 	.swinog-board__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

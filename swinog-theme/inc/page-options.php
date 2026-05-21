@@ -27,6 +27,7 @@ const SWINOG_EVENT_TAG_META        = 'swinog_event_tag';
 const SWINOG_EVENT_PILL_META       = 'swinog_event_pill';
 const SWINOG_EVENT_FEE_META        = 'swinog_event_fee';
 const SWINOG_EVENT_TALKS_META      = 'swinog_event_talks';
+const SWINOG_EVENT_ATTENDEES_META  = 'swinog_event_attendees';
 const SWINOG_EVENT_FORMAT_META     = 'swinog_event_format';
 const SWINOG_EVENT_RECORDING_META  = 'swinog_event_recording_url';
 const SWINOG_EVENT_ICS_META        = 'swinog_event_ics_url';
@@ -73,6 +74,7 @@ add_action('init', static function (): void {
         SWINOG_EVENT_PILL_META      => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
         SWINOG_EVENT_FEE_META       => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
         SWINOG_EVENT_TALKS_META     => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
+        SWINOG_EVENT_ATTENDEES_META => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
         SWINOG_EVENT_FORMAT_META    => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
         SWINOG_EVENT_RECORDING_META => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
         SWINOG_EVENT_ICS_META       => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
@@ -177,6 +179,7 @@ function swinog_render_event_details_box(WP_Post $post): void
     $pill      = (string) get_post_meta($post->ID, SWINOG_EVENT_PILL_META, true);
     $fee       = (string) get_post_meta($post->ID, SWINOG_EVENT_FEE_META, true);
     $talks     = (string) get_post_meta($post->ID, SWINOG_EVENT_TALKS_META, true);
+    $attendees = (string) get_post_meta($post->ID, SWINOG_EVENT_ATTENDEES_META, true);
     $format    = (string) get_post_meta($post->ID, SWINOG_EVENT_FORMAT_META, true);
     $recording   = (string) get_post_meta($post->ID, SWINOG_EVENT_RECORDING_META, true);
     $ics         = (string) get_post_meta($post->ID, SWINOG_EVENT_ICS_META, true);
@@ -254,6 +257,12 @@ function swinog_render_event_details_box(WP_Post $post): void
         <input id="swinog_event_talks" name="swinog_event_talks" type="text" value="<?php echo esc_attr($talks); ?>" placeholder="<?php esc_attr_e('14 · single track', 'swinog'); ?>" style="width:100%;" />
     </p>
     <p>
+        <label for="swinog_event_attendees" style="display:block;margin-bottom:4px;font-weight:600;">
+            <?php esc_html_e('Attendees', 'swinog'); ?>
+        </label>
+        <input id="swinog_event_attendees" name="swinog_event_attendees" type="text" value="<?php echo esc_attr($attendees); ?>" placeholder="<?php esc_attr_e('~200', 'swinog'); ?>" style="width:100%;" />
+    </p>
+    <p>
         <label for="swinog_event_format" style="display:block;margin-bottom:4px;font-weight:600;">
             <?php esc_html_e('Format', 'swinog'); ?>
         </label>
@@ -294,6 +303,7 @@ add_action('save_post_page', static function (int $post_id): void {
         SWINOG_EVENT_PILL_META      => 'swinog_event_pill',
         SWINOG_EVENT_FEE_META       => 'swinog_event_fee',
         SWINOG_EVENT_TALKS_META     => 'swinog_event_talks',
+        SWINOG_EVENT_ATTENDEES_META => 'swinog_event_attendees',
         SWINOG_EVENT_FORMAT_META    => 'swinog_event_format',
         SWINOG_EVENT_RECORDING_META => 'swinog_event_recording_url',
     ] as $key => $field) {

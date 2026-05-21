@@ -431,7 +431,7 @@ function swinog_render_events_overview($atts): string
         return '';
     }
 
-    return '<div class="swinog-timeline alignwide">' . $html . '</div>';
+    return '<div class="swinog-timeline swinog-timeline--titled alignwide">' . $html . '</div>';
 }
 
 function swinog_count_event_posts(string $post_type, string $term_slug): int
@@ -467,11 +467,8 @@ function swinog_render_events_overview_row(WP_Post $page, string $date_meta): st
     $attendees = trim((string) get_post_meta($id, 'swinog_event_attendees', true));
     $topics    = trim((string) get_post_meta($id, 'swinog_event_topics',    true));
 
-    // Issue number — "#NN" parsed from the title.
+    // Lead each row with the full page title (rather than a parsed "#NN").
     $number_h = esc_html($title);
-    if (preg_match('/#\s*(\d+)/', $title, $m)) {
-        $number_h = '#' . esc_html($m[1]);
-    }
 
     // Short date — "24 Jun 2025" / fall back to post_date if no meta set.
     if ($date_meta !== '') {
@@ -500,21 +497,20 @@ function swinog_render_events_overview_row(WP_Post $page, string $date_meta): st
         }
     }
 
-    // Right-column counts.
-    $count_html = '';
-    if ($attendees !== '') {
-        $count_html .= '<div>' . esc_html($attendees) . ' attendees</div>';
-    }
+    // Right-column counts — one inline line: "7 talks · 100 attendees · 1 sponsors".
     $stats = [];
     if ($talks > 0) {
         $stats[] = (int) $talks . ' talks';
     }
+    if ($attendees !== '') {
+        $stats[] = esc_html($attendees) . ' attendees';
+    }
     if ($sponsors > 0) {
         $stats[] = (int) $sponsors . ' sponsors';
     }
-    if ($stats !== []) {
-        $count_html .= '<div class="swinog-ink-3">' . esc_html(implode(' · ', $stats)) . '</div>';
-    }
+    $count_html = $stats !== []
+        ? '<div class="swinog-ink-3">' . implode(' · ', $stats) . '</div>'
+        : '';
 
     $where      = $location !== '' ? esc_html($location) : esc_html($title);
     $tags_block = $tags_html !== ''

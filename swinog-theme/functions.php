@@ -51,30 +51,44 @@ add_action('after_setup_theme', static function (): void {
  * Asset enqueue (front end + block editor)
  * ------------------------------------------------------------------ */
 
+/**
+ * Cache-busting version for a theme asset. In debug mode this is the file's
+ * mtime so edits show without a hard refresh; in production it's the theme
+ * version so released assets cache normally.
+ */
+function swinog_asset_ver(string $relative_path): string
+{
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        $path = get_theme_file_path($relative_path);
+        if (is_file($path)) {
+            return (string) filemtime($path);
+        }
+    }
+    return (string) wp_get_theme()->get('Version');
+}
+
 add_action('wp_enqueue_scripts', static function (): void {
-    $theme = wp_get_theme();
     wp_enqueue_style(
         'swinog-tokens',
         get_theme_file_uri('/assets/css/tokens.css'),
         [],
-        $theme->get('Version')
+        swinog_asset_ver('/assets/css/tokens.css')
     );
 });
 
 add_action('enqueue_block_editor_assets', static function (): void {
-    $theme = wp_get_theme();
     wp_enqueue_style(
         'swinog-tokens-editor',
         get_theme_file_uri('/assets/css/tokens.css'),
         [],
-        $theme->get('Version')
+        swinog_asset_ver('/assets/css/tokens.css')
     );
     // Default every core/html block in the editor to the Preview tab.
     wp_enqueue_script(
         'swinog-editor-html-preview',
         get_theme_file_uri('/assets/js/editor-html-preview.js'),
         ['wp-hooks', 'wp-compose', 'wp-element'],
-        $theme->get('Version'),
+        swinog_asset_ver('/assets/js/editor-html-preview.js'),
         true
     );
 });

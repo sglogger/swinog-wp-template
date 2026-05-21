@@ -16,14 +16,10 @@ if (!$post_id) {
     return;
 }
 
-// Honour the per-page "Hide the page title (H1) on this page" toggle
-// (meta key _swinog_hide_page_title — see inc/page-options.php). The
-// existing render_block_core/post-title filter only catches the core
-// post-title block, so this server-rendered hero title needs to opt
-// in explicitly to stay in sync.
-if (get_post_meta($post_id, '_swinog_hide_page_title', true)) {
-    return;
-}
+// The "Hide the page title (H1)" toggle only suppresses the standalone
+// core/post-title (see inc/page-options.php). The event hero title is the
+// page's real visible H1, so it always renders — that's the whole point of
+// the toggle on event pages: drop the duplicate title above the hero.
 
 $title = (string) get_the_title($post_id);
 if ($title === '') {

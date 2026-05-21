@@ -31,6 +31,7 @@ $date      = (string) get_post_meta($post_id, 'swinog_event_date', true);
 $location  = (string) get_post_meta($post_id, 'swinog_event_location', true);
 $fee       = (string) get_post_meta($post_id, 'swinog_event_fee', true);
 $talks     = (string) get_post_meta($post_id, 'swinog_event_talks', true);
+$attendees = (string) get_post_meta($post_id, 'swinog_event_attendees', true);
 $format    = (string) get_post_meta($post_id, 'swinog_event_format', true);
 $recording = (string) get_post_meta($post_id, 'swinog_event_recording_url', true);
 
@@ -58,6 +59,9 @@ ob_start();
 		<?php endif; ?>
 		<?php if ($talks !== '') : ?>
 			<dt><?php esc_html_e('Talks', 'swinog'); ?></dt><dd><?php echo esc_html($talks); ?></dd>
+		<?php endif; ?>
+		<?php if ($attendees !== '') : ?>
+			<dt><?php esc_html_e('Attendees', 'swinog'); ?></dt><dd><?php echo esc_html($attendees); ?></dd>
 		<?php endif; ?>
 		<?php if ($format !== '') : ?>
 			<dt><?php esc_html_e('Format', 'swinog'); ?></dt><dd><?php echo esc_html($format); ?></dd>
