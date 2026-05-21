@@ -5,6 +5,28 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.0
+
+- Header navigation now uses classic **Appearance → Menus** menus: register a
+  `primary` nav location, render the header via `wp_nav_menu()` mapped onto the
+  block-navigation classes, and add hover/focus **dropdowns** for submenus.
+  Customizer "Primary navigation" lists classic menus.
+- Homepage follows the selected page: `front-page.html` renders
+  `core/post-content`, and the SwiNOG landing is now a reusable
+  `swinog/homepage` pattern (so picking a different homepage page works).
+- "Recent talks" (`swinog/agenda`) editor preview respects `align` via
+  `useBlockProps()` (was constrained to content width in the editor).
+- Meetings overview rows lead with the full **page title** instead of a parsed
+  "#NN", with aligned columns and a single-line `talks · attendees · sponsors`
+  count.
+- New **Attendees** event-detail field (`swinog_event_attendees`), shown in the
+  hero quick-facts and inline in the meetings overview when set.
+- "Hide the page title (H1)" now only hides the standalone `core/post-title`;
+  the event hero title always renders.
+- Hide the sponsor tier label when no level is set (empty `.stgl-sponsor-tier`).
+- Cache-bust `tokens.css` / editor JS by file mtime when `WP_DEBUG` is on, so
+  style changes show without a hard refresh (theme version in production).
+
 ## 0.7.0
 
 - Add self-hosted theme updates from GitHub releases (`inc/github-updater.php`).
