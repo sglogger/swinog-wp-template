@@ -25,6 +25,38 @@ if ($post_id && get_post_meta($post_id, '_swinog_hide_breadcrumbs', true)) {
     return '';
 }
 
+if (!function_exists('swinog_meeting_url_for_term')) {
+    /**
+     * Resolve a stgl_presentation_cat term (e.g. "swinog-34") to its meeting
+     * Page URL (/meetings/swinog34/). Tries the page whose swinog_event_tag
+     * meta matches the term slug, then a page slug derived by dropping the
+     * dashes, and finally falls back to the taxonomy archive link.
+     */
+    function swinog_meeting_url_for_term(WP_Term $term): string
+    {
+        $pages = get_posts([
+            'post_type'      => 'page',
+            'posts_per_page' => 1,
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+            'meta_key'       => 'swinog_event_tag',
+            'meta_value'     => $term->slug,
+        ]);
+        if (!empty($pages)) {
+            return (string) get_permalink((int) $pages[0]);
+        }
+
+        $derived = str_replace('-', '', $term->slug);
+        $page    = get_page_by_path('meetings/' . $derived);
+        if ($page instanceof WP_Post) {
+            return (string) get_permalink($page);
+        }
+
+        $link = get_term_link($term);
+        return is_wp_error($link) ? '' : (string) $link;
+    }
+}
+
 if (!function_exists('swinog_build_breadcrumbs')) {
     /**
      * Return the breadcrumb trail for the current request as a list of
@@ -58,10 +90,9 @@ if (!function_exists('swinog_build_breadcrumbs')) {
             $terms = get_the_terms(get_queried_object_id(), 'stgl_presentation_cat');
             if ($terms && !is_wp_error($terms)) {
                 $term = $terms[0];
-                $link = get_term_link($term);
-                if (!is_wp_error($link)) {
-                    $crumbs[] = ['label' => $term->name, 'url' => (string) $link];
-                }
+                // Link to the meeting Page (/meetings/swinog34/) rather than the
+                // taxonomy archive (/stgl_presentation_cat/swinog-34/).
+                $crumbs[] = ['label' => $term->name, 'url' => swinog_meeting_url_for_term($term)];
             }
             $crumbs[] = ['label' => get_the_title(), 'url' => ''];
         } elseif (is_tax('stgl_presentation_cat')) {

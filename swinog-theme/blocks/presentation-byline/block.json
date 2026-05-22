@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "swinog/presentation-byline",
+	"title": "SwiNOG · Presentation byline",
+	"category": "theme",
+	"icon": "microphone",
+	"description": "Presenter name + company and video/slides buttons for a single presentation, pulled from the wp-swinog-events meta (not the WordPress author).",
+	"keywords": ["presentation", "presenter", "talk", "swinog"],
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php",
+	"textdomain": "swinog"
+}

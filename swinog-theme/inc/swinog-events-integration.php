@@ -330,6 +330,13 @@ add_action('init', static function (): void {
     if (is_dir($meta_dir) && file_exists($meta_dir . '/block.json')) {
         register_block_type($meta_dir);
     }
+
+    // Server-rendered "Presentation byline" — presenter name/company +
+    // video/slides buttons from the plugin meta, for single presentations.
+    $byline_dir = get_theme_file_path('/blocks/presentation-byline');
+    if (is_dir($byline_dir) && file_exists($byline_dir . '/block.json')) {
+        register_block_type($byline_dir);
+    }
 }, 20);
 
 /**

@@ -239,7 +239,7 @@ code {
 	color: var(--wp--preset--color--paper);
 }
 
-.swinog-cta-row { margin-top: 32px; gap: 10px !important; }
+.swinog-cta-row { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px !important; }
 
 /* Anchor-jump offset: the sticky SoftBar takes ~80px at the top of
    the viewport, so any in-page #anchor target needs that much
@@ -1515,7 +1515,7 @@ main section[id] { scroll-margin-top: 100px; }
 }
 .swinog-program-shortcode.swinog-program--presentations .swinog-program__rows {
 	/* title | who | slides | (video + chevron) */
-	grid-template-columns: minmax(0, 1fr) minmax(0, 220px) 90px 120px;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 320px) 90px 120px;
 }
 
 .swinog-program-shortcode .swinog-program__row {
@@ -2013,6 +2013,17 @@ main section[id] { scroll-margin-top: 100px; }
 }
 .swinog-news-single-hero__avatar img { border-radius: 50%; }
 .swinog-news-single-hero__author a   { color: var(--wp--preset--color--ink); font-weight: 500; }
+
+/* Single presentation byline — presenter + video/slides buttons */
+.swinog-presentation-byline { margin-top: 14px; }
+.swinog-presentation-byline__by {
+	margin: 0;
+	font-size: 17px;
+	font-weight: 600;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-presentation-byline__org { color: var(--wp--preset--color--ink-3); font-weight: 400; }
+.swinog-presentation-byline .swinog-cta-row { margin-top: 18px; }
 
 /* Single news body — Newsreader serif on <p> and <h2> per design pack */
 .swinog-news-body-wrap { padding: 16px 24px 56px; }
