@@ -545,3 +545,30 @@ function swinog_render_events_overview_row(WP_Post $page, string $date_meta): st
         $count_html
     );
 }
+
+/* ------------------------------------------------------------------
+ * Make front-end search match presenters: the speaker name + company
+ * live in stgl_presenter_name / _company meta, not the post content,
+ * so a plain title/content search misses them. OR a presenter-meta
+ * match against the existing search clause (subquery → no row dupes).
+ * ------------------------------------------------------------------ */
+
+add_filter('posts_search', static function (string $search, WP_Query $q): string {
+    global $wpdb;
+    if ($search === '' || is_admin() || !$q->is_main_query() || !$q->is_search()) {
+        return $search;
+    }
+    $term = (string) $q->get('s');
+    if ($term === '') {
+        return $search;
+    }
+    $like = '%' . $wpdb->esc_like($term) . '%';
+    $sub  = $wpdb->prepare(
+        "({$wpdb->posts}.ID IN (SELECT post_id FROM {$wpdb->postmeta}"
+        . " WHERE meta_key IN ('stgl_presenter_name', 'stgl_presenter_company')"
+        . " AND meta_value LIKE %s))",
+        $like
+    );
+    $orig = preg_replace('/^\s*AND\s*/', '', $search);
+    return " AND ( {$orig} OR {$sub} )";
+}, 10, 2);

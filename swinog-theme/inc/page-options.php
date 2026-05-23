@@ -359,3 +359,19 @@ add_filter('render_block_core/post-title', static function (string $content): st
     }
     return get_post_meta($post_id, SWINOG_HIDE_TITLE_META, true) ? '' : $content;
 });
+
+/* ------------------------------------------------------------------
+ * Body class when the page title is hidden — lets CSS pull the first
+ * content block tight under the breadcrumb (no orphan gap where the
+ * H1 would be), matching the event templates.
+ * ------------------------------------------------------------------ */
+
+add_filter('body_class', static function (array $classes): array {
+    if (is_singular()) {
+        $post_id = get_queried_object_id();
+        if ($post_id && get_post_meta($post_id, SWINOG_HIDE_TITLE_META, true)) {
+            $classes[] = 'swinog-no-page-title';
+        }
+    }
+    return $classes;
+});
