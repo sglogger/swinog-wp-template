@@ -1390,6 +1390,7 @@ main section[id] { scroll-margin-top: 100px; }
 /* Title hidden (Hide page title toggle): the hero/first block provides the
    heading, so drop the top padding that would otherwise leave an empty gap
    under the breadcrumb — matches the tight spacing on event pages. */
+.swinog-no-page-title .swinog-page > :first-child,
 .swinog-no-page-title .swinog-page > .wp-block-post-content > :first-child { padding-top: 0; margin-top: 0; }
 .swinog-page__title {
 	font-size: var(--wp--preset--font-size--display-sm);

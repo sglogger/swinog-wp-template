@@ -367,6 +367,12 @@ add_filter('render_block_core/post-title', static function (string $content): st
  * ------------------------------------------------------------------ */
 
 add_filter('body_class', static function (array $classes): array {
+    // Blog/news index + archives lead with a hero pattern (no post-title),
+    // so they should sit tight under the breadcrumb just like event pages.
+    if ((is_home() && !is_front_page()) || is_archive()) {
+        $classes[] = 'swinog-no-page-title';
+        return $classes;
+    }
     if (is_singular()) {
         $post_id = get_queried_object_id();
         if ($post_id && get_post_meta($post_id, SWINOG_HIDE_TITLE_META, true)) {
