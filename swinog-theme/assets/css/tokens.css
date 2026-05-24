@@ -1933,6 +1933,15 @@ main section[id] { scroll-margin-top: 100px; }
 	border-radius: var(--wp--custom--radius--sm);
 	overflow: hidden;
 }
+/* No featured image → don't reserve the media box; keep the card single-column. */
+.swinog-news-list .wp-block-post-template > li:first-child .swinog-news-card:not(:has(.swinog-news-card__media img)),
+.swinog-news-list__grid > li:first-child .swinog-news-card:not(:has(.swinog-news-card__media img)) {
+	grid-template-columns: 1fr;
+}
+.swinog-news-list .wp-block-post-template > li:first-child .swinog-news-card:not(:has(.swinog-news-card__media img)) .swinog-news-card__media,
+.swinog-news-list__grid > li:first-child .swinog-news-card:not(:has(.swinog-news-card__media img)) .swinog-news-card__media {
+	display: none;
+}
 
 /* News subscribe card */
 .swinog-news-subscribe-wrap { padding: 16px 24px 32px; }
@@ -2036,6 +2045,15 @@ main section[id] { scroll-margin-top: 100px; }
 /* Single-post article card — wraps the news-single-hero pattern + the
    post-content in one rounded white card on the page background. */
 .swinog-news-article-wrap { padding: 16px 24px 24px; }
+/* Single-post featured image — big rounded hero, only when one is set. */
+.swinog-news-single__feature { margin: 28px 0 8px; }
+.swinog-news-single__feature img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	border-radius: var(--wp--custom--radius--lg);
+}
 .swinog-news-article {
 	background: white;
 	border: 1px solid var(--wp--preset--color--rule);
