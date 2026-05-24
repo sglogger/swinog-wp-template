@@ -33,7 +33,7 @@
 					</div>
 					<!-- /wp:group -->
 					<!-- wp:post-title {"level":3,"isLink":true,"className":"swinog-news-card__title"} /-->
-					<!-- wp:post-excerpt {"className":"swinog-news-card__excerpt","excerptLength":24} /-->
+					<!-- wp:post-excerpt {"moreText":"Read more →","className":"swinog-news-card__excerpt","excerptLength":24} /-->
 				</div>
 				<!-- /wp:group -->
 			<!-- /wp:post-template -->

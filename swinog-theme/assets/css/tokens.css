@@ -1881,6 +1881,23 @@ main section[id] { scroll-margin-top: 100px; }
 	font-size: 15px;
 	line-height: 1.55;
 }
+/* "Read more" cue — signals the excerpt is truncated and doubles as the
+   whole-card click target (stretched over the card, which is position:relative). */
+.swinog-news-card__excerpt .wp-block-post-excerpt__more-link {
+	display: inline-block;
+	margin-top: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--wp--preset--color--accent);
+	text-decoration: none;
+}
+.swinog-news-card__excerpt .wp-block-post-excerpt__more-link:hover { text-decoration: underline; }
+.swinog-news-card__excerpt .wp-block-post-excerpt__more-link::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+}
 .swinog-news-card__byline {
 	margin-top: auto;
 	padding-top: 6px;
@@ -2053,6 +2070,64 @@ main section[id] { scroll-margin-top: 100px; }
 	aspect-ratio: 16 / 9;
 	object-fit: cover;
 	border-radius: var(--wp--custom--radius--lg);
+}
+
+/* ============================================================
+   Link library — directory of external links grouped in cards
+   ============================================================ */
+.swinog-linklib-wrap { padding: 8px 24px 48px; }
+.swinog-linklib {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 16px;
+	align-items: start;
+}
+.swinog-linklib__card {
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: var(--wp--custom--radius--md);
+	padding: 22px 24px 10px;
+}
+.swinog-linklib__cat {
+	margin: 0 0 6px;
+	font-family: var(--wp--preset--font-family--sans);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--accent);
+}
+.swinog-linklib__links {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.swinog-linklib__links li {
+	margin: 0;
+	border-bottom: 1px solid var(--wp--preset--color--rule-2);
+}
+.swinog-linklib__links li:last-child { border-bottom: 0; }
+.swinog-linklib__links a {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 11px 0;
+	font-size: 15px;
+	color: var(--wp--preset--color--ink);
+	text-decoration: none;
+	transition: color .15s ease;
+}
+.swinog-linklib__links a::after {
+	content: "↗";
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+	transition: color .15s ease, transform .15s ease;
+}
+.swinog-linklib__links a:hover { color: var(--wp--preset--color--accent); }
+.swinog-linklib__links a:hover::after {
+	color: var(--wp--preset--color--accent);
+	transform: translate(1px, -1px);
 }
 .swinog-news-article {
 	background: white;
