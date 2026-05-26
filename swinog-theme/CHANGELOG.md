@@ -5,6 +5,38 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.1
+
+- **Single presentation page** (`single-stgl_presentation.html`): drops the
+  WordPress-author avatar/byline for a meta-driven `swinog/presentation-byline`
+  block — presenter name · company plus red **Watch the video** / **View slides**
+  buttons when those exist.
+- **Breadcrumb** on presentations links the meeting term to its `/meetings/…`
+  Page (`swinog_meeting_url_for_term`) rather than the taxonomy archive.
+- **Search** now matches the presenter name/company meta (`posts_search`
+  filter), and the search results layout is centred in the content container.
+- **Archive template** (`archive.html`) for category/tag/date/author archives,
+  styled like `/news/` (hero + news-card grid) instead of the bare fallback.
+- **No-orphan-gap**: when the page title is hidden (or on the news index /
+  archives) the first block sits tight under the breadcrumb (`swinog-no-page-title`).
+- **Single news post** shows its featured image as a rounded hero when set; the
+  featured news card hides the image box when there is no image.
+- New patterns: **`swinog/link-library`** (external-link directory cards),
+  **`swinog/announcement`** (highlight box + red CTA), **`swinog/press-list`**
+  (PDF media-coverage list).
+- "More from SwiNOG" cards: whole card clickable + a **Read more →** cue on
+  truncated excerpts.
+- **Live next-meeting countdown**: the SoftHero "days" stat is computed at render
+  time (`render_block` filter), so it stays correct whether the hero is referenced
+  via `wp:pattern` or inserted into a page.
+- **Contact forms** restyled to the palette — both Dialog Contact Form (`.dcf-*`)
+  and Contact Form 7 (`.wpcf7-*`): rounded inputs, accent focus ring, red submit.
+- News card dates now render `d.m.Y`.
+- **Mobile polish**: Recent-talks grid collapses to one column and aligns its
+  gutter with the other sections; footer logo capped; tighter news byline→body
+  gap; reduced front-page hero top spacing; and a **hamburger menu** (the header
+  CTAs are hidden on mobile and the classic menu drops down from a toggle).
+
 ## 0.8.0
 
 - Header navigation now uses classic **Appearance → Menus** menus: register a

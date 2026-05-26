@@ -158,7 +158,7 @@ ob_start();
 				</p>
 			</div>
 		<?php else : ?>
-			<div class="swinog-soft-agenda__grid" style="grid-template-columns: repeat(<?php echo (int) $columns; ?>, minmax(0, 1fr));">
+			<div class="swinog-soft-agenda__grid" style="--swinog-agenda-cols: <?php echo (int) $columns; ?>;">
 				<?php
 				static $meeting_date_cache = [];
 				while ($query->have_posts()) {

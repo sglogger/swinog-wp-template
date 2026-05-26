@@ -225,8 +225,16 @@ function swinog_render_header_menu(): string
     }
 
     $html = wp_nav_menu($args);
+    if (!is_string($html) || $html === '') {
+        return '';
+    }
 
-    return is_string($html) ? $html : '';
+    // Checkbox-hack hamburger: shown on mobile (CSS), toggles the menu panel.
+    // Sits as a sibling of the <nav> so `:checked ~ .swinog-softbar__nav` works.
+    $toggle = '<input type="checkbox" id="swinog-nav-toggle" class="swinog-nav-toggle" />'
+        . '<label for="swinog-nav-toggle" class="swinog-hamburger" aria-label="' . esc_attr__('Menu', 'swinog') . '"><span></span></label>';
+
+    return $toggle . $html;
 }
 
 add_filter('render_block', static function (string $content, array $block): string {

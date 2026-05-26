@@ -594,7 +594,7 @@ main section[id] { scroll-margin-top: 100px; }
 .swinog-soft-agenda__head { margin-bottom: 28px; }
 .swinog-soft-agenda__grid {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: repeat(var(--swinog-agenda-cols, 2), minmax(0, 1fr));
 	gap: 12px;
 }
 .swinog-soft-agenda__foot {
@@ -2225,6 +2225,9 @@ main section[id] { scroll-margin-top: 100px; }
 	padding: 48px 56px 56px;
 	margin: 0 auto;
 }
+/* Tighten the gap between the byline header and the article body
+   (the default block-gap leaves too much space, esp. on mobile). */
+.swinog-news-article > .wp-block-post-content { margin-block-start: 18px; }
 
 .swinog-news-body p,
 .swinog-news-body h2 {
@@ -2693,6 +2696,9 @@ main section[id] { scroll-margin-top: 100px; }
 	font-size: 13px;
 	color: var(--wp--preset--color--ink-2);
 }
+/* Keep a logo/image in a footer column small (it stays small on desktop where
+   the column is narrow; cap it so it doesn't blow up when columns stack on mobile). */
+.swinog-footer-grid__col img { max-width: 180px; height: auto; }
 .swinog-footer-grid__col .swinog-widget__h,
 .swinog-footer-grid__col h4 {
 	font-weight: 600;
@@ -3588,6 +3594,9 @@ main section[id] { scroll-margin-top: 100px; }
 	.swinog-soft-agenda-wrap,
 	.swinog-soft-list-wrap,
 	.swinog-soft-sponsors-wrap { padding-left: 16px; padding-right: 16px; }
+	/* On desktop the agenda wrap is pinned to calc(100% - 48px) to line up with
+	   the header; on mobile drop that so its gutter matches the other sections. */
+	.swinog-soft-agenda-wrap { width: auto; max-width: none; padding-top: 28px; padding-bottom: 28px; }
 	.swinog-soft-hero { padding: 36px 22px 30px; }
 	.swinog-display-xl { font-size: 52px; }
 	.swinog-display-md { font-size: 36px; }
@@ -3829,4 +3838,84 @@ main section[id] { scroll-margin-top: 100px; }
 	border-radius: var(--wp--custom--radius--sm);
 	font-size: 14px;
 	background: color-mix(in oklab, var(--wp--preset--color--accent-soft) 35%, white);
+}
+
+/* ============================================================
+   Mobile hamburger (classic header menu) — checkbox-hack toggle.
+   Desktop: hidden, inline menu shown. ≤720px: CTAs hidden,
+   hamburger shown, tapping it drops the menu panel.
+   ============================================================ */
+.swinog-nav-toggle {
+	position: absolute;
+	width: 1px; height: 1px;
+	margin: -1px; padding: 0; border: 0;
+	clip: rect(0 0 0 0);
+	overflow: hidden;
+}
+.swinog-hamburger { display: none; }
+
+@media (max-width: 720px) {
+	.swinog-softbar .swinog-softbar__actions,
+	.swinog-softbar .swinog-header-ctas { display: none !important; }
+
+	.swinog-hamburger {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 42px; height: 42px;
+		margin-left: auto;
+		background: white;
+		border: 1px solid var(--wp--preset--color--rule);
+		border-radius: var(--wp--custom--radius--sm);
+		cursor: pointer;
+	}
+	.swinog-hamburger span,
+	.swinog-hamburger span::before,
+	.swinog-hamburger span::after {
+		content: "";
+		display: block;
+		width: 18px; height: 2px;
+		background: var(--wp--preset--color--ink);
+		border-radius: 2px;
+		transition: transform .15s ease, opacity .15s ease;
+	}
+	.swinog-hamburger span { position: relative; }
+	.swinog-hamburger span::before { position: absolute; top: -6px; }
+	.swinog-hamburger span::after  { position: absolute; top: 6px; }
+	.swinog-nav-toggle:checked ~ .swinog-hamburger span { background: transparent; }
+	.swinog-nav-toggle:checked ~ .swinog-hamburger span::before { top: 0; transform: rotate(45deg); }
+	.swinog-nav-toggle:checked ~ .swinog-hamburger span::after  { top: 0; transform: rotate(-45deg); }
+
+	.swinog-nav-toggle:checked ~ .swinog-softbar__nav {
+		display: block !important;
+		position: absolute;
+		top: calc(100% + 8px);
+		left: 0; right: 0;
+		padding: 8px;
+		background: white;
+		border: 1px solid var(--wp--preset--color--rule);
+		border-radius: 14px;
+		box-shadow: 0 16px 36px color-mix(in oklab, var(--wp--preset--color--ink) 14%, transparent);
+		z-index: 60;
+	}
+	.swinog-nav-toggle:checked ~ .swinog-softbar__nav .wp-block-navigation__container {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+	}
+	.swinog-softbar__nav .wp-block-navigation-item__content { padding: 12px 10px; border-bottom: 0; }
+	.swinog-softbar__nav li + li { border-top: 1px solid var(--wp--preset--color--rule-2); }
+	/* submenus expand inline (hover flyouts don't work on touch) */
+	.swinog-softbar__nav .sub-menu {
+		position: static;
+		opacity: 1;
+		visibility: visible;
+		transform: none;
+		min-width: 0;
+		padding: 0 0 0 14px;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+	}
+	.swinog-softbar__nav .menu-item-has-children > .wp-block-navigation-item__content::after { display: none; }
 }
