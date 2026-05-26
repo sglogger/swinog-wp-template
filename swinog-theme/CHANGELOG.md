@@ -5,6 +5,18 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.4
+
+- Mobile hamburger menu: submenus now stack **below** their parent (not beside
+  it) as a single column, with child rows indented and muted so the hierarchy
+  stays readable.
+- Homepage soft-feature cards: removed the doubled-up gap between the icon and
+  the kicker (e.g. "03 / Archive") — the kicker now sits right under the icon.
+- Footer: added a right-aligned **"Footer · copyright row (right)"** widget area,
+  so the copyright bar can carry a second column (legal/imprint/social links).
+- Homepage: roughly **halved the vertical space between sections** (section wrap
+  paddings + the inter-section block-gap reduced).
+
 ## 0.8.3
 
 - Mobile hamburger menu: every item (top level + submenus) is now a full-width
