@@ -148,15 +148,27 @@ function swinog_render_footer_copyright(): string
     if (is_active_sidebar('swinog-footer-copyright')) {
         ob_start();
         dynamic_sidebar('swinog-footer-copyright');
-        $body = ob_get_clean();
+        $left = ob_get_clean();
     } else {
-        $body = sprintf(
+        $left = sprintf(
             '<p class="swinog-footer-copyright__empty"><a href="%s">%s</a></p>',
             esc_url(admin_url('widgets.php')),
             esc_html__('Add copyright widget under Appearance → Widgets', 'swinog')
         );
     }
-    return '<div ' . $wrapper . '>' . $body . '</div>';
+
+    // Optional right-aligned column in the same bottom row (e.g. legal links).
+    $right = '';
+    if (is_active_sidebar('swinog-footer-copyright-right')) {
+        ob_start();
+        dynamic_sidebar('swinog-footer-copyright-right');
+        $right = ob_get_clean();
+    }
+
+    return '<div ' . $wrapper . '>'
+        . '<div class="swinog-footer-copyright__left">' . $left . '</div>'
+        . '<div class="swinog-footer-copyright__right">' . $right . '</div>'
+        . '</div>';
 }
 
 /* ------------------------------------------------------------------
@@ -185,6 +197,16 @@ add_action('widgets_init', static function (): void {
         'name'          => __('Footer · copyright row', 'swinog'),
         'id'            => 'swinog-footer-copyright',
         'description'   => __('The slim row at the very bottom of every page (copyright, hosted-by). Use any block widget — Heading, Paragraph, Text, Custom HTML.', 'swinog'),
+        'before_widget' => '<div id="%1$s" class="swinog-footer-copyright__widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<span class="swinog-visually-hidden">',
+        'after_title'   => '</span>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Footer · copyright row (right)', 'swinog'),
+        'id'            => 'swinog-footer-copyright-right',
+        'description'   => __('Right-aligned area in the bottom copyright row — e.g. legal/imprint links, hosted-by, or social links.', 'swinog'),
         'before_widget' => '<div id="%1$s" class="swinog-footer-copyright__widget %2$s">',
         'after_widget'  => '</div>',
         'before_title'  => '<span class="swinog-visually-hidden">',

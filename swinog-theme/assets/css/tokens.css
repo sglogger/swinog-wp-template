@@ -556,6 +556,7 @@ main section[id] { scroll-margin-top: 100px; }
 	background: white;
 	border: 1px solid var(--wp--preset--color--rule);
 	height: 100%;
+	gap: 6px;
 }
 .swinog-feature__icon {
 	width: 44px; height: 44px;
@@ -567,9 +568,9 @@ main section[id] { scroll-margin-top: 100px; }
 	justify-content: center;
 	font-weight: 600;
 	font-size: 20px;
-	margin-bottom: 16px;
+	margin-bottom: 0;
 }
-.swinog-feature .swinog-kicker { margin: 16px 0 6px; }
+.swinog-feature .swinog-kicker { margin: 0 0 6px; }
 .swinog-feature p { margin: 0; }
 
 /* ============================================================
@@ -2747,6 +2748,8 @@ main section[id] { scroll-margin-top: 100px; }
 	gap: 12px;
 	flex-wrap: wrap;
 }
+.swinog-footer-copyright__right { text-align: right; }
+.swinog-footer-copyright__right:empty { display: none; }
 .swinog-footer-copyright p { margin: 0; }
 .swinog-footer-copyright a { color: var(--wp--preset--color--ink-2); }
 .swinog-footer-copyright__empty a { color: var(--wp--preset--color--accent); }
@@ -3897,14 +3900,16 @@ main section[id] { scroll-margin-top: 100px; }
 		box-shadow: 0 16px 36px color-mix(in oklab, var(--wp--preset--color--ink) 14%, transparent);
 		z-index: 60;
 	}
-	.swinog-nav-toggle:checked ~ .swinog-softbar__nav .wp-block-navigation__container {
-		flex-direction: column;
-		align-items: stretch;
+	.swinog-nav-toggle:checked ~ .swinog-softbar__nav .wp-block-navigation__container,
+	.swinog-nav-toggle:checked ~ .swinog-softbar__nav .sub-menu {
+		display: block;
 		gap: 0;
 	}
 	/* Every item is a full-width block left-aligned to the same edge, so the
-	   whole menu (top level + submenus) reads as one aligned column. */
-	.swinog-softbar__nav .wp-block-navigation-item { width: 100%; }
+	   whole menu (top level + submenus) reads as one aligned column. Core makes
+	   nav items display:flex (link + submenu side by side) — force block so the
+	   submenu stacks BELOW its parent link instead of beside it. */
+	.swinog-softbar__nav .wp-block-navigation-item { display: block; width: 100%; }
 	.swinog-softbar__nav .wp-block-navigation-item__content {
 		display: block;
 		width: 100%;
@@ -3929,4 +3934,15 @@ main section[id] { scroll-margin-top: 100px; }
 	}
 	.swinog-softbar__nav .sub-menu > li:first-child { border-top: 1px solid var(--wp--preset--color--rule-2); }
 	.swinog-softbar__nav .menu-item-has-children > .wp-block-navigation-item__content::after { display: none; }
+	/* Keep the hierarchy readable: parents stand out, child rows are indented
+	   and muted (rows stay full-width / borders aligned). */
+	.swinog-softbar__nav .menu-item-has-children > .wp-block-navigation-item__content { font-weight: 600; }
+	.swinog-softbar__nav .sub-menu .wp-block-navigation-item__content {
+		padding: 12px 14px 12px 30px;
+		white-space: normal;
+		font-size: 14px;
+		font-weight: 400;
+		color: var(--wp--preset--color--ink-2);
+	}
+	.swinog-softbar__nav .sub-menu .sub-menu .wp-block-navigation-item__content { padding-left: 46px; }
 }
