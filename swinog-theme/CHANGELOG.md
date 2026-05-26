@@ -5,6 +5,11 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.5
+
+- Footer: reduced the padding inside the footer box (`40px 48px` → `24px 32px`)
+  so the content is more compact on all sides.
+
 ## 0.8.4
 
 - Mobile hamburger menu: submenus now stack **below** their parent (not beside

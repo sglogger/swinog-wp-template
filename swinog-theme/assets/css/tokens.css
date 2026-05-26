@@ -423,7 +423,7 @@ main section[id] { scroll-margin-top: 100px; }
 }
 .swinog-softfoot {
 	border-radius: var(--wp--custom--radius--lg);
-	padding: 40px 48px;
+	padding: 24px 32px;
 	background: color-mix(in oklab, var(--wp--preset--color--ink) 5%, var(--wp--preset--color--paper));
 	gap: 32px !important;
 	font-size: 13px;
