@@ -7,63 +7,6 @@
  * Inserter: true
  */
 
-/* ------------------------------------------------------------------
- * Dynamic "days" stat
- *
- * Scan every published Page that carries a `swinog_event_date` +
- * `swinog_event_tag` meta. Pick the closest future meeting (if any)
- * to drive a countdown, otherwise fall back to the most recent past
- * meeting and show days-since. Empty fallback: a dash.
- * ------------------------------------------------------------------ */
-$soft_hero_today = (int) current_time('timestamp');
-$soft_hero_next  = null;
-$soft_hero_last  = null;
-
-$soft_hero_event_pages = get_posts([
-    'post_type'              => 'page',
-    'post_status'            => 'publish',
-    'posts_per_page'         => -1,
-    'fields'                 => 'ids',
-    'no_found_rows'          => true,
-    'update_post_term_cache' => false,
-    'meta_query'             => [
-        ['key' => 'swinog_event_date', 'compare' => 'EXISTS'],
-        ['key' => 'swinog_event_tag',  'compare' => 'EXISTS'],
-    ],
-]);
-foreach ($soft_hero_event_pages as $soft_hero_pid) {
-    $soft_hero_d = trim((string) get_post_meta($soft_hero_pid, 'swinog_event_date', true));
-    $soft_hero_t = trim((string) get_post_meta($soft_hero_pid, 'swinog_event_tag',  true));
-    if ($soft_hero_d === '' || $soft_hero_t === '') {
-        continue;
-    }
-    $soft_hero_ts = strtotime($soft_hero_d);
-    if ($soft_hero_ts === false) {
-        continue;
-    }
-    if ($soft_hero_ts >= $soft_hero_today) {
-        if ($soft_hero_next === null || $soft_hero_ts < $soft_hero_next['ts']) {
-            $soft_hero_next = ['ts' => $soft_hero_ts, 'tag' => $soft_hero_t];
-        }
-    } else {
-        if ($soft_hero_last === null || $soft_hero_ts > $soft_hero_last['ts']) {
-            $soft_hero_last = ['ts' => $soft_hero_ts, 'tag' => $soft_hero_t];
-        }
-    }
-}
-
-if ($soft_hero_next !== null) {
-    $soft_hero_days  = max(0, (int) ceil(($soft_hero_next['ts'] - $soft_hero_today) / DAY_IN_SECONDS));
-    $soft_hero_num   = preg_replace('/[^0-9]+/', '', $soft_hero_next['tag']);
-    $soft_hero_label = $soft_hero_num !== '' ? sprintf('Until #%s', $soft_hero_num) : 'Until next';
-} elseif ($soft_hero_last !== null) {
-    $soft_hero_days  = max(0, (int) floor(($soft_hero_today - $soft_hero_last['ts']) / DAY_IN_SECONDS));
-    $soft_hero_num   = preg_replace('/[^0-9]+/', '', $soft_hero_last['tag']);
-    $soft_hero_label = $soft_hero_num !== '' ? sprintf('Days since #%s', $soft_hero_num) : 'Days since';
-} else {
-    $soft_hero_days  = '–';
-    $soft_hero_label = 'Days';
-}
 ?>
 <!-- wp:group {"anchor":"soft-hero","tagName":"section","className":"swinog-soft-hero-wrap","align":"full","layout":{"type":"constrained","wideSize":"1280px"}} -->
 <section id="soft-hero" class="wp-block-group alignfull swinog-soft-hero-wrap">
@@ -128,7 +71,7 @@ if ($soft_hero_next !== null) {
 						<div class="swinog-soft-event-card__where">Berne</div>
 						<div class="swinog-soft-event-card__stats">
 							<div class="swinog-stat"><div class="swinog-stat__k">Talks at #41</div><div class="swinog-stat__v">14</div></div>
-							<div class="swinog-stat"><div class="swinog-stat__k"><?php echo esc_html($soft_hero_label); ?></div><div class="swinog-stat__v"><?php echo esc_html((string) $soft_hero_days); ?><span class="swinog-stat__suf">d</span></div></div>
+							<div class="swinog-stat" data-swinog-stat="next-meeting"><div class="swinog-stat__k" data-swinog-nm="label">Days</div><div class="swinog-stat__v"><span data-swinog-nm="days">–</span><span class="swinog-stat__suf">d</span></div></div>
 							<div class="swinog-stat"><div class="swinog-stat__k">CFP for #42</div><div class="swinog-stat__v swinog-stat__v--small">Opening soon</div></div>
 							<div class="swinog-stat"><div class="swinog-stat__k">Cadence</div><div class="swinog-stat__v swinog-stat__v--small">~3 / yr</div></div>
 						</div>

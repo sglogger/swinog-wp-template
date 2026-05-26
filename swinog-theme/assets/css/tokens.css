@@ -463,7 +463,7 @@ main section[id] { scroll-margin-top: 100px; }
    SoftHero
    ============================================================ */
 
-.swinog-soft-hero-wrap { padding: 48px 24px 24px; }
+.swinog-soft-hero-wrap { padding: 16px 24px 24px; }
 .swinog-soft-hero {
 	border-radius: var(--wp--custom--radius--xl);
 	padding: 72px 56px 56px;
@@ -2071,6 +2071,39 @@ main section[id] { scroll-margin-top: 100px; }
 	object-fit: cover;
 	border-radius: var(--wp--custom--radius--lg);
 }
+
+/* ============================================================
+   Announcement / highlight box — eyebrow + headline + red CTA
+   ============================================================ */
+.swinog-announce-wrap { padding: 16px 24px 24px; }
+.swinog-announce {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px 32px;
+	padding: 28px 32px;
+	border-radius: var(--wp--custom--radius--lg);
+	background: var(--wp--preset--color--accent-soft);
+	border: 1px solid color-mix(in oklab, var(--wp--preset--color--accent) 22%, var(--wp--preset--color--accent-soft));
+}
+.swinog-announce__copy { flex: 1 1 420px; min-width: 0; }
+.swinog-announce__title {
+	margin: 6px 0 0;
+	font-size: 26px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-announce__text {
+	margin: 10px 0 0;
+	font-size: 16px;
+	line-height: 1.55;
+	color: var(--wp--preset--color--ink-2);
+	max-width: 64ch;
+}
+.swinog-announce__actions { flex-shrink: 0; margin: 0; }
 
 /* ============================================================
    Link library — directory of external links grouped in cards

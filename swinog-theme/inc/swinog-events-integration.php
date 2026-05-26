@@ -572,3 +572,89 @@ add_filter('posts_search', static function (string $search, WP_Query $q): string
     $orig = preg_replace('/^\s*AND\s*/', '', $search);
     return " AND ( {$orig} OR {$sub} )";
 }, 10, 2);
+
+/* ------------------------------------------------------------------
+ * Live "next meeting" days countdown for the SoftHero card.
+ *
+ * The card is a raw wp:html block, so a value baked in at pattern
+ * registration freezes when the pattern is inserted into a page. We
+ * inject the count at render time instead — works whether the hero is
+ * referenced via wp:pattern or inserted/expanded into content.
+ *
+ * @return array{0:string,1:string} [days, label]
+ * ------------------------------------------------------------------ */
+function swinog_next_meeting_days(): array
+{
+    $today = (int) current_time('timestamp');
+    $next  = null;
+    $last  = null;
+
+    $pages = get_posts([
+        'post_type'              => 'page',
+        'post_status'            => 'publish',
+        'posts_per_page'         => -1,
+        'fields'                 => 'ids',
+        'no_found_rows'          => true,
+        'update_post_term_cache' => false,
+        'meta_query'             => [
+            ['key' => 'swinog_event_date', 'compare' => 'EXISTS'],
+            ['key' => 'swinog_event_tag',  'compare' => 'EXISTS'],
+        ],
+    ]);
+    foreach ($pages as $pid) {
+        $d = trim((string) get_post_meta($pid, 'swinog_event_date', true));
+        $t = trim((string) get_post_meta($pid, 'swinog_event_tag', true));
+        if ($d === '' || $t === '') {
+            continue;
+        }
+        $ts = strtotime($d);
+        if ($ts === false) {
+            continue;
+        }
+        if ($ts >= $today) {
+            if ($next === null || $ts < $next['ts']) {
+                $next = ['ts' => $ts, 'tag' => $t];
+            }
+        } elseif ($last === null || $ts > $last['ts']) {
+            $last = ['ts' => $ts, 'tag' => $t];
+        }
+    }
+
+    if ($next !== null) {
+        $days = max(0, (int) ceil(($next['ts'] - $today) / DAY_IN_SECONDS));
+        $num  = preg_replace('/[^0-9]+/', '', $next['tag']);
+        $label = $num !== '' ? sprintf('Until #%s', $num) : 'Until next';
+    } elseif ($last !== null) {
+        $days = max(0, (int) floor(($today - $last['ts']) / DAY_IN_SECONDS));
+        $num  = preg_replace('/[^0-9]+/', '', $last['tag']);
+        $label = $num !== '' ? sprintf('Days since #%s', $num) : 'Days since';
+    } else {
+        $days  = '–';
+        $label = 'Days';
+    }
+
+    return [(string) $days, $label];
+}
+
+add_filter('render_block', static function (string $content, array $block): string {
+    if (($block['blockName'] ?? '') !== 'core/html') {
+        return $content;
+    }
+    if (strpos($content, 'data-swinog-stat="next-meeting"') === false) {
+        return $content;
+    }
+    [$days, $label] = swinog_next_meeting_days();
+    $content = preg_replace_callback(
+        '/(<[^>]*data-swinog-nm="label"[^>]*>)(.*?)(<\/[^>]+>)/s',
+        static fn (array $m): string => $m[1] . esc_html($label) . $m[3],
+        $content,
+        1
+    );
+    $content = preg_replace_callback(
+        '/(<[^>]*data-swinog-nm="days"[^>]*>)(.*?)(<\/[^>]+>)/s',
+        static fn (array $m): string => $m[1] . esc_html($days) . $m[3],
+        $content,
+        1
+    );
+    return $content;
+}, 10, 2);
