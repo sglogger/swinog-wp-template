@@ -2073,6 +2073,58 @@ main section[id] { scroll-margin-top: 100px; }
 }
 
 /* ============================================================
+   Press / media coverage — list of PDF clippings
+   ============================================================ */
+.swinog-press-wrap { padding: 16px 24px 32px; }
+.swinog-press { display: flex; flex-direction: column; gap: 10px; }
+.swinog-press__item {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	padding: 16px 22px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: var(--wp--custom--radius--md);
+	transition: background .15s, transform .15s, box-shadow .15s;
+}
+.swinog-press__item:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--ink) 2%, var(--wp--preset--color--paper));
+	transform: translateY(-1px);
+	box-shadow: 0 8px 24px rgba(20, 15, 10, .06);
+}
+.swinog-press__item::before {
+	content: "PDF";
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 46px;
+	height: 46px;
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	color: var(--wp--preset--color--accent);
+	background: var(--wp--preset--color--accent-soft);
+	border-radius: var(--wp--custom--radius--sm);
+}
+.swinog-press__item::after {
+	content: "↓";
+	flex-shrink: 0;
+	font-size: 18px;
+	line-height: 1;
+	color: var(--wp--preset--color--accent);
+}
+.swinog-press__body { flex: 1 1 auto; min-width: 0; }
+.swinog-press__title { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
+.swinog-press__title a { color: var(--wp--preset--color--ink); text-decoration: none; }
+.swinog-press__title a:hover { color: var(--wp--preset--color--accent); }
+/* whole row clickable */
+.swinog-press__title a::after { content: ""; position: absolute; inset: 0; }
+.swinog-press__meta { margin: 3px 0 0; font-size: 13px; color: var(--wp--preset--color--ink-3); }
+
+/* ============================================================
    Announcement / highlight box — eyebrow + headline + red CTA
    ============================================================ */
 .swinog-announce-wrap { padding: 16px 24px 24px; }
@@ -3654,4 +3706,127 @@ main section[id] { scroll-margin-top: 100px; }
 @media print {
 	.swinog-softbar, .swinog-softfoot-wrap, .swinog-soft-list-wrap { display: none; }
 	body { background: white; color: black; }
+}
+
+/* ============================================================
+   Contact forms — Dialog Contact Form (.dcf-) + Contact Form 7
+   (.wpcf7-), restyled to the SwiNOG palette.
+   ============================================================ */
+.dcf-form { margin: 8px 0 0; }
+.dcf-form .dcf-columns { display: flex; flex-wrap: wrap; gap: 0 16px; margin: 0; }
+.dcf-form .dcf-column { padding: 0; }
+.dcf-form .dcf-column.is-6 { flex: 1 1 240px; }
+.dcf-form .dcf-column.is-12 { flex: 1 1 100%; }
+.dcf-form .dcf-field { margin: 0 0 16px; }
+
+.wpcf7-form { margin: 8px 0 0; }
+.wpcf7-form p { margin: 0 0 16px; }
+
+.dcf-form label,
+.dcf-form .label,
+.wpcf7-form label {
+	display: block;
+	font-family: var(--wp--preset--font-family--sans);
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--wp--preset--color--ink);
+}
+.dcf-form .dcf-required { color: var(--wp--preset--color--accent); margin-left: 2px; }
+
+.dcf-form .dcf-input,
+.dcf-form .dcf-textarea,
+.wpcf7-form input[type="text"],
+.wpcf7-form input[type="email"],
+.wpcf7-form input[type="url"],
+.wpcf7-form input[type="tel"],
+.wpcf7-form input[type="number"],
+.wpcf7-form input[type="date"],
+.wpcf7-form textarea,
+.wpcf7-form select {
+	width: 100%;
+	box-sizing: border-box;
+	margin: 6px 0 0;
+	padding: 12px 14px;
+	font-family: var(--wp--preset--font-family--sans);
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--wp--preset--color--ink);
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: var(--wp--custom--radius--sm);
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+.dcf-form .dcf-input:focus,
+.dcf-form .dcf-textarea:focus,
+.wpcf7-form input:focus,
+.wpcf7-form textarea:focus,
+.wpcf7-form select:focus {
+	outline: none;
+	border-color: var(--wp--preset--color--accent);
+	box-shadow: 0 0 0 3px color-mix(in oklab, var(--wp--preset--color--accent) 18%, transparent);
+}
+.dcf-form .dcf-textarea,
+.wpcf7-form textarea { min-height: 150px; resize: vertical; }
+
+.wpcf7-form input[type="file"] {
+	margin: 6px 0 0;
+	font-size: 14px;
+	color: var(--wp--preset--color--ink-2);
+}
+
+.dcf-form .dcf-checkbox-container {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	font-size: 14px;
+	color: var(--wp--preset--color--ink-2);
+}
+.dcf-form .dcf-checkbox,
+.wpcf7-form input[type="checkbox"],
+.wpcf7-form input[type="radio"] {
+	accent-color: var(--wp--preset--color--accent);
+	margin-top: 3px;
+}
+
+.dcf-form .button.dcf-submit,
+.wpcf7-form .wpcf7-submit {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 4px;
+	padding: 13px 24px;
+	font-family: var(--wp--preset--font-family--sans);
+	font-size: 15px;
+	font-weight: 500;
+	color: white;
+	background: var(--wp--preset--color--accent);
+	border: 0;
+	border-radius: var(--wp--custom--radius--btn);
+	cursor: pointer;
+	transition: background .15s ease, transform .15s ease;
+}
+.dcf-form .button.dcf-submit:hover,
+.wpcf7-form .wpcf7-submit:hover {
+	background: color-mix(in oklab, var(--wp--preset--color--accent) 88%, var(--wp--preset--color--ink));
+	transform: translateY(-1px);
+}
+
+.dcf-form .dcf-error,
+.wpcf7-form .wpcf7-not-valid-tip {
+	color: var(--wp--preset--color--accent);
+	font-size: 13px;
+	margin-top: 4px;
+}
+.wpcf7-form input.wpcf7-not-valid,
+.wpcf7-form textarea.wpcf7-not-valid {
+	border-color: var(--wp--preset--color--accent);
+}
+.dcf-response,
+.wpcf7-form .wpcf7-response-output {
+	margin: 14px 0 0 !important;
+	padding: 12px 16px;
+	border: 1px solid var(--wp--preset--color--rule);
+	border-radius: var(--wp--custom--radius--sm);
+	font-size: 14px;
+	background: color-mix(in oklab, var(--wp--preset--color--accent-soft) 35%, white);
 }

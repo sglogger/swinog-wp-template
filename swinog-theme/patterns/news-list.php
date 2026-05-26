@@ -21,7 +21,7 @@
 					<!-- wp:group {"className":"swinog-news-card__meta","layout":{"type":"flex","verticalAlignment":"center","flexWrap":"wrap"}} -->
 					<div class="wp-block-group swinog-news-card__meta">
 						<!-- wp:post-terms {"term":"category","className":"swinog-tag swinog-tag--filled"} /-->
-						<!-- wp:post-date {"format":"Y-m-d","className":"swinog-news-card__date","fontSize":"meta"} /-->
+						<!-- wp:post-date {"format":"d.m.Y","className":"swinog-news-card__date","fontSize":"meta"} /-->
 					</div>
 					<!-- /wp:group -->
 					<!-- wp:post-title {"level":3,"isLink":true,"className":"swinog-news-card__title"} /-->
