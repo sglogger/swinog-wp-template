@@ -110,13 +110,12 @@ if ($kicker === '' && $event_slugs) {
     }
 }
 
-// Default to alignwide when the block author hasn't picked an alignment
-// explicitly. Without this, dropping the block on a constrained page
-// renders it at the narrow contentSize (~780px) instead of matching the
-// rest of the wide content (~1280px).
+// Default to alignfull when the block author hasn't picked an alignment, so
+// the full-bleed wrap matches the other homepage sections; the inner white
+// card is centred at 1280 by CSS.
 $wrapper_classes = ['swinog-soft-agenda-wrap', 'swinog-agenda-block'];
 if (empty($attributes['align'])) {
-    $wrapper_classes[] = 'alignwide';
+    $wrapper_classes[] = 'alignfull';
 }
 $wrapper_attrs = function_exists('get_block_wrapper_attributes')
     ? get_block_wrapper_attributes(['class' => implode(' ', $wrapper_classes)])

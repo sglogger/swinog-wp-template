@@ -5,6 +5,15 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.2
+
+- "Recent talks" now uses `align:full` like the other homepage sections (white
+  card centred at 1280), so its gutter matches them at every width — fixes the
+  larger mobile inset.
+- Single news post: tighter gap between the byline and the featured image / body
+  (14px), and the article card's horizontal padding is reduced on mobile so the
+  text isn't squeezed into the middle of the box.
+
 ## 0.8.1
 
 - **Single presentation page** (`single-stgl_presentation.html`): drops the

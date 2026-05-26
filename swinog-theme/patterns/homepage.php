@@ -9,6 +9,6 @@
 ?>
 <!-- wp:pattern {"slug":"swinog/soft-hero"} /-->
 <!-- wp:pattern {"slug":"swinog/soft-features"} /-->
-<!-- wp:swinog/agenda {"events":"swinog-41","count":6,"columns":2,"title":"Recent talks worth your time.","archiveLabel":"Full archive →","archiveUrl":"/event-category/","align":"wide"} /-->
+<!-- wp:swinog/agenda {"events":"swinog-41","count":6,"columns":2,"title":"Recent talks worth your time.","archiveLabel":"Full archive →","archiveUrl":"/event-category/","align":"full"} /-->
 <!-- wp:pattern {"slug":"swinog/soft-list-cta"} /-->
 <!-- wp:pattern {"slug":"swinog/soft-sponsors"} /-->

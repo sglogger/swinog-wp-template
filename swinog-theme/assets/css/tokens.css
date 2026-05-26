@@ -576,16 +576,13 @@ main section[id] { scroll-margin-top: 100px; }
    SoftAgenda (recent talks)
    ============================================================ */
 
-.swinog-soft-agenda-wrap {
-	/* Pin to the same 1280px container as the softbar / event hero so the
-	   card lines up with the header and the other sections. */
-	width: calc(100% - 48px);
-	max-width: 1280px;
-	margin-left: auto !important;
-	margin-right: auto !important;
-	padding: 40px 0;
-}
+/* Full-bleed wrap (like the other sections); the white card inside is
+   centred at 1280, so its gutters match soft-features etc. on every width. */
+.swinog-soft-agenda-wrap { padding: 40px 24px; }
 .swinog-soft-agenda {
+	max-width: 1280px;
+	margin-left: auto;
+	margin-right: auto;
 	border-radius: var(--wp--custom--radius--lg);
 	padding: 48px 48px 28px;
 	background: white;
@@ -2063,7 +2060,7 @@ main section[id] { scroll-margin-top: 100px; }
    post-content in one rounded white card on the page background. */
 .swinog-news-article-wrap { padding: 16px 24px 24px; }
 /* Single-post featured image — big rounded hero, only when one is set. */
-.swinog-news-single__feature { margin: 28px 0 8px; }
+.swinog-news-single__feature { margin: 14px 0 8px; }
 .swinog-news-single__feature img {
 	display: block;
 	width: 100%;
@@ -2227,7 +2224,7 @@ main section[id] { scroll-margin-top: 100px; }
 }
 /* Tighten the gap between the byline header and the article body
    (the default block-gap leaves too much space, esp. on mobile). */
-.swinog-news-article > .wp-block-post-content { margin-block-start: 18px; }
+.swinog-news-article > .wp-block-post-content { margin-block-start: 14px; }
 
 .swinog-news-body p,
 .swinog-news-body h2 {
@@ -3594,9 +3591,7 @@ main section[id] { scroll-margin-top: 100px; }
 	.swinog-soft-agenda-wrap,
 	.swinog-soft-list-wrap,
 	.swinog-soft-sponsors-wrap { padding-left: 16px; padding-right: 16px; }
-	/* On desktop the agenda wrap is pinned to calc(100% - 48px) to line up with
-	   the header; on mobile drop that so its gutter matches the other sections. */
-	.swinog-soft-agenda-wrap { width: auto; max-width: none; padding-top: 28px; padding-bottom: 28px; }
+	.swinog-soft-agenda-wrap { padding-top: 28px; padding-bottom: 28px; }
 	.swinog-soft-hero { padding: 36px 22px 30px; }
 	.swinog-display-xl { font-size: 52px; }
 	.swinog-display-md { font-size: 36px; }
@@ -3675,6 +3670,10 @@ main section[id] { scroll-margin-top: 100px; }
 	.swinog-news-related-wrap,
 	.swinog-404,
 	.swinog-search { padding-left: 16px; padding-right: 16px; }
+	/* The article card's 56px desktop padding is far too much on a phone —
+	   shrink it so the text isn't squeezed into the middle of the box. */
+	.swinog-news-article { padding: 28px 20px 32px; }
+	.swinog-news-article-wrap { padding-left: 12px; padding-right: 12px; }
 	.swinog-news-hero__title { font-size: 44px; }
 	.swinog-news-list .wp-block-post-template,
 	.swinog-news-list__grid { grid-template-columns: 1fr; }

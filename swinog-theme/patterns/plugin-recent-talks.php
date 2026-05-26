@@ -7,4 +7,4 @@
  * Inserter: true
  */
 ?>
-<!-- wp:swinog/agenda {"count":6,"columns":2,"title":"Recent talks worth your time.","archiveLabel":"Full archive →","archiveUrl":"https://www.youtube.com/@swinog","align":"wide"} /-->
+<!-- wp:swinog/agenda {"count":6,"columns":2,"title":"Recent talks worth your time.","archiveLabel":"Full archive →","archiveUrl":"https://www.youtube.com/@swinog","align":"full"} /-->
