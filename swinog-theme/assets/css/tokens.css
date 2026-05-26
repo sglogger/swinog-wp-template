@@ -264,7 +264,7 @@ main section[id] { scroll-margin-top: 100px; }
 	width: calc(100% - 48px);
 	margin: 16px auto 0;
 	padding: 12px 14px 12px 22px;
-	border-radius: var(--wp--custom--radius--pill);
+	border-radius: 16px;
 	backdrop-filter: blur(14px);
 	-webkit-backdrop-filter: blur(14px);
 	background: color-mix(in oklab, var(--wp--preset--color--paper) 78%, white);

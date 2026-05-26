@@ -5,6 +5,11 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.6
+
+- Header (SoftBar): the sticky top bar is now gently rounded (`16px` corners)
+  instead of a full pill — buttons and pills elsewhere keep the pill radius.
+
 ## 0.8.5
 
 - Footer: reduced the padding inside the footer box (`40px 48px` → `24px 32px`)
