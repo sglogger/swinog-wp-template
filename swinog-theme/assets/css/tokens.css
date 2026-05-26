@@ -2082,6 +2082,10 @@ main section[id] { scroll-margin-top: 100px; }
 	gap: 16px;
 	align-items: start;
 }
+/* The group uses WP flow layout, which adds margin-block-start to every
+   child after the first — in a grid that shoves the 2nd/3rd cards down.
+   Zero it so all cards sit flush at the top. */
+.swinog-linklib > * { margin-block-start: 0; }
 .swinog-linklib__card {
 	background: white;
 	border: 1px solid var(--wp--preset--color--rule);
