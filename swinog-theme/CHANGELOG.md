@@ -5,6 +5,12 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.3
+
+- Mobile hamburger menu: every item (top level + submenus) is now a full-width
+  block aligned to the same left edge with row separators, so the menu reads as
+  one aligned column instead of indented/ragged rows.
+
 ## 0.8.2
 
 - "Recent talks" now uses `align:full` like the other homepage sections (white

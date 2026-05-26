@@ -3902,19 +3902,31 @@ main section[id] { scroll-margin-top: 100px; }
 		align-items: stretch;
 		gap: 0;
 	}
-	.swinog-softbar__nav .wp-block-navigation-item__content { padding: 12px 10px; border-bottom: 0; }
-	.swinog-softbar__nav li + li { border-top: 1px solid var(--wp--preset--color--rule-2); }
-	/* submenus expand inline (hover flyouts don't work on touch) */
+	/* Every item is a full-width block left-aligned to the same edge, so the
+	   whole menu (top level + submenus) reads as one aligned column. */
+	.swinog-softbar__nav .wp-block-navigation-item { width: 100%; }
+	.swinog-softbar__nav .wp-block-navigation-item__content {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 12px 14px;
+		border-bottom: 0;
+	}
+	.swinog-softbar__nav .wp-block-navigation__container > li + li,
+	.swinog-softbar__nav .sub-menu > li + li { border-top: 1px solid var(--wp--preset--color--rule-2); }
+	/* submenus expand inline, aligned flush with the top level (no indent) */
 	.swinog-softbar__nav .sub-menu {
 		position: static;
 		opacity: 1;
 		visibility: visible;
 		transform: none;
 		min-width: 0;
-		padding: 0 0 0 14px;
+		margin: 0;
+		padding: 0;
 		border: 0;
 		border-radius: 0;
 		box-shadow: none;
 	}
+	.swinog-softbar__nav .sub-menu > li:first-child { border-top: 1px solid var(--wp--preset--color--rule-2); }
 	.swinog-softbar__nav .menu-item-has-children > .wp-block-navigation-item__content::after { display: none; }
 }
