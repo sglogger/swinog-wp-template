@@ -21,6 +21,7 @@ if (!defined('ABSPATH')) {
 const SWINOG_HIDE_TITLE_META       = '_swinog_hide_page_title';
 const SWINOG_HIDE_BREADCRUMBS_META = '_swinog_hide_breadcrumbs';
 const SWINOG_EVENT_DATE_META       = 'swinog_event_date';
+const SWINOG_EVENT_END_DATE_META   = 'swinog_event_end_date';
 const SWINOG_EVENT_LOCATION_META   = 'swinog_event_location';
 const SWINOG_EVENT_ADDRESS_META    = 'swinog_event_address';
 const SWINOG_EVENT_TAG_META        = 'swinog_event_tag';
@@ -68,6 +69,7 @@ add_action('init', static function (): void {
     // and location alongside the page title.
     foreach ([
         SWINOG_EVENT_DATE_META      => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
+        SWINOG_EVENT_END_DATE_META  => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
         SWINOG_EVENT_LOCATION_META  => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
         SWINOG_EVENT_ADDRESS_META   => ['type' => 'string', 'sanitize' => 'sanitize_textarea_field'],
         SWINOG_EVENT_TAG_META       => ['type' => 'string', 'sanitize' => 'sanitize_text_field'],
@@ -173,6 +175,7 @@ add_action('save_post', static function (int $post_id): void {
 function swinog_render_event_details_box(WP_Post $post): void
 {
     $date      = (string) get_post_meta($post->ID, SWINOG_EVENT_DATE_META, true);
+    $end_date  = (string) get_post_meta($post->ID, SWINOG_EVENT_END_DATE_META, true);
     $location  = (string) get_post_meta($post->ID, SWINOG_EVENT_LOCATION_META, true);
     $address   = (string) get_post_meta($post->ID, SWINOG_EVENT_ADDRESS_META, true);
     $tag       = (string) get_post_meta($post->ID, SWINOG_EVENT_TAG_META, true);
@@ -209,6 +212,15 @@ function swinog_render_event_details_box(WP_Post $post): void
             <?php esc_html_e('Date', 'swinog'); ?>
         </label>
         <input id="swinog_event_date" name="swinog_event_date" type="date" value="<?php echo esc_attr($date); ?>" style="width:100%;" />
+    </p>
+    <p>
+        <label for="swinog_event_end_date" style="display:block;margin-bottom:4px;font-weight:600;">
+            <?php esc_html_e('End date (optional)', 'swinog'); ?>
+        </label>
+        <input id="swinog_event_end_date" name="swinog_event_end_date" type="date" value="<?php echo esc_attr($end_date); ?>" style="width:100%;" />
+        <span style="display:block;color:#646970;font-size:11px;margin-top:4px;">
+            <?php esc_html_e('For multi-day events. Leave empty for one-day events — the hero, Quick Facts and events overview then show a date range.', 'swinog'); ?>
+        </span>
     </p>
     <p>
         <label for="swinog_event_location" style="display:block;margin-bottom:4px;font-weight:600;">
@@ -297,6 +309,7 @@ add_action('save_post_page', static function (int $post_id): void {
     // — duplicating them clobbered the page-options write on save.
     foreach ([
         SWINOG_EVENT_DATE_META      => 'swinog_event_date',
+        SWINOG_EVENT_END_DATE_META  => 'swinog_event_end_date',
         SWINOG_EVENT_LOCATION_META  => 'swinog_event_location',
         SWINOG_EVENT_ADDRESS_META   => 'swinog_event_address',
         SWINOG_EVENT_TAG_META       => 'swinog_event_tag',
@@ -341,6 +354,51 @@ function swinog_format_event_date(string $iso, bool $with_day = false): string
         return wp_date('l, F j, Y', $ts);
     }
     return wp_date(get_option('date_format') ?: 'j F Y', $ts);
+}
+
+/**
+ * Format a start/end date pair as one range string. Falls back to the
+ * single-date formats above whenever the end date is missing, invalid,
+ * or not after the start date.
+ *
+ * Styles:
+ *   'short'   — hero meta line:  "October 20–21, 2026" · "October 31 – November 1, 2026"
+ *   'long'    — Quick Facts row: "Tuesday, October 20 – Wednesday, October 21, 2026"
+ *   'compact' — events overview: "20–21 Oct 2026" · "31 Oct – 1 Nov 2026"
+ */
+function swinog_format_event_date_range(string $iso_start, string $iso_end, string $style = 'short'): string
+{
+    $start = $iso_start !== '' ? strtotime($iso_start) : false;
+    $end   = $iso_end !== '' ? strtotime($iso_end) : false;
+
+    if ($start === false || $end === false || wp_date('Y-m-d', $end) <= wp_date('Y-m-d', $start)) {
+        if ($style === 'compact') {
+            return $start !== false ? wp_date('j M Y', $start) : $iso_start;
+        }
+        return swinog_format_event_date($iso_start, $style === 'long');
+    }
+
+    $same_year  = wp_date('Y', $start) === wp_date('Y', $end);
+    $same_month = $same_year && wp_date('m', $start) === wp_date('m', $end);
+
+    if ($style === 'long') {
+        $start_fmt = $same_year ? 'l, F j' : 'l, F j, Y';
+        return wp_date($start_fmt, $start) . ' – ' . wp_date('l, F j, Y', $end);
+    }
+
+    if ($style === 'compact') {
+        if ($same_month) {
+            return wp_date('j', $start) . '–' . wp_date('j M Y', $end);
+        }
+        $start_fmt = $same_year ? 'j M' : 'j M Y';
+        return wp_date($start_fmt, $start) . ' – ' . wp_date('j M Y', $end);
+    }
+
+    if ($same_month) {
+        return wp_date('F j', $start) . '–' . wp_date('j, Y', $end);
+    }
+    $start_fmt = $same_year ? 'F j' : 'F j, Y';
+    return wp_date($start_fmt, $start) . ' – ' . wp_date('F j, Y', $end);
 }
 
 /* ------------------------------------------------------------------

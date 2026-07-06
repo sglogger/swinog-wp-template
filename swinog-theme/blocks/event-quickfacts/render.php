@@ -28,6 +28,7 @@ if (!$post_id) {
 }
 
 $date      = (string) get_post_meta($post_id, 'swinog_event_date', true);
+$end_date  = (string) get_post_meta($post_id, 'swinog_event_end_date', true);
 $location  = (string) get_post_meta($post_id, 'swinog_event_location', true);
 $fee       = (string) get_post_meta($post_id, 'swinog_event_fee', true);
 $talks     = (string) get_post_meta($post_id, 'swinog_event_talks', true);
@@ -35,8 +36,8 @@ $attendees = (string) get_post_meta($post_id, 'swinog_event_attendees', true);
 $format    = (string) get_post_meta($post_id, 'swinog_event_format', true);
 $recording = (string) get_post_meta($post_id, 'swinog_event_recording_url', true);
 
-$nice_date_long = function_exists('swinog_format_event_date')
-    ? swinog_format_event_date($date, true)
+$nice_date_long = function_exists('swinog_format_event_date_range')
+    ? swinog_format_event_date_range($date, $end_date, 'long')
     : $date;
 
 $wrapper = function_exists('get_block_wrapper_attributes')

@@ -370,6 +370,8 @@ add_filter('block_type_metadata', static function (array $metadata): array {
  *
  * Per-page meta keys read:
  *   swinog_event_date     — ISO date; formatted "M Y" (e.g. "May 2026").
+ *   swinog_event_end_date — optional ISO date; when set, the row shows
+ *                           a range (e.g. "20–21 Oct 2026").
  *   swinog_event_location — bold venue title (e.g. "Welle 7, Bern").
  *   swinog_event_tag      — slug of a stgl_presentation_cat term; the
  *                           number of presentations attached to that
@@ -477,10 +479,16 @@ function swinog_render_events_overview_row(WP_Post $page, string $date_meta): st
     // Lead each row with the full page title (rather than a parsed "#NN").
     $number_h = esc_html($title);
 
-    // Short date — "24 Jun 2025" / fall back to post_date if no meta set.
+    // Short date — "24 Jun 2025", or a range like "20–21 Oct 2026" when
+    // an end date is set / fall back to post_date if no meta set.
     if ($date_meta !== '') {
-        $ts = strtotime($date_meta);
-        $date_display = $ts !== false ? wp_date('j M Y', $ts) : $date_meta;
+        $end_meta = trim((string) get_post_meta($id, 'swinog_event_end_date', true));
+        if (function_exists('swinog_format_event_date_range')) {
+            $date_display = swinog_format_event_date_range($date_meta, $end_meta, 'compact');
+        } else {
+            $ts = strtotime($date_meta);
+            $date_display = $ts !== false ? wp_date('j M Y', $ts) : $date_meta;
+        }
     } else {
         $date_display = mysql2date('j M Y', $page->post_date);
     }

@@ -19,9 +19,12 @@ if (!$post_id) {
 }
 
 $date     = (string) get_post_meta($post_id, 'swinog_event_date', true);
+$end_date = (string) get_post_meta($post_id, 'swinog_event_end_date', true);
 $location = (string) get_post_meta($post_id, 'swinog_event_location', true);
 
-$nice_date = function_exists('swinog_format_event_date') ? swinog_format_event_date($date) : $date;
+$nice_date = function_exists('swinog_format_event_date_range')
+    ? swinog_format_event_date_range($date, $end_date)
+    : $date;
 
 if ($nice_date === '' && $location === '') {
     if ((defined('REST_REQUEST') && REST_REQUEST) || is_admin()) {

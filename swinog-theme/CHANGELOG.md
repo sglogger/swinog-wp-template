@@ -5,6 +5,16 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.8
+
+- Multi-day events: new optional **End date** field in the "SwiNOG · Event
+  details" meta box (`swinog_event_end_date`). When set, the event hero shows a
+  date range under the title ("October 20–21, 2026") and in the Quick Facts
+  card ("Tuesday, October 20 – Wednesday, October 21, 2026"), and the events
+  overview timeline shows the compact range below the title ("20–21 Oct 2026").
+  Cross-month and cross-year ranges are handled ("31 Oct – 1 Nov 2026"). Leave
+  the field empty for one-day events — nothing changes.
+
 ## 0.8.7
 
 - Venue map: geocoding no longer fails on multi-line postal addresses. The
