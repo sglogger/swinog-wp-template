@@ -5,6 +5,16 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.7
+
+- Venue map: geocoding no longer fails on multi-line postal addresses. The
+  Nominatim lookup now tries fallback queries in order — full address on one
+  line, then street + town (last two lines), then the venue name (first line) —
+  so addresses like "Enter Technikwelt Solothurn / Stiftung Enter /
+  Gewerbestrasse 4 / 4552 Derendingen" resolve again. The geocode query is also
+  properly URL-encoded now. Re-save the event page once to regenerate a missing
+  map PNG.
+
 ## 0.8.6
 
 - Header (SoftBar): the sticky top bar is now gently rounded (`16px` corners)

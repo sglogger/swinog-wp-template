@@ -55,18 +55,63 @@ function swinog_venue_user_agent(): string
 }
 
 /**
- * Geocode an address via Nominatim. Returns ['lat','lng','display_name']
- * or null on failure.
+ * Build the ordered list of geocode queries to try for an address.
+ *
+ * Editors enter multi-line postal addresses ("Venue name / c/o line /
+ * street / PLZ town"), which Nominatim usually can't match as a single
+ * free-form query. Fallbacks: the last two lines (street + town) are
+ * the most reliable match; the first line (venue name) catches POIs
+ * Nominatim knows by name.
+ */
+function swinog_geocode_candidates(string $address): array
+{
+    $lines = preg_split('/\R+/', $address) ?: [];
+    $lines = array_values(array_filter(array_map('trim', $lines), static fn(string $l): bool => $l !== ''));
+    if ($lines === []) {
+        return [];
+    }
+
+    $candidates = [implode(', ', $lines)];
+    if (count($lines) >= 2) {
+        $candidates[] = implode(', ', array_slice($lines, -2));
+        $candidates[] = $lines[0];
+    }
+
+    return array_values(array_unique($candidates));
+}
+
+/**
+ * Geocode an address via Nominatim, trying each candidate query in
+ * order (see swinog_geocode_candidates). Returns
+ * ['lat','lng','display_name'] or null when nothing matches.
  */
 function swinog_geocode_address(string $address): ?array
 {
-    $address = trim($address);
-    if ($address === '') {
-        return null;
+    $first = true;
+    foreach (swinog_geocode_candidates(trim($address)) as $query) {
+        if (!$first) {
+            // Nominatim usage policy: ≤ 1 req/sec.
+            usleep(1_100_000);
+        }
+        $first = false;
+
+        $geo = swinog_geocode_query($query);
+        if ($geo !== null) {
+            return $geo;
+        }
     }
 
+    return null;
+}
+
+/**
+ * Run a single Nominatim query. Returns ['lat','lng','display_name']
+ * or null on failure.
+ */
+function swinog_geocode_query(string $query): ?array
+{
     $url = add_query_arg([
-        'q'              => $address,
+        'q'              => rawurlencode($query),
         'format'         => 'json',
         'limit'          => 1,
         'addressdetails' => 0,
