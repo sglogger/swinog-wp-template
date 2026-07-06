@@ -5,6 +5,15 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.9.0
+
+- Venue map: new optional **Manual map image** field in the "SwiNOG · Event
+  details" meta box (`swinog_event_map_image_id`). Pick any image from the
+  media library and the venue section (both the `swinog/venue` and
+  `swinog/venue-map` blocks) renders it instead of the generated OpenStreetMap
+  PNG, at full template width with its natural height (no 4:3 crop). Remove
+  the image to fall back to the map.
+
 ## 0.8.9
 
 - Program / agenda rows: the type label (the small uppercase column next to

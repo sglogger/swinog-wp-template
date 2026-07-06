@@ -18,18 +18,36 @@ if (!$post_id) {
     return '';
 }
 
-$venue   = trim((string) get_post_meta($post_id, 'swinog_event_location', true));
-$address = trim((string) get_post_meta($post_id, 'swinog_event_address', true));
-$map_url = (string) get_post_meta($post_id, 'swinog_event_map_url', true);
+$venue    = trim((string) get_post_meta($post_id, 'swinog_event_location', true));
+$address  = trim((string) get_post_meta($post_id, 'swinog_event_address', true));
+$map_url  = (string) get_post_meta($post_id, 'swinog_event_map_url', true);
+$image_id = (int) get_post_meta($post_id, 'swinog_event_map_image_id', true);
 
-$wrapper = function_exists('get_block_wrapper_attributes')
-    ? get_block_wrapper_attributes(['class' => 'swinog-venue__map'])
-    : 'class="swinog-venue__map"';
+// A manually chosen image replaces the generated OSM map entirely.
+$manual_img = '';
+if ($image_id && wp_attachment_is_image($image_id)) {
+    $manual_alt = trim((string) get_post_meta($image_id, '_wp_attachment_image_alt', true));
+    if ($manual_alt === '') {
+        $manual_alt = $venue !== '' ? $venue : $address;
+    }
+    $manual_img = wp_get_attachment_image($image_id, 'large', false, [
+        'alt'      => $manual_alt,
+        'loading'  => 'lazy',
+        'decoding' => 'async',
+    ]);
+}
+
+$map_class = 'swinog-venue__map' . ($manual_img !== '' ? ' swinog-venue__map--natural' : '');
+$wrapper   = function_exists('get_block_wrapper_attributes')
+    ? get_block_wrapper_attributes(['class' => $map_class])
+    : 'class="' . esc_attr($map_class) . '"';
 
 ob_start();
 ?>
 <div <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<?php if ($map_url !== '') : ?>
+	<?php if ($manual_img !== '') : ?>
+		<?php echo $manual_img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+	<?php elseif ($map_url !== '') : ?>
 		<img
 			src="<?php echo esc_url($map_url); ?>"
 			alt="<?php echo esc_attr(sprintf(

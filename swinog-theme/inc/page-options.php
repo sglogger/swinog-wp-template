@@ -32,6 +32,7 @@ const SWINOG_EVENT_ATTENDEES_META  = 'swinog_event_attendees';
 const SWINOG_EVENT_FORMAT_META     = 'swinog_event_format';
 const SWINOG_EVENT_RECORDING_META  = 'swinog_event_recording_url';
 const SWINOG_EVENT_ICS_META        = 'swinog_event_ics_url';
+const SWINOG_EVENT_MAP_IMAGE_META  = 'swinog_event_map_image_id';
 
 /* ------------------------------------------------------------------
  * Register meta so block-editor + REST clients can read/write it.
@@ -90,6 +91,17 @@ add_action('init', static function (): void {
             'sanitize_callback' => $cfg['sanitize'],
         ]);
     }
+
+    // Manual venue image (attachment ID). When set, the venue blocks
+    // render this image instead of the generated OpenStreetMap PNG.
+    register_post_meta('page', SWINOG_EVENT_MAP_IMAGE_META, [
+        'type'              => 'integer',
+        'single'            => true,
+        'show_in_rest'      => true,
+        'default'           => 0,
+        'auth_callback'     => static fn (): bool => current_user_can('edit_pages'),
+        'sanitize_callback' => 'absint',
+    ]);
 });
 
 /* ------------------------------------------------------------------
@@ -186,6 +198,7 @@ function swinog_render_event_details_box(WP_Post $post): void
     $format    = (string) get_post_meta($post->ID, SWINOG_EVENT_FORMAT_META, true);
     $recording   = (string) get_post_meta($post->ID, SWINOG_EVENT_RECORDING_META, true);
     $ics         = (string) get_post_meta($post->ID, SWINOG_EVENT_ICS_META, true);
+    $map_image   = (int) get_post_meta($post->ID, SWINOG_EVENT_MAP_IMAGE_META, true);
     $hide_title  = (bool) get_post_meta($post->ID, SWINOG_HIDE_TITLE_META, true);
     $hide_crumbs = (bool) get_post_meta($post->ID, SWINOG_HIDE_BREADCRUMBS_META, true);
     wp_nonce_field('swinog_event_details', 'swinog_event_details_nonce');
@@ -238,6 +251,27 @@ function swinog_render_event_details_box(WP_Post $post): void
         <textarea id="swinog_event_address" name="swinog_event_address" rows="3" placeholder="<?php esc_attr_e("Kornhausstrasse 3\n3013 Berne\nSwitzerland", 'swinog'); ?>" style="width:100%;"><?php echo esc_textarea($address); ?></textarea>
         <span style="display:block;color:#646970;font-size:11px;margin-top:4px;">
             <?php esc_html_e('Geocoded via OpenStreetMap Nominatim on save; a static map PNG is cached locally and rendered by the SwiNOG · Event venue block.', 'swinog'); ?>
+        </span>
+    </p>
+    <p>
+        <label style="display:block;margin-bottom:4px;font-weight:600;">
+            <?php esc_html_e('Manual map image (optional)', 'swinog'); ?>
+        </label>
+        <?php $map_image_src = $map_image ? wp_get_attachment_image_url($map_image, 'medium') : ''; ?>
+        <span id="swinog-map-image-preview" style="display:block;margin-bottom:6px;">
+            <?php if ($map_image_src) : ?>
+                <img src="<?php echo esc_url($map_image_src); ?>" alt="" style="max-width:100%;height:auto;display:block;border:1px solid #dcdcde;border-radius:2px;" />
+            <?php endif; ?>
+        </span>
+        <input type="hidden" id="swinog_event_map_image_id" name="swinog_event_map_image_id" value="<?php echo esc_attr((string) $map_image); ?>" />
+        <button type="button" class="button" id="swinog-map-image-select">
+            <?php esc_html_e('Select image', 'swinog'); ?>
+        </button>
+        <button type="button" class="button" id="swinog-map-image-remove" <?php echo $map_image ? '' : 'style="display:none;"'; ?>>
+            <?php esc_html_e('Remove', 'swinog'); ?>
+        </button>
+        <span style="display:block;color:#646970;font-size:11px;margin-top:4px;">
+            <?php esc_html_e('Shown instead of the generated OpenStreetMap image in the venue section, at full template width with its natural height. Remove it to fall back to the map.', 'swinog'); ?>
         </span>
     </p>
     <p>
@@ -333,6 +367,71 @@ add_action('save_post_page', static function (int $post_id): void {
             update_post_meta($post_id, $key, $value);
         }
     }
+
+    $map_image = isset($_POST['swinog_event_map_image_id']) ? absint($_POST['swinog_event_map_image_id']) : 0;
+    if ($map_image > 0 && wp_attachment_is_image($map_image)) {
+        update_post_meta($post_id, SWINOG_EVENT_MAP_IMAGE_META, $map_image);
+    } else {
+        delete_post_meta($post_id, SWINOG_EVENT_MAP_IMAGE_META);
+    }
+});
+
+/* ------------------------------------------------------------------
+ * Media-library picker for the manual map image (Pages only).
+ * ------------------------------------------------------------------ */
+
+add_action('admin_enqueue_scripts', static function (string $hook): void {
+    if (!in_array($hook, ['post.php', 'post-new.php'], true)) {
+        return;
+    }
+    $screen = get_current_screen();
+    if (!$screen || $screen->post_type !== 'page') {
+        return;
+    }
+    wp_enqueue_media();
+    wp_add_inline_script('media-editor', <<<'JS'
+(function () {
+    document.addEventListener('DOMContentLoaded', function () {
+        var selectBtn = document.getElementById('swinog-map-image-select');
+        var removeBtn = document.getElementById('swinog-map-image-remove');
+        var input     = document.getElementById('swinog_event_map_image_id');
+        var preview   = document.getElementById('swinog-map-image-preview');
+        if (!selectBtn || !removeBtn || !input || !preview || !window.wp || !wp.media) {
+            return;
+        }
+        var frame;
+        selectBtn.addEventListener('click', function () {
+            if (!frame) {
+                frame = wp.media({
+                    title:    'Select venue image',
+                    library:  { type: 'image' },
+                    multiple: false,
+                    button:   { text: 'Use this image' }
+                });
+                frame.on('select', function () {
+                    var att = frame.state().get('selection').first().toJSON();
+                    var url = (att.sizes && att.sizes.medium) ? att.sizes.medium.url : att.url;
+                    input.value = att.id;
+                    preview.innerHTML = '';
+                    var img = document.createElement('img');
+                    img.src = url;
+                    img.alt = '';
+                    img.style.cssText = 'max-width:100%;height:auto;display:block;border:1px solid #dcdcde;border-radius:2px;';
+                    preview.appendChild(img);
+                    removeBtn.style.display = '';
+                });
+            }
+            frame.open();
+        });
+        removeBtn.addEventListener('click', function () {
+            input.value = '';
+            preview.innerHTML = '';
+            removeBtn.style.display = 'none';
+        });
+    });
+})();
+JS
+    );
 });
 
 /* ------------------------------------------------------------------

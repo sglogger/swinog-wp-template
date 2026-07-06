@@ -23,11 +23,26 @@ if (!$post_id) {
     return '';
 }
 
-$venue   = trim((string) get_post_meta($post_id, 'swinog_event_location', true));
-$address = trim((string) get_post_meta($post_id, 'swinog_event_address', true));
-$map_url = (string) get_post_meta($post_id, 'swinog_event_map_url',   true);
-$lat     = (string) get_post_meta($post_id, 'swinog_event_map_lat',   true);
-$lng     = (string) get_post_meta($post_id, 'swinog_event_map_lng',   true);
+$venue    = trim((string) get_post_meta($post_id, 'swinog_event_location', true));
+$address  = trim((string) get_post_meta($post_id, 'swinog_event_address', true));
+$map_url  = (string) get_post_meta($post_id, 'swinog_event_map_url',   true);
+$lat      = (string) get_post_meta($post_id, 'swinog_event_map_lat',   true);
+$lng      = (string) get_post_meta($post_id, 'swinog_event_map_lng',   true);
+$image_id = (int) get_post_meta($post_id, 'swinog_event_map_image_id', true);
+
+// A manually chosen image replaces the generated OSM map entirely.
+$manual_img = '';
+if ($image_id && wp_attachment_is_image($image_id)) {
+    $manual_alt = trim((string) get_post_meta($image_id, '_wp_attachment_image_alt', true));
+    if ($manual_alt === '') {
+        $manual_alt = $venue !== '' ? $venue : $address;
+    }
+    $manual_img = wp_get_attachment_image($image_id, 'large', false, [
+        'alt'      => $manual_alt,
+        'loading'  => 'lazy',
+        'decoding' => 'async',
+    ]);
+}
 
 $kicker = trim((string) ($attributes['kicker'] ?? ''));
 $intro  = trim((string) ($attributes['intro']  ?? ''));
@@ -66,8 +81,10 @@ ob_start();
 			<?php endif; ?>
 		</div>
 
-		<div class="swinog-venue__map">
-			<?php if ($map_url !== '') : ?>
+		<div class="swinog-venue__map<?php echo $manual_img !== '' ? ' swinog-venue__map--natural' : ''; ?>">
+			<?php if ($manual_img !== '') : ?>
+				<?php echo $manual_img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php elseif ($map_url !== '') : ?>
 				<img
 					src="<?php echo esc_url($map_url); ?>"
 					alt="<?php echo esc_attr(sprintf(

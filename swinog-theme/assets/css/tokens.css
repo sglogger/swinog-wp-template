@@ -996,6 +996,16 @@ main section[id] { scroll-margin-top: 100px; }
 	object-fit: cover;
 	display: block;
 }
+
+/* Manually chosen venue image — full template width, natural
+   height instead of the fixed 4:3 map crop. */
+.swinog-venue__map--natural {
+	aspect-ratio: auto;
+}
+.swinog-venue__map--natural img {
+	height: auto;
+	object-fit: unset;
+}
 .swinog-venue__address {
 	margin-top: 18px;
 	font-style: normal;
