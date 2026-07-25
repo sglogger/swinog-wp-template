@@ -1621,13 +1621,36 @@ main section[id] { scroll-margin-top: 100px; }
 	color: var(--wp--preset--color--accent);
 }
 
-/* Row kind colour-coding (Talk = plain, social = ink-tinted row) */
-.swinog-program-shortcode .swinog-program__row--social {
+/* Row type colour-coding — slugs come from the plugin's presentation types
+   (Presentations → Settings). Talk stays plain; everything that isn't a talk
+   is tinted so the non-program slots read as scaffolding. Unknown/custom
+   slugs simply fall through to the plain talk styling. */
+.swinog-program-shortcode .swinog-program__row--social,
+.swinog-program-shortcode .swinog-program__row--transportation,
+.swinog-program-shortcode .swinog-program__row--other {
 	background: color-mix(in oklab, var(--wp--preset--color--ink) 4%, var(--wp--preset--color--paper));
 }
 .swinog-program-shortcode .swinog-program__row--social .swinog-program__title,
-.swinog-program-shortcode .swinog-program__row--social .swinog-program__kind {
+.swinog-program-shortcode .swinog-program__row--social .swinog-program__kind,
+.swinog-program-shortcode .swinog-program__row--transportation .swinog-program__title,
+.swinog-program-shortcode .swinog-program__row--transportation .swinog-program__kind,
+.swinog-program-shortcode .swinog-program__row--other .swinog-program__title,
+.swinog-program-shortcode .swinog-program__row--other .swinog-program__kind {
 	color: var(--wp--preset--color--ink-2);
+}
+
+/* Break = quiet, no tint (it's a gap, not a slot). */
+.swinog-program-shortcode .swinog-program__row--break .swinog-program__title,
+.swinog-program-shortcode .swinog-program__row--break .swinog-program__kind {
+	color: var(--wp--preset--color--ink-3);
+}
+
+/* Keynote = the one type that ranks above a plain talk. */
+.swinog-program-shortcode .swinog-program__row--keynote .swinog-program__kind {
+	color: var(--wp--preset--color--accent);
+}
+.swinog-program-shortcode .swinog-program__row--keynote .swinog-program__title {
+	font-weight: 600;
 }
 
 /* Abstract spans the full row width — 5 subgrid columns in agenda,

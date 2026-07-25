@@ -5,6 +5,22 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.8.9
+
+- Program / agenda rows: the type label (the small uppercase column next to
+  the time) now comes from the **wp-swinog-events plugin** instead of being
+  guessed from the title. It reads the per-entry type set in the backend via
+  `Stgl\SwinogEvents\Installer::resolve_presentation_type()`, so Lunch renders
+  as "Break", the Apéro as "Social", 1:1 Meetings as "Other", and entries
+  without an explicit type as "Talk". The label list stays editable under
+  *Presentations → Settings* — the theme keeps no copy of it. Requires plugin
+  ≥ 1.0.10; without it (or with an older version) the label column stays empty
+  rather than showing a wrong "Talk" for everything.
+- The row now also carries the type slug as a class
+  (`swinog-program__row--break`, `…--social`, …) plus `type-<slug>` on the
+  label itself. Break rows are muted, Social / Transportation / Other are
+  tinted, Keynote is accented; Talk stays plain.
+
 ## 0.8.8
 
 - Multi-day events: new optional **End date** field in the "SwiNOG · Event

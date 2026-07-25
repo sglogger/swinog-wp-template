@@ -6,9 +6,10 @@ calm, modern, content-led: rounded cards, generous whitespace, IBM Plex Sans/Mon
 builder; composition is `theme.json` tokens + block patterns + HTML templates.
 
 - **Requires:** WordPress 6.5+, PHP 8.0+
-- **Companion plugin (recommended):** [`wp-swinog-events`](../wp-swinog-events/) —
-  owns the events/sponsors data model. The theme integrates with it and falls
-  back to standalone `meeting`/`talk` CPTs when it's absent.
+- **Companion plugin (recommended):** [`wp-swinog-events`](../wp-swinog-events/)
+  **≥ 1.0.10** — owns the events/sponsors data model, including the agenda entry
+  types. The theme integrates with it and falls back to standalone
+  `meeting`/`talk` CPTs when it's absent.
 
 ## Updates
 
@@ -88,6 +89,18 @@ Plugin wrappers: `plugin-agenda`, `plugin-presentations`, `plugin-recent-talks`,
 - The theme overrides `[swinog_list_all_events]` / `[stgl_childpages]`,
   `[swinog_list_presentations]`, `[swinog_list_agenda]` with section-styled
   renderers, and extends front-end **search** to match presenter name/company meta.
+- The agenda's type label (Talk / Keynote / Break / Transportation / Social /
+  Other) is **owned by the plugin**, not the theme: `swinog_resolve_program_type()`
+  in `inc/swinog-events-integration.php` calls
+  `Stgl\SwinogEvents\Installer::resolve_presentation_type( $post_id )` (plugin
+  **≥ 1.0.10**), which reads the per-entry `stgl_presenter_type` meta and the
+  editable slug→label table in the `stgl_swinog_presentation_types` option
+  (*Presentations → Settings*). An entry without an explicit type resolves to
+  the default, `Talk`. Never rebuild that table in the theme — it's editable in
+  the backend and a copy would drift. Without the plugin (or on an older
+  version) the label column renders empty instead of a wrong "Talk".
+  The slug also lands on the markup as `swinog-program__row--<slug>` and
+  `type-<slug>`, which is what the row tinting in `tokens.css` keys off.
 - Event landing pages are regular Pages carrying `swinog_event_*` meta (date,
   location, tag, pill, fee, talks, attendees, format, recording URL).
 

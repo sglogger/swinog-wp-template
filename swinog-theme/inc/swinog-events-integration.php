@@ -52,7 +52,9 @@ add_filter('render_block_core/shortcode', static function (string $content): str
  *
  * Both render the same row component; only the visible columns differ.
  * Rows are click-to-expand showing the abstract underneath.
- * "Kind" (talk / break / breakout / social) is inferred from the title.
+ * The type label (Talk / Keynote / Break / Transportation / Social / Other,
+ * editable under Presentations → Settings) comes from the plugin — see
+ * swinog_resolve_program_type().
  *
  * Hooked at init priority 20 so the plugin (priority 10) has already
  * registered its versions and we cleanly replace them.
@@ -83,34 +85,38 @@ function swinog_render_program_presentations($atts): string
 }
 
 /**
- * Infer a row kind from the presentation title.
+ * Resolve a presentation's entry type (slug + label) from the plugin.
  *
- * Editors can opt out of inference by setting the post meta
- * `stgl_presenter_kind` to one of: talk, break, breakout, social.
+ * Single source of truth is wp-swinog-events (>= 1.0.10): the per-post meta
+ * `stgl_presenter_type` plus the editable slug→label table in the option
+ * `stgl_swinog_presentation_types`. The plugin's resolver also handles the
+ * "empty meta = default (talk)" rule and types that were deleted from the
+ * settings after posts were classified — so we never keep a copy of that
+ * table in the theme.
+ *
+ * Without the plugin (or with a version predating the API) there is no type
+ * information at all: return empty strings so the caller renders no label,
+ * rather than falsely labelling everything "Talk".
+ *
+ * @return array{slug: string, label: string}
  */
-function swinog_infer_program_kind(string $title, int $post_id = 0): string
+function swinog_resolve_program_type(int $post_id): array
 {
-    if ($post_id) {
-        $explicit = (string) get_post_meta($post_id, 'stgl_presenter_kind', true);
-        if (in_array($explicit, ['talk', 'social'], true)) {
-            return $explicit;
+    if (
+        $post_id > 0
+        && class_exists('\Stgl\SwinogEvents\Installer')
+        && method_exists('\Stgl\SwinogEvents\Installer', 'resolve_presentation_type')
+    ) {
+        $type = \Stgl\SwinogEvents\Installer::resolve_presentation_type($post_id);
+        if (is_array($type)) {
+            return [
+                'slug'  => (string) ($type['slug'] ?? ''),
+                'label' => (string) ($type['label'] ?? ''),
+            ];
         }
     }
-    // Simplified rule per project convention:
-    //   social = there is NO presenter set, AND the title matches one of
-    //            the known non-talk slots ("social event", "morning break",
-    //            "afternoon break", "coffee break", "lunch", "lunch break",
-    //            "dinner", "reception").
-    //   talk   = everything else (whether or not a presenter is set).
-    $presenter = $post_id ? trim((string) get_post_meta($post_id, 'stgl_presenter_name', true)) : '';
-    $t = mb_strtolower(trim($title));
-    if ($presenter === '' && preg_match(
-        '/^(social\s*event|morning\s*break|afternoon\s*break|coffee\s*break|lunch(?:\s*break)?|dinner|reception)$/u',
-        $t
-    )) {
-        return 'social';
-    }
-    return 'talk';
+
+    return ['slug' => '', 'label' => ''];
 }
 
 /**
@@ -204,17 +210,26 @@ function swinog_render_program($atts, string $mode): string
             $slides    = swinog_resolve_presentation_slides($post_id);
             $abstract  = trim((string) get_the_content());
 
-            $kind = swinog_infer_program_kind($title, $post_id);
+            $type = swinog_resolve_program_type($post_id);
             $who  = trim($presenter . ($company !== '' ? ' · ' . $company : ''), " \t\n\r\0\x0B·");
             $has_abstract = $abstract !== '';
+
+            $row_classes = ['swinog-program__row'];
+            if ($type['slug'] !== '') {
+                $row_classes[] = 'swinog-program__row--' . $type['slug'];
+            }
+            if ($has_abstract) {
+                $row_classes[] = 'swinog-program__row--expandable';
+            }
             ?>
             <article
-                class="swinog-program__row swinog-program__row--<?php echo esc_attr($kind); ?><?php echo $has_abstract ? ' swinog-program__row--expandable' : ''; ?>"
+                class="<?php echo esc_attr(implode(' ', $row_classes)); ?>"
                 <?php if ($has_abstract) : ?>role="button" tabindex="0" aria-expanded="false"<?php endif; ?>
             >
                 <?php if ($mode === 'agenda') : ?>
                     <span class="swinog-mono swinog-program__time"><?php echo esc_html($time); ?></span>
-                    <span class="swinog-program__kind"><?php echo esc_html($kind); ?></span>
+                    <?php // Empty span when the plugin can't tell us the type — keeps the grid column aligned. ?>
+                    <span class="swinog-program__kind<?php echo $type['slug'] !== '' ? ' type-' . esc_attr($type['slug']) : ''; ?>"><?php echo esc_html($type['label']); ?></span>
                     <span class="swinog-program__title"><?php echo esc_html($title); ?></span>
                     <span class="swinog-program__who"><?php echo esc_html($who); ?></span>
                     <span class="swinog-program__tail">
