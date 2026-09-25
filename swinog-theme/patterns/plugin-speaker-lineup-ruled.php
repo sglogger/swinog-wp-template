@@ -7,8 +7,8 @@
  * Inserter: true
  */
 ?>
-<!-- wp:group {"anchor":"plugin-speaker-lineup-ruled","tagName":"section","className":"swinog-lineup-ruled swinog-plugin-wrap","align":"full","layout":{"type":"constrained","contentSize":"760px"}} -->
-<section id="plugin-speaker-lineup-ruled" class="wp-block-group alignfull swinog-lineup-ruled swinog-plugin-wrap">
+<!-- wp:group {"anchor":"plugin-speaker-lineup-ruled","tagName":"section","className":"swinog-lineup-ruled swinog-plugin-wrap","align":"wide","layout":{"type":"default"}} -->
+<section id="plugin-speaker-lineup-ruled" class="wp-block-group alignwide swinog-lineup-ruled swinog-plugin-wrap">
 	<!-- wp:paragraph {"className":"swinog-lineup-ruled__eyebrow"} -->
 	<p class="swinog-lineup-ruled__eyebrow">Speaker line-up</p>
 	<!-- /wp:paragraph -->
@@ -22,7 +22,7 @@
 <!-- /wp:shortcode -->
 
 	<!-- wp:paragraph {"className":"swinog-lineup-ruled__note"} -->
-	<p class="swinog-lineup-ruled__note">Weitere Talks werden laufend ergänzt.</p>
+	<p class="swinog-lineup-ruled__note">More talks will be added as they are confirmed.</p>
 	<!-- /wp:paragraph -->
 </section>
 <!-- /wp:group -->

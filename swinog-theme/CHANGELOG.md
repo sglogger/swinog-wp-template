@@ -5,6 +5,14 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.9.2
+
+- `swinog/plugin-speaker-lineup-ruled`: the section is now `alignwide`
+  (1280px) with the same 24px side padding as the venue section, so the list
+  lines up with the other boxes on event pages instead of sitting in a
+  narrower 760px column. Footer note is now in English ("More talks will be
+  added as they are confirmed.").
+
 ## 0.9.1
 
 - New pattern **SwiNOG · Plugin · Speaker line-up (ruled list)**

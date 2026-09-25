@@ -2636,7 +2636,7 @@ main section[id] { scroll-margin-top: 100px; }
    Same shortcode output as the cards above, flattened into a numbered list:
    no card, shadow, radius or avatar. The number is a CSS counter, so it
    follows the programme order the plugin returns. */
-.swinog-lineup-ruled { padding: 56px 48px 40px; }
+.swinog-lineup-ruled { padding: 56px 24px 40px; }
 .swinog-lineup-ruled .swinog-lineup-ruled__eyebrow {
 	margin: 0;
 	font-size: 12px;
