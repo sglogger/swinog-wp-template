@@ -2632,6 +2632,100 @@ main section[id] { scroll-margin-top: 100px; }
 .stgl-block .stgl-speaker-company { font-size: 13px; color: var(--wp--preset--color--ink-3); }
 .stgl-block .stgl-speaker-talk    { margin: 10px 0 0; font-size: 14px; color: var(--wp--preset--color--ink-2); line-height: 1.5; }
 
+/* ---- Speaker line-up, ruled list (swinog/plugin-speaker-lineup-ruled) ----
+   Same shortcode output as the cards above, flattened into a numbered list:
+   no card, shadow, radius or avatar. The number is a CSS counter, so it
+   follows the programme order the plugin returns. */
+.swinog-lineup-ruled { padding: 56px 48px 40px; }
+.swinog-lineup-ruled .swinog-lineup-ruled__eyebrow {
+	margin: 0;
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--wp--preset--color--accent);
+}
+.swinog-lineup-ruled .swinog-lineup-ruled__title {
+	margin: 10px 0 24px;
+	font-size: 44px;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: -0.03em;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-lineup-ruled .swinog-lineup-ruled__note {
+	margin: 14px 0 0;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-lineup-ruled .stgl-block.stgl-lineup .stgl-lineup-grid {
+	display: block;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid var(--wp--preset--color--ink);
+	counter-reset: swinog-lineup;
+}
+.swinog-lineup-ruled .stgl-block .stgl-speaker-card {
+	display: grid;
+	grid-template-columns: 36px minmax(0, 1fr) minmax(0, 1.4fr);
+	column-gap: 20px;
+	row-gap: 0;
+	align-items: baseline;
+	padding: 14px 0;
+	background: none;
+	border: 0;
+	border-bottom: 1px solid color-mix(in oklab, var(--wp--preset--color--ink) 18%, transparent);
+	border-radius: 0;
+	box-shadow: none;
+	counter-increment: swinog-lineup;
+}
+.swinog-lineup-ruled .stgl-block .stgl-speaker-card::before {
+	content: counter(swinog-lineup, decimal-leading-zero);
+	grid-column: 1;
+	grid-row: 1 / span 2;
+	font-size: 13px;
+	font-variant-numeric: tabular-nums;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-lineup-ruled .stgl-block .stgl-speaker-avatar { display: none; }
+.swinog-lineup-ruled .stgl-block .stgl-speaker-body   { display: contents; }
+.swinog-lineup-ruled .stgl-block .stgl-speaker-name {
+	grid-column: 2;
+	grid-row: 1;
+	font-size: 17px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: var(--wp--preset--color--ink);
+}
+.swinog-lineup-ruled .stgl-block .stgl-speaker-company {
+	grid-column: 2;
+	grid-row: 2;
+	margin-top: 2px;
+	font-size: 13px;
+	color: var(--wp--preset--color--ink-3);
+}
+.swinog-lineup-ruled .stgl-block .stgl-speaker-talk {
+	grid-column: 3;
+	grid-row: 1 / span 2;
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--wp--preset--color--ink);
+	text-wrap: pretty;
+}
+.swinog-lineup-ruled .stgl-block .stgl-speaker-card a { color: var(--wp--preset--color--ink); text-decoration: none; }
+.swinog-lineup-ruled .stgl-block .stgl-speaker-card a:hover { color: var(--wp--preset--color--accent); }
+
+@media (max-width: 720px) {
+	.swinog-lineup-ruled { padding: 40px 16px 32px; }
+	.swinog-lineup-ruled .swinog-lineup-ruled__title { font-size: 32px; }
+}
+@media (max-width: 640px) {
+	.swinog-lineup-ruled .stgl-block .stgl-speaker-card { grid-template-columns: 36px minmax(0, 1fr); }
+	.swinog-lineup-ruled .stgl-block .stgl-speaker-card::before { grid-row: 1 / span 3; }
+	.swinog-lineup-ruled .stgl-block .stgl-speaker-talk { grid-column: 2; grid-row: 3; margin-top: 6px; }
+}
+
 .stgl-event-list {
 	list-style: none;
 	padding: 0;

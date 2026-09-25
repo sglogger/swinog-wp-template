@@ -5,6 +5,17 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.9.1
+
+- New pattern **SwiNOG · Plugin · Speaker line-up (ruled list)**
+  (`swinog/plugin-speaker-lineup-ruled`, category "SwiNOG · Events plugin").
+  Same `[swinog_list_speaker_lineup]` shortcode as `plugin-speaker-lineup`,
+  restyled as a numbered list with hairline rules (number · name/company ·
+  talk title) instead of cards: no shadow, radius or monogram avatars.
+  Numbering follows the programme order; the company line is omitted when
+  empty. Collapses to two columns below 640px. The existing card pattern is
+  unchanged.
+
 ## 0.9.0
 
 - New pattern **SwiNOG · Plugin · Speaker line-up** (`swinog/plugin-speaker-lineup`,
