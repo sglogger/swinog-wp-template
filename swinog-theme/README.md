@@ -69,7 +69,7 @@ Homepage/landing: `homepage`, `soft-hero`, `soft-features`, `soft-agenda`,
 About / Sponsor families. Utility: **`link-library`** (link directory),
 **`announcement`** (highlight box + red CTA), **`press-list`** (PDF clippings).
 Plugin wrappers: `plugin-agenda`, `plugin-presentations`, `plugin-recent-talks`,
-`plugin-sponsors`.
+`plugin-sponsors`, `plugin-speaker-lineup`.
 
 ### Server-rendered blocks
 

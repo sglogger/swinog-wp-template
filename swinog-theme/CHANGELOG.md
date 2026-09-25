@@ -7,6 +7,12 @@ tags `v<version>` and publishes a GitHub release via
 
 ## 0.9.0
 
+- New pattern **SwiNOG · Plugin · Speaker line-up** (`swinog/plugin-speaker-lineup`,
+  category "SwiNOG · Events plugin"). Wraps the plugin's
+  `[swinog_list_speaker_lineup event="swinog-42"]` shortcode in the speakers
+  section chrome; the cards (monogram, name, company, talk title) are styled
+  like the static `event-speakers` pattern. `event` is the CFP event slug.
+  Requires wp-swinog-events 1.2.0 with the CFP API key configured.
 - Venue map: new optional **Manual map image** field in the "SwiNOG · Event
   details" meta box (`swinog_event_map_image_id`). Pick any image from the
   media library and the venue section (both the `swinog/venue` and
