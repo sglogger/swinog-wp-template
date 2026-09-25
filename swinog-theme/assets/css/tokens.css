@@ -2636,7 +2636,13 @@ main section[id] { scroll-margin-top: 100px; }
    Same shortcode output as the cards above, flattened into a numbered list:
    no card, shadow, radius or avatar. The number is a CSS counter, so it
    follows the programme order the plugin returns. */
-.swinog-lineup-ruled { padding: 56px 24px 40px; }
+.swinog-lineup-ruled-wrap { padding: 16px 24px 56px; }
+.swinog-lineup-ruled {
+	border-radius: var(--wp--custom--radius--lg);
+	padding: 48px 48px 40px;
+	background: white;
+	border: 1px solid var(--wp--preset--color--rule);
+}
 .swinog-lineup-ruled .swinog-lineup-ruled__eyebrow {
 	margin: 0;
 	font-size: 12px;
@@ -2717,7 +2723,8 @@ main section[id] { scroll-margin-top: 100px; }
 .swinog-lineup-ruled .stgl-block .stgl-speaker-card a:hover { color: var(--wp--preset--color--accent); }
 
 @media (max-width: 720px) {
-	.swinog-lineup-ruled { padding: 40px 16px 32px; }
+	.swinog-lineup-ruled-wrap { padding-left: 16px; padding-right: 16px; }
+	.swinog-lineup-ruled { padding: 28px 22px; }
 	.swinog-lineup-ruled .swinog-lineup-ruled__title { font-size: 32px; }
 }
 @media (max-width: 640px) {

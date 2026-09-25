@@ -5,6 +5,12 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.9.3
+
+- `swinog/plugin-speaker-lineup-ruled`: the list now sits in a white
+  `alignwide` box (rule border, large radius, 48px padding) inside a
+  full-width wrapper, same structure as the agenda and sponsor sections.
+
 ## 0.9.2
 
 - `swinog/plugin-speaker-lineup-ruled`: the section is now `alignwide`
