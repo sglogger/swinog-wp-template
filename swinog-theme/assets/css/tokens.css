@@ -2722,6 +2722,22 @@ main section[id] { scroll-margin-top: 100px; }
 .swinog-lineup-ruled .stgl-block .stgl-speaker-card a { color: var(--wp--preset--color--ink); text-decoration: none; }
 .swinog-lineup-ruled .stgl-block .stgl-speaker-card a:hover { color: var(--wp--preset--color--accent); }
 
+/* Two-column variant (swinog/plugin-speaker-lineup-ruled-2col): newspaper
+   columns on wide screens (01–06 left, 07–12 right), talk title stacked
+   under the name. */
+@media (min-width: 901px) {
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block.stgl-lineup .stgl-lineup-grid {
+		columns: 2;
+		column-gap: 48px;
+	}
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block .stgl-speaker-card {
+		grid-template-columns: 36px minmax(0, 1fr);
+		break-inside: avoid;
+	}
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block .stgl-speaker-card::before { grid-row: 1 / span 3; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block .stgl-speaker-talk { grid-column: 2; grid-row: 3; margin-top: 6px; }
+}
+
 @media (max-width: 720px) {
 	.swinog-lineup-ruled-wrap { padding-left: 16px; padding-right: 16px; }
 	.swinog-lineup-ruled { padding: 28px 22px; }

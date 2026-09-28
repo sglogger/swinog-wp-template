@@ -5,6 +5,15 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.9.4
+
+- New pattern **SwiNOG · Plugin · Speaker line-up (ruled list, 2 columns)**
+  (`swinog/plugin-speaker-lineup-ruled-2col`). Same list as
+  `plugin-speaker-lineup-ruled`, but in two newspaper columns above 900px
+  (01–06 left, 07–12 right) with the talk title stacked under the speaker,
+  to save vertical space. Single column below 900px. The one-column pattern
+  is unchanged.
+
 ## 0.9.3
 
 - `swinog/plugin-speaker-lineup-ruled`: the list now sits in a white
