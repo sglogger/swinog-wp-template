@@ -2722,20 +2722,59 @@ main section[id] { scroll-margin-top: 100px; }
 .swinog-lineup-ruled .stgl-block .stgl-speaker-card a { color: var(--wp--preset--color--ink); text-decoration: none; }
 .swinog-lineup-ruled .stgl-block .stgl-speaker-card a:hover { color: var(--wp--preset--color--accent); }
 
-/* Two-column variant (swinog/plugin-speaker-lineup-ruled-2col): newspaper
-   columns on wide screens (01–06 left, 07–12 right), talk title stacked
-   under the name. */
+/* Two-column variant (swinog/plugin-speaker-lineup-ruled-2col): 01–06 left,
+   07–12 right, talk title stacked under the name. A grid (not CSS columns)
+   so both columns share rows and the hairlines line up. Filling column-wise
+   needs the row count = ceil(speakers / 2), derived below with :has()
+   (up to 60 speakers; beyond that extra columns are added). */
 @media (min-width: 901px) {
 	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block.stgl-lineup .stgl-lineup-grid {
-		columns: 2;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-rows: repeat(var(--lineup-rows, 1), auto);
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(0, 1fr);
 		column-gap: 48px;
 	}
-	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block .stgl-speaker-card {
-		grid-template-columns: 36px minmax(0, 1fr);
-		break-inside: avoid;
-	}
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(1)) { --lineup-rows: 1; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(3)) { --lineup-rows: 2; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(5)) { --lineup-rows: 3; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(7)) { --lineup-rows: 4; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(9)) { --lineup-rows: 5; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(11)) { --lineup-rows: 6; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(13)) { --lineup-rows: 7; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(15)) { --lineup-rows: 8; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(17)) { --lineup-rows: 9; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(19)) { --lineup-rows: 10; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(21)) { --lineup-rows: 11; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(23)) { --lineup-rows: 12; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(25)) { --lineup-rows: 13; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(27)) { --lineup-rows: 14; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(29)) { --lineup-rows: 15; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(31)) { --lineup-rows: 16; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(33)) { --lineup-rows: 17; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(35)) { --lineup-rows: 18; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(37)) { --lineup-rows: 19; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(39)) { --lineup-rows: 20; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(41)) { --lineup-rows: 21; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(43)) { --lineup-rows: 22; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(45)) { --lineup-rows: 23; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(47)) { --lineup-rows: 24; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(49)) { --lineup-rows: 25; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(51)) { --lineup-rows: 26; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(53)) { --lineup-rows: 27; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(55)) { --lineup-rows: 28; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(57)) { --lineup-rows: 29; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-lineup-grid:has(> .stgl-speaker-card:nth-child(59)) { --lineup-rows: 30; }
+	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block .stgl-speaker-card { grid-template-columns: 36px minmax(0, 1fr); align-content: start; }
 	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block .stgl-speaker-card::before { grid-row: 1 / span 3; }
 	.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block .stgl-speaker-talk { grid-column: 2; grid-row: 3; margin-top: 6px; }
+}
+/* Browsers without :has(): fill row by row (01 | 02, 03 | 04) – lines still align. */
+@supports not selector(:has(*)) {
+	@media (min-width: 901px) {
+		.swinog-lineup-ruled.swinog-lineup-ruled--2col .stgl-block.stgl-lineup .stgl-lineup-grid { grid-template-rows: none; grid-auto-flow: row; }
+	}
 }
 
 @media (max-width: 720px) {

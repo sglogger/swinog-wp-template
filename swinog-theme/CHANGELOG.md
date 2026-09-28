@@ -5,6 +5,15 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.9.5
+
+- `swinog/plugin-speaker-lineup-ruled-2col`: both columns now share grid
+  rows, so the hairlines between speakers line up across the two columns
+  (a long talk title in one column makes its row taller in both). Order stays
+  column-wise (01–06 left, 07–12 right); the row count is derived from the
+  number of speakers via `:has()`, up to 60 speakers. Browsers without
+  `:has()` fill row by row instead. Applies to already inserted blocks.
+
 ## 0.9.4
 
 - New pattern **SwiNOG · Plugin · Speaker line-up (ruled list, 2 columns)**
