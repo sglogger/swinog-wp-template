@@ -60,6 +60,19 @@ add_filter('render_block_core/shortcode', static function (string $content): str
  * registered its versions and we cleanly replace them.
  * ================================================================== */
 
+/**
+ * Abstracts synced from the CFP tool are Markdown. The plugin (>= 1.2.2)
+ * ships a converter; use it unless the abstract is already HTML (written in
+ * the WordPress editor). Older plugin versions fall back to the_content.
+ */
+function swinog_render_program_abstract(string $abstract): string {
+    $markdown = 'Stgl\\SwinogEvents\\Markdown';
+    if (class_exists($markdown) && !$markdown::looks_like_html($abstract)) {
+        return wp_kses_post($markdown::to_html($abstract));
+    }
+    return wp_kses_post(apply_filters('the_content', $abstract));
+}
+
 add_action('init', static function (): void {
     if (!function_exists('swinog_events_plugin_active') || !swinog_events_plugin_active()) {
         return;
@@ -254,7 +267,7 @@ function swinog_render_program($atts, string $mode): string
                     </span>
                 <?php endif; ?>
                 <?php if ($has_abstract) : ?>
-                    <div class="swinog-program__abstract"><?php echo wp_kses_post(apply_filters('the_content', $abstract)); ?></div>
+                    <div class="swinog-program__abstract"><?php echo swinog_render_program_abstract($abstract); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- sanitized inside ?></div>
                 <?php endif; ?>
             </article>
             <?php

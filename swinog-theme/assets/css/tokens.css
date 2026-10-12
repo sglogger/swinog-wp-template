@@ -1688,6 +1688,14 @@ main section[id] { scroll-margin-top: 100px; }
 }
 .swinog-program-shortcode .swinog-program__abstract p { margin: 0 0 8px; }
 .swinog-program-shortcode .swinog-program__abstract p:last-child { margin: 0; }
+.swinog-program-shortcode .swinog-program__abstract > :last-child { margin-bottom: 0; }
+.swinog-program-shortcode .swinog-program__abstract :is(h4, h5, h6) { margin: 12px 0 6px; font-size: inherit; font-weight: 600; color: var(--wp--preset--color--ink); }
+.swinog-program-shortcode .swinog-program__abstract > :first-child { margin-top: 0; }
+.swinog-program-shortcode .swinog-program__abstract :is(ul, ol) { margin: 0 0 8px; padding-left: 1.4em; }
+.swinog-program-shortcode .swinog-program__abstract li { margin: 0 0 2px; }
+.swinog-program-shortcode .swinog-program__abstract blockquote { margin: 0 0 8px; padding-left: 12px; border-left: 2px solid var(--wp--preset--color--rule-2); }
+.swinog-program-shortcode .swinog-program__abstract code { font-family: var(--wp--preset--font-family--mono, monospace); font-size: .92em; }
+.swinog-program-shortcode .swinog-program__abstract pre { margin: 0 0 8px; white-space: pre-wrap; }
 
 /* Empty state */
 .swinog-program-empty {

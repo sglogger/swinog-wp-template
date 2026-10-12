@@ -5,6 +5,15 @@ The version is read from `Version:` in `style.css`; pushing a bump to `main`
 tags `v<version>` and publishes a GitHub release via
 `.github/workflows/release-theme.yml`.
 
+## 0.9.6
+
+- `[swinog_list_agenda]` / `[swinog_list_presentations]`: talk abstracts
+  are rendered as Markdown (paragraphs, lists, headings, bold/italic, code,
+  links) using the converter shipped with the SwiNOG Events plugin 1.2.2.
+  Abstracts that already contain HTML, or older plugin versions, render as
+  before. Added styles for lists, headings, quotes and code in the expanded
+  abstract.
+
 ## 0.9.5
 
 - `swinog/plugin-speaker-lineup-ruled-2col`: both columns now share grid
